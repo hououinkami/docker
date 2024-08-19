@@ -1,0 +1,69 @@
+version: "3.8"
+
+services:
+  # 如果有现成的 Postgresql 实例，可以删除这一小节
+  postgres:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: db_name
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
+
+  napcat:
+    image: mlikiowa/napcat-docker:latest
+    environment:
+      - ACCOUNT=${ACCOUNT}
+      - WS_ENABLE=true
+    ports:
+      - 6099:6099
+    mac_address: A6:8C:5C:EC:62:20 # 请修改为一个固定的 MAC 地址，但是不要和其他容器或你的主机重复
+    restart: unless-stopped
+    volumes:
+      - ./napcat-data:/root/.config/QQ
+      - ./napcat-config:/usr/src/app/napcat/config
+      - ./cache:/root/.config/QQ/NapCat/temp
+
+  q2tg:
+    image: ghcr.io/clansty/q2tg:sleepyfox
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - napcat
+    ports:
+      # 如果要使用 RICH_HEADER 需要将端口发布到公网
+      - 8080:8080
+    volumes:
+      - ./q2tg:/app/data
+      - ./cache:/root/.config/QQ/NapCat/temp
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - TG_API_ID=${TG_API_ID}
+      - TG_API_HASH=${TG_API_HASH}
+      - TG_BOT_TOKEN=${TG_BOT_TOKEN}
+      - TG_INITIAL_DCID=5
+      - TG_INITIAL_SERVER=91.108.56.174
+      - DATABASE_URL=postgres://user:password@postgres/db_name
+      - NAPCAT_WS_URL=ws://napcat:3001
+      - TG_CONNECTION=tcp # 连接 Telegram 的方式，也可以改成 websocket
+      # 如果你需要使用 /flags set RICH_HEADER 来显示头像，或者正确显示合并转发的消息记录，则需将 q2tg 8080 端口发布到公网，可以使用 cloudflare tunnel
+      # 请尽量配置这个服务
+      - WEB_ENDPOINT=${WEB_ENDPOINT} # 填写你发布到公网的域名
+      - CRV_VIEWER_APP=${CRV_VIEWER_APP}
+      # DEPRECATED: 请使用 WEB_ENDPOINT
+      #- CRV_API=${CRV_API}
+      #- CRV_KEY=${CRV_KEY}
+      # 要关闭文件上传提示，请取消注释以下变量 https://github.com/clansty/Q2TG/issues/153
+      #- DISABLE_FILE_UPLOAD_TIP=1
+      # 如果需要通过代理联网，那么设置下面两个变量
+      #- PROXY_IP=
+      #- PROXY_PORT=
+      # 代理联网认证，有需要请修改下面两个变量
+      #- PROXY_USERNAME=
+      #- PROXY_PASSWORD=
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
