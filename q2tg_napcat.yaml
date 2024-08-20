@@ -3,6 +3,7 @@ version: "3.8"
 services:
   # 如果有现成的 Postgresql 实例，可以删除这一小节
   postgres:
+    container_name: postgres
     image: postgres:14-alpine
     restart: unless-stopped
     environment:
@@ -13,6 +14,7 @@ services:
       - ./postgresql:/var/lib/postgresql/data
 
   napcat:
+    container_name: napcat
     image: mlikiowa/napcat-docker:latest
     environment:
       - ACCOUNT=${ACCOUNT}
@@ -27,6 +29,7 @@ services:
       - ./cache:/root/.config/QQ/NapCat/temp
 
   q2tg:
+    container_name: q2tg
     image: ghcr.io/clansty/q2tg:sleepyfox
     restart: unless-stopped
     depends_on:
@@ -63,7 +66,11 @@ services:
       # 代理联网认证，有需要请修改下面两个变量
       #- PROXY_USERNAME=
       #- PROXY_PASSWORD=
-  cloudflared:
-    image: cloudflare/cloudflared:latest
+      
+  tunnel: #如果沒有使用 Cloudflare Tunnel 暴露內網端口，請直接刪除此區塊
+    container_name: cloudflared-tunnel
+    image: cloudflare/cloudflared
     restart: unless-stopped
-    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN} 
