@@ -24,9 +24,9 @@ services:
     mac_address: A6:8C:5C:EC:62:20 # 请修改为一个固定的 MAC 地址，但是不要和其他容器或你的主机重复
     restart: unless-stopped
     volumes:
-      - ./napcat-data:/root/.config/QQ
-      - ./napcat-config:/usr/src/app/napcat/config
-      - ./cache:/root/.config/QQ/NapCat/temp
+      - ./napcat-data:/app/.config/QQ
+      - ./napcat-config:/app/napcat/config
+      - ./cache:/app/.config/QQ/NapCat/temp
 
   q2tg:
     container_name: q2tg
@@ -40,7 +40,7 @@ services:
       - 8080:8080
     volumes:
       - ./q2tg:/app/data
-      - ./cache:/root/.config/QQ/NapCat/temp
+      - ./cache:/app/.config/QQ/NapCat/temp
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TG_API_ID=${TG_API_ID}
