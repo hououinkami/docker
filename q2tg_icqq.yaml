@@ -33,10 +33,10 @@ services:
       - TG_INITIAL_DCID=5
       - TG_INITIAL_SERVER=91.108.56.174
       - DATABASE_URL=postgres://user:password@postgres/db_name
-      # - SIGN_API=https://qsign.chahuyun.cn/?key=miraibbs&ver=9.0.90
-      # - SIGN_VER=9.0.90
-      - SIGN_API=https://hlhs-nb.cn/signed/?key=114514
-      - SIGN_VER=9.0.70
+      - SIGN_API=https://qsign.chahuyun.cn/?key=miraibbs&ver=9.0.90
+      - SIGN_VER=9.0.90
+      # - SIGN_API=https://hlhs-nb.cn/signed/?key=114514
+      # - SIGN_VER=9.0.70
       - TG_CONNECTION=tcp # 连接 Telegram 的方式，也可以改成 websocket
       # 如果你需要使用 /flags set RICH_HEADER 来显示头像，或者正确显示合并转发的消息记录，则需将 q2tg 8080 端口发布到公网，可以使用 cloudflare tunnel
       # 请尽量配置这个服务
