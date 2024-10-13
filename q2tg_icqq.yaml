@@ -10,6 +10,7 @@ services:
       POSTGRES_DB: db_name
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
+      TZ: Asia/Shanghai
     volumes:
       - ./postgresql_icqq:/var/lib/postgresql/data
 
@@ -17,6 +18,8 @@ services:
     image: ghcr.io/clansty/qsign
     platform: linux/amd64
     restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
     
   q2tg:
     container_name: q2tg
@@ -60,6 +63,7 @@ services:
       # 代理联网认证，有需要请修改下面两个变量
       #- PROXY_USERNAME=
       #- PROXY_PASSWORD=
+      - TZ=Asia/Shanghai
       
   tunnel: #如果沒有使用 Cloudflare Tunnel 暴露內網端口，請直接刪除此區塊
     container_name: cloudflared-tunnel
@@ -68,3 +72,4 @@ services:
     command: tunnel run
     environment:
       - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN} 
+      - TZ=Asia/Shanghai
