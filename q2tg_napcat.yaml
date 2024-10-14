@@ -10,6 +10,7 @@ services:
       POSTGRES_DB: db_name
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
+      TZ: Asia/Shanghai
     volumes:
       - ./postgresql:/var/lib/postgresql/data
 
@@ -19,6 +20,7 @@ services:
     environment:
       - ACCOUNT=${ACCOUNT}
       - WS_ENABLE=true
+      - TZ=Asia/Shanghai
     ports:
       - 6099:6099
     mac_address: A6:8C:5C:EC:62:20 # 请修改为一个固定的 MAC 地址，但是不要和其他容器或你的主机重复
@@ -66,6 +68,7 @@ services:
       # 代理联网认证，有需要请修改下面两个变量
       #- PROXY_USERNAME=
       #- PROXY_PASSWORD=
+      - TZ=Asia/Shanghai
       
   tunnel: #如果沒有使用 Cloudflare Tunnel 暴露內網端口，請直接刪除此區塊
     container_name: cloudflared-tunnel
@@ -73,4 +76,5 @@ services:
     restart: unless-stopped
     command: tunnel run
     environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN} 
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+      - TZ=Asia/Shanghai

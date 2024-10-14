@@ -15,6 +15,7 @@ services:
       - ./postgresql_icqq:/var/lib/postgresql/data
 
   sign:
+    container_name: sign
     image: ghcr.io/clansty/qsign
     platform: linux/amd64
     restart: unless-stopped
