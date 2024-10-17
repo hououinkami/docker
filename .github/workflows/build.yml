@@ -1,11 +1,13 @@
 name: Build and Push Docker Image
 
 on:
-  # push:
+  push:
     # branches:
     #   - main
     # path:
     #   - .*
+  watch:
+    types: [started]
 
 jobs:
   build:
