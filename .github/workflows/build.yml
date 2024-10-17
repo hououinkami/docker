@@ -22,7 +22,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}  # GitHubのユーザー名
-          password: ${{ secrets.GITHUB_TOKEN }}  # GitHubのトークン
+          password: ${{ secrets.KAMI_TOKEN }}  # GitHubのトークン
 
       - name: Build Docker Image
         run: |
