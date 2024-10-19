@@ -31,7 +31,7 @@ services:
       # 群消息格式(群组下)
       ROOM_MESSAGE_GROUP: '<b>👤#[alias_first]: </b>'
       # 公众号消息格式(群组下)
-      OFFICIAL_MESSAGE_GROUP: ''
+      OFFICIAL_MESSAGE_GROUP: ' '
       # 联系人消息格式(群组下)
-      CONTACT_MESSAGE_GROUP: ''
+      CONTACT_MESSAGE_GROUP: ' '
     restart: unless-stopped
