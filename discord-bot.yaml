@@ -5,7 +5,7 @@ services:
     image: ghcr.io/hououinkami/docker/discord-bot:latest  # 使用するイメージ
     container_name: discord-bot  # コンテナ名
     environment:  # 環境変数を指定
-      - DISCORD_TOKEN=your_bot_token
-      - SOURCE_CHANNEL_ID=your_source_channel_id
-      - TARGET_CHANNEL_ID=your_target_channel_id
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - SOURCE_CHANNEL_ID=${SOURCE_CHANNEL_ID}
+      - TARGET_CHANNEL_ID=${TARGET_CHANNEL_ID}
     restart: unless-stopped  # コンテナが停止した場合の再起動ポリシー
