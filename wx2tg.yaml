@@ -23,13 +23,13 @@ services:
       API_ID: ${TG_API_ID}
       API_HASH: ${TG_API_HASH}
       # 群消息格式
-      ROOM_MESSAGE: '<code>🌐#[topic] —— 👤#[alias_first]</code>'
+      ROOM_MESSAGE: '<blockquote><b>🌐#[topic]</b> —— <b>👤#[alias_first]</b></blockquote>'
       # 公众号消息格式
-      OFFICIAL_MESSAGE: '<code>📣#[name]</code>'
+      OFFICIAL_MESSAGE: '<blockquote><b>📣#[name]</b></blockquote>'
       # 联系人消息格式
-      CONTACT_MESSAGE: '<code>👤#[alias_first]</code>'
+      CONTACT_MESSAGE: '<blockquote><b>👤#[alias_first]</b></blockquote>'
       # 群消息格式(群组下)
-      ROOM_MESSAGE_GROUP: '<code>👤#[alias_first]</code>'
+      ROOM_MESSAGE_GROUP: '<blockquote><b>👤#[alias_first]</b></blockquote>'
       # 公众号消息格式(群组下)
       OFFICIAL_MESSAGE_GROUP: ' '
       # 联系人消息格式(群组下)
