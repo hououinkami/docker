@@ -7,12 +7,11 @@ services:
     volumes:
       - ./config:/app/storage
       - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
-      - ./logs:/app/logs # 日志文件夹
     # use env file or you can jest set environment here
     # env_file: ".env"
     environment:
       TZ: Asia/Shanghai
-      BOT_TOKEN: ${TG_BOT_TOKEN} # Required  必须配置
+      BOT_TOKEN: ${TG_BOT_TOKEN}
       # PROXY_HOST: ''
       # PROXY_PORT: ''
       # 代理类型:socks5,http,https
@@ -35,4 +34,10 @@ services:
       OFFICIAL_MESSAGE_GROUP: ' '
       # 联系人消息格式(群组下)
       CONTACT_MESSAGE_GROUP: ' '
+      # 自动创建微信群组的名称格式
+      CREATE_ROOM_NAME: '#[topic]'
+      # 自动创建联系人群组的名称格式
+      CREATE_CONTACT_NAME: '#[alias_first]'
+      # 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
+      MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
     restart: unless-stopped
