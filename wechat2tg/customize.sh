@@ -33,8 +33,6 @@ awk '
                 gsub(/、/,"を${this.t('\''wechat.get'\'')}、"); 
                 gsub(/的名片消息/,"の連絡先カード");   
             }
-                 
-            
         }
     }
     { print }
