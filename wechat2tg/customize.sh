@@ -12,15 +12,30 @@ perl -0777 -i -pe "s/(.*)sender\.sendFile.*?wechat\.receivingFile.*?}/\1sender\.
 
 # 自定义特殊消息类型提示文本
 awk '
-/, \$\{this\.t\('wechat\.plzViewOnPhone'\)\}/ {
-    gsub(/, ${this.t('wechat.plzViewOnPhone')}/, "、${this.t('wechat.plzViewOnPhone')}")
-}
-/\$\{this\.getMessageName\(/ {
-    gsub(/\[|\]/, "")
-}
-/\$\{this\.t\(.*wechat\.get.*\)\}(.*) \$\{this\.t\(.*common\.error.*\)\}/ {
-    match($0, /\$\{this\.t\(.*wechat\.get.*\)\}(.*) \$\{this\.t\(.*common\.error.*\)\}/, m)
-    $0 = m[1] "${this.t('wechat.get')}${this.t('common.error')}"
-}
-{ print }
+    /\$\{this\.getMessageName/ { 
+        gsub(/\[|\]/, ""); 
+    }
+    /\$\{this\.t.*wechat\.plzViewOnPhone.*\}/ { 
+        gsub(/, \$\{this\.t.*wechat\.plzViewOnPhone[^\}]*\}/, "、${this.t('\''wechat.plzViewOnPhone'\'')}"); 
+    }
+    {
+        if ($0 ~ /\$\{this\.t.*wechat\.get.*(\$\{this\.[^\}]*\})/) {
+            if ($0 ~ /\$\{this\.t.*common.error.*\}/) {
+                gsub(/\$\{this\.t.*wechat\.get.*\$\{this\.t.*common.error[^\}]*\}/, "${this.getMessageName(message.type())}${this.t('\''wechat.get'\'')}${this.t('\''common.error'\'')}");
+            }
+            if ($0 !~ /\$\{this\.t.*common.error.*\}/ && $0 !~ /wechat\.plzViewOnPhone/) {
+                gsub(/\$\{this\.t.*wechat.getOne.*\$/,"$");
+                gsub(/\}`/,"}${this.t('\''wechat.get'\'')}`");     
+            }
+            if ($0 !~ /\$\{this\.t.*common.error.*\}/ && $0 ~ /wechat\.plzViewOnPhone/) {
+                gsub(/\$\{this\.t.*wechat.get[^\}]*\} /,"");
+                gsub(/\$\{this\.t.*wechat.get[^\}]*\}/,"");
+                gsub(/、/,"を${this.t('\''wechat.get'\'')}、"); 
+                gsub(/的名片消息/,"の連絡先カード");   
+            }
+                 
+            
+        }
+    }
+    { print }
 ' WechatClient.ts > temp && mv temp WechatClient.ts
