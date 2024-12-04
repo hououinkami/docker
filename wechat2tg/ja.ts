@@ -193,7 +193,7 @@ const zh = {
             card: '📇[連絡先カード]',
             file: '📄[ファイル]',
             image: '🖼️[画像]',
-            voice: '🔉[音声]',
+            voice: '🎤[音声]',
             video: '🎬[動画]',
             emoticon: '😎[ステッカー]',
             miniProgram: '🧿[ミニプログラム]',
