@@ -4,7 +4,10 @@ const zh = {
             success: '追加成功',
             fail: '追加失敗',
             exist: 'すでに存在しています',
-            noUser: 'ユーザーがいません',
+            noUser: '転送を許可するメンバーが設定されていません',
+            userList: 'メンバーリスト（クリックして削除）',
+            all: 'すべて',
+            help: '`/aad all` コマンドを使用すると、このグループ内のすべてのメンバーのメッセージを転送する。`/aad @転送したいユーザー` を使用すると、特定のメンバーのメッセージを転送するよう追加できます。`/als` コマンドを使用すると、転送リストを確認および削除できます。'
         },
         description: {
             help: 'マニュアル',
@@ -211,8 +214,8 @@ const zh = {
         contactFailed: '❌連絡先の読み込みに失敗しました',
         fileReceivingFailed: '❌ファイル受信失敗',
         receivingFile: '📥ファイル受信中...',
-        transcripting: '音声から文字への変換中...',
-        audioTranscriptFailed: '音声から文字への変換に失敗',
+        transcripting: '🔤音声から文字への変換中...',
+        audioTranscriptFailed: '❌音声から文字への変換に失敗',
     },
     telegram: {
         btn: {
