@@ -12,12 +12,15 @@ perl -0777 -i -pe "s/(.*)sender\.sendFile.*?wechat\.receivingFile.*?}/\1sender\.
 
 # 自定义特殊消息类型提示文本
 awk '
+    # 删除消息类型的中括号
     /\$\{this\.getMessageName/ { 
         gsub(/\[|\]/, ""); 
     }
+    # 替换消息中的英文逗号为日文逗号
     /\$\{this\.t.*wechat\.plzViewOnPhone.*\}/ { 
         gsub(/, \$\{this\.t.*wechat\.plzViewOnPhone[^\}]*\}/, "、${this.t('\''wechat.plzViewOnPhone'\'')}"); 
     }
+    # 消息的语法更改为日语
     {
         if ($0 ~ /\$\{this\.t.*wechat\.get.*(\$\{this\.[^\}]*\})/) {
             if ($0 ~ /\$\{this\.t.*common.error.*\}/) {
@@ -34,6 +37,13 @@ awk '
                 gsub(/的名片消息/,"の連絡先カード");   
             }
         }
+    }
+    # 引用消息块默认不隐藏
+    /blockquote expandable/ {
+        gsub(/blockquote expandable/,"blockquote");
+    }
+    /\$\{res\.des\} \.\.\./ {
+        gsub(/\$\{res\.des\} \.\.\./,"${res.des}");
     }
     { print }
 ' WechatClient.ts > temp && mv temp WechatClient.ts
