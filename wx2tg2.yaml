@@ -7,6 +7,8 @@ services:
     volumes:
       - ./config:/app/storage
       - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
+      - ./src/i18n/locales/zh.ts:/app/src/i18n/locales/zh.ts
+      - ./src/client/WechatClient.ts:/app/src/client/WechatClient.ts
     # use env file or you can jest set environment here
     # env_file: ".env"
     environment:
@@ -20,18 +22,27 @@ services:
       # PROXY_USERNAME: ''
       # PROXY_PASSWORD: ''
       # 发送大文件所需的Telegram API配置(可选)
-      # API_ID: ${TG_API_ID}
-      # API_HASH: ${TG_API_HASH}
+      API_ID: ${TG_API_ID}
+      API_HASH: ${TG_API_HASH}
       # 群消息格式
-      ROOM_MESSAGE: '<u>👥#[topic]</u> ---- <b>👤#[alias_first]: </b>'
+      ROOM_MESSAGE: '<blockquote><b>🌐#[topic]</b> —— <b>👤#[alias_first]</b></blockquote>'
       # 公众号消息格式
-      OFFICIAL_MESSAGE: '<b>📣#[name]: </b>'
+      OFFICIAL_MESSAGE: '<blockquote><b>📣#[name]</b></blockquote>'
       # 联系人消息格式
-      CONTACT_MESSAGE: '<b>👤#[alias_first]: </b>'
+      CONTACT_MESSAGE: '<blockquote><b>👤#[alias_first]</b></blockquote>'
       # 群消息格式(群组下)
-      ROOM_MESSAGE_GROUP: '<b>👤#[alias_first]: </b>'
+      ROOM_MESSAGE_GROUP: '<blockquote><b>👤#[alias_first]</b></blockquote>'
       # 公众号消息格式(群组下)
       OFFICIAL_MESSAGE_GROUP: ' '
       # 联系人消息格式(群组下)
       CONTACT_MESSAGE_GROUP: ' '
+      # 自动创建微信群组的名称格式
+      CREATE_ROOM_NAME: '#[topic]'
+      # 自动创建联系人群组的名称格式
+      CREATE_CONTACT_NAME: '#[alias_first]'
+      # 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
+      MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
+      # 腾讯语音识别控制台申请的API_KEY(可选)
+      TENCENT_SECRET_ID: ''
+      TENCENT_SECRET_KEY: ''
     restart: unless-stopped
