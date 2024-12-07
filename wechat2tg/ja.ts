@@ -121,6 +121,10 @@ const zh = {
             whiteMode: 'ホワイトリストモード',
             whiteGroup: 'ホワイトリストグループ',
             blackGroup: 'ブラックリストグループ',
+            emojiConvert: 'Emoji変換モード({0})',
+            emojiConvertText: 'テキストに変換',
+            emojiConvertEmoji: 'Emojiに変換',
+            emojiConvertPicture: '写真に変換',
         },
         recent: {
             noUsers: '最近の連絡先が空です',
