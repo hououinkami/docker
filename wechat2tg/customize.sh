@@ -16,6 +16,9 @@ awk '
     /\$\{this\.getMessageName/ { 
         gsub(/\[|\]/, ""); 
     }
+    /\$\{this\.t.*wechat\.messageType\.setMsg.*/ {
+        gsub(/\[\$\{this\.t.*wechat\.messageType\.setMsg.*\]/, "${this.t('\''wechat.messageType.setMsg'\'')}を${this.t('\''wechat.get'\'')}、");
+    }
     # 替换消息中的英文逗号为日文逗号
     /\$\{this\.t.*wechat\.plzViewOnPhone.*\}/ { 
         gsub(/, \$\{this\.t.*wechat\.plzViewOnPhone[^\}]*\}/, "、${this.t('\''wechat.plzViewOnPhone'\'')}"); 
@@ -27,14 +30,14 @@ awk '
                 gsub(/\$\{this\.t.*wechat\.get.*\$\{this\.t.*common.error[^\}]*\}/, "${this.getMessageName(message.type())}${this.t('\''wechat.get'\'')}${this.t('\''common.error'\'')}");
             }
             if ($0 !~ /\$\{this\.t.*common.error.*\}/ && $0 !~ /wechat\.plzViewOnPhone/) {
-                gsub(/\$\{this\.t.*wechat.getOne.*\$/,"$");
-                gsub(/\}`/,"}${this.t('\''wechat.get'\'')}`");     
+                gsub(/\$\{this\.t.*wechat.getOne.*\$/, "$");
+                gsub(/\}`/, "}${this.t('\''wechat.get'\'')}`");     
             }
             if ($0 !~ /\$\{this\.t.*common.error.*\}/ && $0 ~ /wechat\.plzViewOnPhone/) {
-                gsub(/\$\{this\.t.*wechat.get[^\}]*\} /,"");
-                gsub(/\$\{this\.t.*wechat.get[^\}]*\}/,"");
-                gsub(/、/,"を${this.t('\''wechat.get'\'')}、"); 
-                gsub(/的名片消息/,"の連絡先カード");   
+                gsub(/\$\{this\.t.*wechat.get[^\}]*\} /, "");
+                gsub(/\$\{this\.t.*wechat.get[^\}]*\}/, "");
+                gsub(/、/, "を${this.t('\''wechat.get'\'')}、"); 
+                gsub(/的名片消息/, "の連絡先カード");   
             }
         }
     }

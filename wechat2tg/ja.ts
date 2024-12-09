@@ -161,7 +161,7 @@ const zh = {
         saveOrgFileError: 'オリジナルファイルの保存に失敗しました',
         emptyFile: 'ファイルが空です',
         fileLarge: 'ファイルが大きすぎます（Telegramの制限は20MBです）',
-        tgLoginSuccess: '✅Telegramのログイン成功！',
+        tgLoginSuccess: '✅Telegramログイン成功！',
         tgLoginInputPassword: '2段階認証パスワードを入力してください:',
         tgLoginVerifyCode: '受信した認証コードを入力してください:_ _ _ _ _\n',
         emptyReply: '返信先なし',
