@@ -29,7 +29,7 @@ awk '
     {
         if ($0 ~ /\$\{this\.t.*wechat\.get.*(\$\{this\.[^\}]*\})/) {
             if ($0 ~ /\$\{this\.t.*common.error.*\}/) {
-                gsub(/\$\{this\.t.*wechat\.get.*\$\{this\.t.*common.error[^\}]*\}/, "${this.getMessageName(message.type())}${this.t('\''wechat.get'\'')}${this.t('\''common.error'\'')}");
+                gsub(/\$\{this\.t.*wechat\.get.*\$\{this\.t.*common.error[^\}]*\}/, "${this.t('\''wechat.get'\'')}${this.t('\''common.error'\'')}");
             }
             if ($0 !~ /\$\{this\.t.*common.error.*\}/ && $0 !~ /wechat\.plzViewOnPhone/) {
                 gsub(/\$\{this\.t.*wechat.getOne.*\$/, "$");
