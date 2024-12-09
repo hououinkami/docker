@@ -5,10 +5,11 @@ cd src/i18n/locales
 curl -o zh.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wechat2tg/ja.ts && \
 cd -
 
-# 取消发送临时文件
 cd src/client
 curl -o WechatClient.ts https://raw.githubusercontent.com/finalpi/wechat2tg/refs/heads/master/src/client/WechatClient.ts && \
-sed -i '' 's/temp_file/一時ファイル/g' WechatClient.ts && \
+# 发送的临时文件名更改为对应的消息类型
+sed -i '' 's/'\''temp_file'\''/`\${this.getMessageName(messageType)}`/g' WechatClient.ts && \
+# 取消发送临时文件（会导致部分错误提示无法收到）
 # perl -0777 -i -pe "s/(.*)sender\.sendFile.*?wechat\.receivingFile.*?}/\1sender\.sendText(tgMessage\.chatId, this\.t('wechat\.receivingFile')/s" WechatClient.ts && \
 
 # 自定义特殊消息类型提示文本
