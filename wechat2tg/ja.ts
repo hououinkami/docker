@@ -185,7 +185,7 @@ const zh = {
         me: '私',
         audioOrVideo: '📞音声/ビデオ通話',
         forwardFail: '転送失敗',
-        recallMessage: 'メッセージの撤回を完了しました',
+        recallMessage: '♻️メッセージの撤回を完了しました',
         friendExpired: '友達申請が期限切れです！',
         addSuccess: '追加成功！',
         logoutSuccess: '✅ログアウト成功！',
