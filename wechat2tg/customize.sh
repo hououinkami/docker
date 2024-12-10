@@ -15,9 +15,9 @@ sed -i '' 's/'\''temp_file'\''/`\${this.getMessageName(messageType)}`/g' WechatC
 # 自定义特殊消息类型提示文本
 awk '
     # 删除消息类型的中括号
-    /\$\{this\.getMessageName/ { 
-        gsub(/\[|\]/, ""); 
-    }
+    # /\$\{this\.getMessageName/ { 
+    #     gsub(/\[|\]/, ""); 
+    # }
     /\$\{this\.t.*wechat\.messageType\.setMsg.*/ {
         gsub(/\[\$\{this\.t.*wechat\.messageType\.setMsg.*\]/, "${this.t('\''wechat.messageType.setMsg'\'')}を${this.t('\''wechat.get'\'')}、");
     }
