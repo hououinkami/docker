@@ -19,7 +19,7 @@ awk '
         gsub(/\[|\]/, ""); 
     }
     /\$\{this\.t.*wechat\.messageType\.setMsg.*/ {
-        gsub(/\[\$\{this\.t.*wechat\.messageType\.setMsg.*\]/, "${this.t('\''wechat.messageType.setMsg'\'')}を${this.t('\''wechat.get'\'')}、");
+        gsub(/\[\$\{this\.t.*wechat\.messageType\.setMsg.*\]/, "${this.t('\''wechat.messageType.setMsg'\'')}${this.t('\''wechat.get'\'')}、");
     }
     # 替换消息中的英文逗号为日文逗号
     /\$\{this\.t.*wechat\.plzViewOnPhone.*\}/ { 
