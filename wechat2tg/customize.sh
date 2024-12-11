@@ -36,8 +36,8 @@ awk '
                 gsub(/\}`/, "}${this.t('\''wechat.get'\'')}`");     
             }
             if ($0 !~ /\$\{this\.t.*common.error.*\}/ && $0 ~ /wechat\.plzViewOnPhone/) {
-                gsub(/\$\{this\.t.*wechat.get[^\}]*\} /, "");
-                gsub(/\$\{this\.t.*wechat.get[^\}]*\}/, "");
+                gsub(/\$\{this\.t..wechat.get[^\}]*\} /, "");
+                gsub(/\$\{this\.t..wechat.get[^\}]*\}/, "");
                 gsub(/、/, "を${this.t('\''wechat.get'\'')}、"); 
                 gsub(/的名片消息/, "の連絡先カード");   
             }
