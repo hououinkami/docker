@@ -52,3 +52,16 @@ awk '
     }
     { print }
 ' WechatClient.ts > temp && mv temp WechatClient.ts
+cd -
+
+# Emoji自定义
+cd src/util
+curl -o EmojiUtils.ts https://raw.githubusercontent.com/finalpi/wechat2tg/refs/heads/master/src/util/EmojiUtils.ts && \
+awk '
+    /<a href=.*png.*>/ {
+        gsub(/\$\{EmojiConverter\.emojiUrl\}.*png/, ""); 
+        # http://www.localhost.com/404.png
+    }
+    { print }
+' EmojiUtils.ts > temp && mv temp EmojiUtils.ts
+cd -
