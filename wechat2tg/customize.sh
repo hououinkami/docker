@@ -59,7 +59,7 @@ cd src/util
 curl -o EmojiUtils.ts https://raw.githubusercontent.com/finalpi/wechat2tg/refs/heads/master/src/util/EmojiUtils.ts && \
 awk '
     /<a href=.*png.*>/ {
-        gsub(/\$\{EmojiConverter\.emojiUrl\}.*png/, ""); 
+        gsub(/\$\{EmojiConverter\.emojiUrl\}.*png/, "http://www.localhost.com/404.png"); 
         # http://www.localhost.com/404.png
     }
     { print }
