@@ -1,14 +1,15 @@
 version: '3'
 
 services:
-  wechat2tg:
+  wechat2tg2:
     image: finalpi/wechat2tg:latest
     container_name: wx2tg2
     volumes:
       - ./config:/app/storage
       - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
-      - ./src/i18n/locales/zh.ts:/app/src/i18n/locales/zh.ts
-      - ./src/client/WechatClient.ts:/app/src/client/WechatClient.ts
+      - ../wx2tg/src/i18n/locales/zh.ts:/app/src/i18n/locales/zh.ts
+      - ../wx2tg/src/client/WechatClient.ts:/app/src/client/WechatClient.ts
+      - ../wx2tg/src/util/EmojiUtils.ts:/app/src/util/EmojiUtils.ts
     # use env file or you can jest set environment here
     # env_file: ".env"
     environment:
