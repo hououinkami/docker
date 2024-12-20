@@ -1,15 +1,20 @@
 cd ~/Docker/wx2tg && \
+# 下载src文件夹
+git clone --filter=blob:none --no-checkout https://github.com/finalpi/wechat2tg.git
+cd wechat2tg
+git sparse-checkout init --cone
+git sparse-checkout set src
+git checkout master
+mv src ../
+cd .. && rm -rf wechat2tg
 
 # 日语本地化
 cd src/i18n/locales
-curl -o zh.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wechat2tg/ja.ts && \
+# curl -o zh.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wechat2tg/ja.ts && \
 cd -
 
 cd src/client
-curl -o WechatClient.ts https://raw.githubusercontent.com/finalpi/wechat2tg/refs/heads/master/src/client/WechatClient.ts && \
-curl -o TelegramUserClient.ts https://raw.githubusercontent.com/finalpi/wechat2tg/refs/heads/master/src/client/TelegramUserClient.ts && \
-curl -o TelegramClient.ts https://raw.githubusercontent.com/finalpi/wechat2tg/refs/heads/master/src/client/TelegramClient.ts && \
-curl -o TelegramBotClient.ts https://raw.githubusercontent.com/finalpi/wechat2tg/refs/heads/master/src/client/TelegramBotClient.ts && \
+# curl -o WechatClient.ts https://raw.githubusercontent.com/finalpi/wechat2tg/refs/heads/master/src/client/WechatClient.ts && \
 # 发送的临时文件名更改为对应的消息类型
 sed -i '' 's/'\''temp_file'\''/`\${this.getMessageName(messageType)}`/g' WechatClient.ts && \
 # 取消发送临时文件（会导致部分错误提示无法收到）
@@ -59,7 +64,7 @@ cd -
 
 # Emoji自定义
 cd src/util
-curl -o EmojiUtils.ts https://raw.githubusercontent.com/finalpi/wechat2tg/refs/heads/master/src/util/EmojiUtils.ts && \
+# curl -o EmojiUtils.ts https://raw.githubusercontent.com/finalpi/wechat2tg/refs/heads/master/src/util/EmojiUtils.ts && \
 awk '
     /<a href=.*png.*>/ {
         gsub(/\$\{EmojiConverter\.emojiUrl\}.*png/, ""); 
