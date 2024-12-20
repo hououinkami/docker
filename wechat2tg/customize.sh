@@ -10,7 +10,7 @@ cd .. && rm -rf wechat2tg
 
 # 日语本地化
 cd src/i18n/locales
-# curl -o zh.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wechat2tg/ja.ts && \
+curl -o zh.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wechat2tg/ja.ts && \
 cd -
 
 cd src/client
