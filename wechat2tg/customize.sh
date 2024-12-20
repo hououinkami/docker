@@ -5,7 +5,7 @@ cd wechat2tg
 git sparse-checkout init --cone
 git sparse-checkout set src
 git checkout master
-mv src ../
+mv -f src ../
 cd .. && rm -rf wechat2tg
 
 # 日语本地化
