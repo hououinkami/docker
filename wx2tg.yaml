@@ -7,9 +7,9 @@ services:
     volumes:
       - ./config:/app/storage
       - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
-      # - ./src/i18n/locales/zh.ts:/app/src/i18n/locales/zh.ts
-      # - ./src/client/WechatClient.ts:/app/src/client/WechatClient.ts
-      # - ./src/util/EmojiUtils.ts:/app/src/util/EmojiUtils.ts
+      - ./src/client:/app/src/client
+      - ./src/i18n/locales/zh.ts:/app/src/i18n/locales/zh.ts
+      - ./src/util/EmojiUtils.ts:/app/src/util/EmojiUtils.ts
     # use env file or you can jest set environment here
     # env_file: ".env"
     environment:
