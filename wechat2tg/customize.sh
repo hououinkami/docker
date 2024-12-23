@@ -58,6 +58,13 @@ awk '
     /\$\{res\.des\} \.\.\./ {
         gsub(/\$\{res\.des\} \.\.\./,"${res.des}");
     }
+    # 接受文件提示和失败提示加上发送者
+    /this\.t.*wechat\.receivingFile../ {
+        gsub(/this\.t.*wechat\.receivingFile../, "`${identityStr}${this.t('\''wechat.receivingFile'\'')}`");
+    }
+    /`\$\{this\.t..wechat\.get[^\}]*\}/ {
+        gsub(/\$\{this\.t..wechat\.get[^\}]*\}/, "${identityStr}${this.t('\''wechat.get'\'')}");
+    }
     { print }
 ' WechatClient.ts > temp && mv temp WechatClient.ts
 cd -
