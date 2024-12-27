@@ -174,7 +174,8 @@ const zh = {
     wechat: {
         requestAddFriend: '友達追加のリクエスト:',
         unknownUser: '不明なユーザー:',
-        plzViewOnPhone: '<a href="https://surge.hououinkami.workers.dev/wechat">WeChat</a>でご確認ください',
+        plzViewOnPhone: 'WeChatでご確認ください',
+        // plzViewOnPhone: '<a href="https://surge.hououinkami.workers.dev/wechat">WeChat</a>でご確認ください',
         get: '受信',
         getOne: 'を１つ受信',
         roomInvite: 'グループチャットに招待されました（ユーザー名とグループ名を取得できません）',
