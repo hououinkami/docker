@@ -117,6 +117,8 @@ const zh = {
             autoTranscript: '自動音声文字変換({0})',
             forwardSelf: 'WeChatで送信した自分のメッセージを転送({0})',
             mediaQualityCompression: 'メディアの品質圧縮({0})',
+            openAIByContact: '連絡先AI自動応答({0})',
+            openAIByRoom: 'グループAI自動応答({0})',
             blackMode: 'ブラックリストモード',
             whiteMode: 'ホワイトリストモード',
             whiteGroup: 'ホワイトリストグループ',
