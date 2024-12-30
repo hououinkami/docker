@@ -66,6 +66,9 @@ awk '
         gsub(/\$\{res\.des\} \.\.\./,"${res.des}");
     }
     # 接受文件提示加上发送者
+    /this\.t.*wechat\.receivingFile../ {
+        gsub(/this\.t.*wechat\.receivingFile../, "'\'''\''");
+    }
     /\}\)\.then\(tempRes => \{/ {
         gsub(/\}/, "}, {parse_mode: '\''HTML'\''}");
     }
