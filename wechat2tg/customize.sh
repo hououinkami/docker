@@ -30,15 +30,12 @@ awk '
         gsub(/\[\$\{this\.t.*wechat\.messageType\.setMsg.*\]/, "${this.t('\''wechat.messageType.setMsg'\'')}${this.t('\''wechat.get'\'')}、");
     }
     # 删除文件接收中、接收失败、接收错误等提示
-    /this\.t.*wechat\.receivingFile../ {
-        gsub(/this\.t.*wechat\.receivingFile../, "'\'''\''");
-    }
-    /\$\{this\.t.*common\.error.*\}/ {
-        gsub(/\$\{this\.t.*wechat\.get.*\$\{this\.t.*common\.error[^\}]*\}.*\$\{this\.t.*wechat\.plzViewOnPhone[^\}]*\}/, "");
-    }
-    /this\.t.*wechat\.forwardFail../ {
-        gsub(/`.*`/, "``");
-    }
+    # /this\.t.*wechat\.receivingFile../ {
+    #     gsub(/this\.t.*wechat\.receivingFile../, "'\'''\''");
+    # }
+    # /\$\{this\.t.*common\.error.*\}/ {
+    #     gsub(/\$\{this\.t.*wechat\.get.*\$\{this\.t.*common\.error[^\}]*\}.*\$\{this\.t.*wechat\.plzViewOnPhone[^\}]*\}/, "");
+    # }
     # 替换消息中的英文逗号为日文逗号
     /\$\{this\.t.*wechat\.plzViewOnPhone.*\}/ { 
         gsub(/, \$\{this\.t.*wechat\.plzViewOnPhone[^\}]*\}/, "、${this.t('\''wechat.plzViewOnPhone'\'')}"); 
@@ -68,13 +65,19 @@ awk '
     /\$\{res\.des\} \.\.\./ {
         gsub(/\$\{res\.des\} \.\.\./,"${res.des}");
     }
-    # 接受文件提示和失败提示加上发送者
-    # /this\.t.*wechat\.receivingFile../ {
-    #     gsub(/this\.t.*wechat\.receivingFile../, "`${identityStr}${this.t('\''wechat.receivingFile'\'')}`");
-    # }
-    # /`\$\{this\.t..wechat\.get[^\}]*\}/ {
-    #     gsub(/\$\{this\.t..wechat\.get[^\}]*\}/, "${identityStr}${this.t('\''wechat.get'\'')}");
-    # }
+    # 接受文件提示加上发送者
+    /\}\)\.then\(tempRes => \{/ {
+        gsub(/\}/, "}, {parse_mode: '\''HTML'\''}");
+    }
+    # 发送错误提示加上发送者
+    /this\.tgClient\.bot\.telegram\.editMessageCaption.*common\.error/ {
+        gsub(/`.*`/, "`${identityStr}`, {parse_mode: '\''HTML'\''}");
+    }
+    # 转发失败添加跳转微信的链接
+    /this\.t.*wechat\.forwardFail.*/ {
+        gsub(/、\$\{this\.t.*wechat\.plzViewOnPhone[^`]*/, "");
+        gsub(/\$\{this\.getMessageName\(messageType\)\}/, "<a href=\"https:\/\/hououinkami.github.io\/redirect\">${this.getMessageName(messageType)}</a>");
+    }
     { print }
 ' WechatClient.ts > temp && mv temp WechatClient.ts
 cd -
