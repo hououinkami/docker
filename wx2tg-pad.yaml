@@ -1,15 +1,16 @@
 version: '3'
 
 services:
-  wechat2tg2:
-    image: finalpi/wechat2tg:latest
-    container_name: wx2tg2
+  wechat2tg:
+    image: finalpi/wechat2tg-pad-dev:latest
+    container_name: wx2tg
     volumes:
       - ./config:/app/storage
       - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
-      - ../wx2tg/src/i18n/locales/zh.ts:/app/src/i18n/locales/zh.ts
-      - ../wx2tg/src/client/WechatClient.ts:/app/src/client/WechatClient.ts
-      - ../wx2tg/src/util/EmojiUtils.ts:/app/src/util/EmojiUtils.ts
+      # - ./src:/app/src
+      # - ./src/client/WechatClient.ts:/app/src/client/WechatClient.ts
+      # - ./src/i18n/locales/zh.ts:/app/src/i18n/locales/zh.ts
+      # - ./src/util/EmojiUtils.ts:/app/src/util/EmojiUtils.ts
     # use env file or you can jest set environment here
     # env_file: ".env"
     environment:
@@ -23,8 +24,8 @@ services:
       # PROXY_USERNAME: ''
       # PROXY_PASSWORD: ''
       # 发送大文件所需的Telegram API配置(可选)
-      # API_ID: ${TG_API_ID}
-      # API_HASH: ${TG_API_HASH}
+      API_ID: ${TG_API_ID}
+      API_HASH: ${TG_API_HASH}
       # 群消息格式
       ROOM_MESSAGE: '<blockquote><b>🌐#[topic]</b> —— <b>👤#[alias_first]</b></blockquote>'
       # 公众号消息格式
@@ -43,7 +44,8 @@ services:
       CREATE_CONTACT_NAME: '#[alias_first]'
       # 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
       MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
-      # 腾讯语音识别控制台申请的API_KEY(可选)
-      TENCENT_SECRET_ID: ''
-      TENCENT_SECRET_KEY: ''
+      # Gewechaty
+      BASE_API='http://127.0.0.1:2531/v2/api'
+      FILE_API='http://127.0.0.1:2532/download'
+      CALLBACK_API='http://127.0.0.1:3000'
     restart: unless-stopped
