@@ -3,7 +3,6 @@ version: '3'
 services:
   wechat2tg:
     image: hououinkami/wechat2tg-pad:latest
-    platform: linux/amd64
     container_name: wx2tg
     volumes:
       - ./config:/app/storage
