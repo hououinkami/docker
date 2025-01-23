@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   gewechat:
-    image: registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine
+    image: ghcr.io/tu1h/wechotd/wechotd:latest
     container_name: gewe
     volumes:
       - ./temp:/root/temp
