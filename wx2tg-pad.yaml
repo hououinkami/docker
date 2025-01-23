@@ -45,7 +45,7 @@ services:
       # 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
       MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
       # Gewechaty
-      BASE_API: 'http://gewe:2531/v2/api'
-      FILE_API: 'http://gewe:2532/download'
-      CALLBACK_API: 'http://gewe:3000'
+      BASE_API: 'http://gewe.orb.local:2531/v2/api'
+      FILE_API: 'http://gewe.orb.local:2532/download'
+      CALLBACK_API: 'http://gewe.orb.local:3000'
     restart: unless-stopped
