@@ -45,9 +45,9 @@ services:
       # 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
       MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
       # Gewechaty
-      BASE_API: 'http://127.0.0.1:2531/v2/api'
-      FILE_API: 'http://127.0.0.1:2532/download'
-      CALLBACK_API: 'http://127.0.0.1:3000'
+      BASE_API: 'http://gewechat:2531/v2/api'
+      FILE_API: 'http://gewechat:2532/download'
+      CALLBACK_API: 'http://gewechat:3000'
     restart: unless-stopped
   gewechat:
     image: registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine
