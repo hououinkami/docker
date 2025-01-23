@@ -14,7 +14,7 @@ services:
     # use env file or you can jest set environment here
     # env_file: ".env"
     ports:
-      - "3000:3000"
+      - "8033:3000"
     environment:
       TZ: Asia/Shanghai
       BOT_TOKEN: ${TG_BOT_TOKEN}
@@ -47,9 +47,9 @@ services:
       # 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
       MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
       # Gewechaty
-      BASE_API: 'http://10.0.0.1:2531/v2/api'
-      FILE_API: 'http://10.0.0.1:2532/download'
-      CALLBACK_API: 'http://10.0.0.1:3000'
+      BASE_API: 'http://10.0.0.1:8031/v2/api'
+      FILE_API: 'http://10.0.0.1:8032/download'
+      CALLBACK_API: 'http://10.0.0.1:8033'
     restart: unless-stopped
   gewechat:
     image: registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine
@@ -57,8 +57,8 @@ services:
     volumes:
       - ./temp:/root/temp
     ports:
-      - "2531:2531"  # API服务端口
-      - "2532:2532"  # 文件下载服务端口
+      - "8031:2531"  # API服务端口
+      - "8032:2532"  # 文件下载服务端口
     environment:
       TZ: Asia/Shanghai
     restart: always
