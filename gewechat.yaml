@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   gewechat:
-    image: ghcr.io/tu1h/wechotd/wechotd:alpine
+    image: ghcr.io/0ekk/wechotd/wechotd:latest
     container_name: gewe
     volumes:
       - ./temp:/root/temp
