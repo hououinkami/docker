@@ -51,3 +51,12 @@ services:
       FILE_API: 'http://10.0.0.1:2532/download'
       CALLBACK_API: 'http://10.0.0.1:3000'
     restart: unless-stopped
+  gewe:
+    image: registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine
+    container_name: gewe
+    ports:
+      - "2531:2531"
+      - "2532:2532"
+    volumes:
+      - ./temp:/root/temp
+    restart: always
