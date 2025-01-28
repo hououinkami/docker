@@ -1,14 +1,12 @@
 version: '3.9'
 
 services:
-  gewechat:
-    image: ghcr.io/0ekk/wechotd/wechotd:latest
+  gewe:
+    image: registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine # 拉取镜像
     container_name: gewe
+    ports:
+      - "2531:2531"
+      - "2532:2532"
     volumes:
       - ./temp:/root/temp
-    ports:
-      - "2531:2531"  # API服务端口
-      - "2532:2532"  # 文件下载服务端口
-    environment:
-      TZ: Asia/Shanghai
     restart: always
