@@ -7,7 +7,7 @@ services:
     volumes:
       - ./config:/app/storage
       - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
-      # - ./src:/app/src
+      - ./src:/app/src
       # - ./src/client/WechatClient.ts:/app/src/client/WechatClient.ts
       # - ./src/i18n/locales/zh.ts:/app/src/i18n/locales/zh.ts
       # - ./src/util/EmojiUtils.ts:/app/src/util/EmojiUtils.ts
