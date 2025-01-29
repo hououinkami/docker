@@ -12,7 +12,7 @@ services:
       # - ./src/i18n/locales/zh.ts:/app/src/i18n/locales/zh.ts
       # - ./src/util/EmojiUtils.ts:/app/src/util/EmojiUtils.ts
     # use env file or you can jest set environment here
-    # env_file: ".env"
+    env_file: "../.env"
     ports:
       - "3000:3000"
     environment:
