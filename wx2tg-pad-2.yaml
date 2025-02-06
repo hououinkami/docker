@@ -5,8 +5,8 @@ services:
     image: hououinkami/wechat2tg-pad:2
     container_name: wx2tg
     volumes:
-      - ./config:/app/storage
-      - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
+      # - ./config:/app/storage
+      # - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
       # - ./src:/app/src
       # - ./src/client/WechatClient.ts:/app/src/client/WechatClient.ts
       # - ./src/i18n/locales/zh.ts:/app/src/i18n/locales/zh.ts
