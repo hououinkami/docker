@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   wechat2tg:
-    image: hououinkami/wechat2tg-pad:latest
+    image: finalpi/wechat2tg-pad:latest
     container_name: wx2tg
     volumes:
       - ./config:/app/storage
@@ -49,7 +49,7 @@ services:
     restart: unless-stopped
   gewechat:
     image: registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine # 拉取镜像
-    container_name: gewechat
+    container_name: gewe
     ports:
       - "2531:2531"
       - "2532:2532"
