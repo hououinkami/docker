@@ -7,3 +7,25 @@ git sparse-checkout set src
 git checkout wx2tg-pad-dev
 rm -rf ../src && mv -f src ../
 cd .. && rm -rf wechat2tg
+
+cd src/client
+awk '
+    /emoji\.gif/ {
+        gsub(/emoji\.gif/, "ステッカー.gif");
+    }
+    { print }
+' WechatClient.ts > temp && mv temp WechatClient.ts
+awk '
+    /temp_file/ {
+        gsub(/temp_file/, "ファイル");
+    }
+    /文件接收中/ {
+        gsub(/文件接收中/, ""); 
+    }
+    /收到一条/ {
+        gsub(/收到一条/, ""); 
+        gsub(/消息，请在手机上查看/, "を受信");
+    }
+    { print }
+' TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
+cd -
