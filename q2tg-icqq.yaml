@@ -24,9 +24,9 @@ services:
     
   q2tg:
     container_name: q2tg
-    image: ghcr.io/clansty/q2tg:sleepyfox
-    # image: ghcr.io/clansty/q2tg:sha-4fb3afb
-    platform: linux/amd64
+    image: ghcr.io/clansty/q2tg:sha-4fb3afb
+    # image: ghcr.io/clansty/q2tg:sleepyfox
+    # platform: linux/amd64
     restart: unless-stopped
     depends_on:
       - postgres
