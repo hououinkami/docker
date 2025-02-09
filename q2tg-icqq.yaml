@@ -38,15 +38,10 @@ services:
       - ./cache:/app/.config/QQ/NapCat/temp
       - /var/run/docker.sock:/var/run/docker.sock
       # arm兼容
-      # - ./patches:/app/patches
-      # - ./main/package.json:/app/main/package.json
-      - ./ui:/app/ui
-      # - ./main/tsconfig.json:/app/main/tsconfig.json
-      - ./main/build.ts:/app/main/build.ts
-      # - ./main/prisma:/app/main/prisma
       - ./main/src:/app/main/src
-      # - ./main/prisma:/app/prisma
-      # - ./docker-entrypoint.sh :/app/entrypoint.sh
+      - ./ui:/app/ui
+      - ./main/build.ts:/app/main/build.ts
+      - ./main/prisma:/app/main/prisma
     environment:
       - TG_API_ID=${TG_API_ID}
       - TG_API_HASH=${TG_API_HASH}
