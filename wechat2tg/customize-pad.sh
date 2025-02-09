@@ -20,11 +20,11 @@ awk '
         gsub(/temp_file/, "ファイル");
     }
     /文件接收中/ {
-        gsub(/文件接收中/, ""); 
+        gsub(/文件接收中/, "⚠️ "); 
     }
     /收到一条/ {
         gsub(/收到一条/, ""); 
-        gsub(/消息，请在手机上查看/, "を受信");
+        gsub(/消息，请在手机上查看/, " を受信");
     }
     { print }
 ' TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
