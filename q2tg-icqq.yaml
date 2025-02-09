@@ -24,8 +24,8 @@ services:
     
   q2tg:
     container_name: q2tg
-    image: ghcr.io/clansty/q2tg:sha-4fb3afb
-    # platform: linux/amd64
+    image: ghcr.io/clansty/q2tg:sleepyfox
+    # image: ghcr.io/clansty/q2tg:sha-4fb3afb
     restart: unless-stopped
     depends_on:
       - postgres
@@ -36,6 +36,16 @@ services:
       - ./q2tg:/app/data
       - ./cache:/app/.config/QQ/NapCat/temp
       - /var/run/docker.sock:/var/run/docker.sock
+      # arm兼容
+      # - ./patches:/app/patches
+      # - ./main/package.json:/app/main/package.json
+      - ./ui:/app/ui
+      # - ./main/tsconfig.json:/app/main/tsconfig.json
+      - ./main/build.ts:/app/main/build.ts
+      # - ./main/prisma:/app/main/prisma
+      - ./main/src:/app/main/src
+      # - ./main/prisma:/app/prisma
+      # - ./docker-entrypoint.sh :/app/entrypoint.sh
     environment:
       - TG_API_ID=${TG_API_ID}
       - TG_API_HASH=${TG_API_HASH}
