@@ -26,6 +26,9 @@ awk '
     /文件接收中/ {
         gsub(/文件接收中/, ""); 
     }
+    /使用文件传输助手接收/ {
+        gsub(/使用文件传输助手接收/, "ファイル転送で受信"); 
+    }
     { print }
 ' TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
 cd -
