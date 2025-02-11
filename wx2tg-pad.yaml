@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   wechat2tg:
-    image: finalpi/wechat2tg-pad:latest
+    image: ${IMAGE_NAME:-finalpi/wechat2tg-pad:latest}
     container_name: wx2tg
     volumes:
       - ./config:/app/storage
