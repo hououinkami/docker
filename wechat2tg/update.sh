@@ -1,13 +1,30 @@
 #!/bin/bash
 
+echo "请选择要进行的操作:"
+echo "1)更新"
+echo "2)重启容器"
+
+read -p "请选择: " choice
+
+case $choice in
+    1)
+        ;;
+    2)
+        echo "重启wx2tg容器..."
+        docker restart wx2tg
+        ;;
+    *)
+        echo "错误：无效选项，请输入1或2！"
+        exit 1
+        ;;
+esac
+
 echo "请选择要使用的镜像:"
 echo "1) 正式版"
 echo "2) 测试版"
 
-# 读取用户输入
 read -p "请选择: " choice
 
-# 根据输入执行相应命令
 case $choice in
     1)
         echo "使用finalpi的正式版镜像..."
@@ -29,10 +46,8 @@ echo "2) 仅更新gewechat"
 echo "3) 更新wechat2tg与gewechat"
 echo
 
-# 读取用户输入
 read -p "请选择: " choice
 
-# 根据输入执行相应命令
 case $choice in
     1)
         echo "正在更新wechat2tg..."
