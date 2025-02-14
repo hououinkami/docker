@@ -10,12 +10,19 @@ cd .. && rm -rf wechat2tg
 
 cd src/client
 awk '
+    # 在第一行之前插入一行 import 语句
+    NR == 1 {
+        print "import { translateMessageType } from '\''./utils'\'';"
+    }
     /emoji\.gif/ {
         gsub(/emoji\.gif/, "ステッカー.gif");
     }
     /收到一条/ {
-        gsub(/收到一条/, "⚠️"); 
+        # 在当前行之前插入一行
+        print "const translatedType = translateMessageType(msg.type());";
+        gsub(/收到一条/, "⚠️");
         gsub(/消息，请在手机上查看/, "を受信");
+        gsub(/\$\{msg\.type\(\)\}/, "${translatedType}");
     }
     { print }
 ' WechatClient.ts > temp && mv temp WechatClient.ts
