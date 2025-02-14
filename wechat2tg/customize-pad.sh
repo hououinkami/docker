@@ -9,6 +9,7 @@ rm -rf ../src && mv -f src ../
 cd .. && rm -rf wechat2tg
 
 cd src/client
+curl -o utils.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wechat2tg/utils.ts
 awk '
     # 在第一行之前插入一行 import 语句
     NR == 1 {
