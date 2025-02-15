@@ -20,10 +20,10 @@ awk '
     }
     /收到一条/ {
         # 在当前行之前插入一行
-        # print "const translatedType = translateMessageType(msg.type());";
+        print "const translatedType = translateMessageType(msg.type());";
         gsub(/收到一条/, "⚠️");
         gsub(/消息，请在手机上查看/, "を受信");
-        # gsub(/\$\{msg\.type\(\)\}/, "${translatedType}");
+        gsub(/\$\{msg\.type\(\)\}/, "${translatedType}");
     }
     { print }
 ' WechatClient.ts > temp && mv temp WechatClient.ts
