@@ -3,6 +3,7 @@
 echo "请选择要进行的操作:"
 echo "1)更新"
 echo "2)重启容器"
+echo "3)查看日志"
 
 read -p "请选择: " choice
 
@@ -12,6 +13,10 @@ case $choice in
     2)
         echo "重启wx2tg容器..."
         docker restart wx2tg
+        ;;
+    3)
+        echo "查看wx2tg容器日志..."
+        docker logs -f wx2tg
         ;;
     *)
         echo "错误：无效选项，请输入1或2！"
