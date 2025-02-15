@@ -11,7 +11,6 @@ cd .. && rm -rf wechat2tg
 cd src/client
 curl -o utils.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wechat2tg/utils.ts
 awk '
-    # 在第一行之前插入一行 import 语句
     NR == 1 {
         print "import { translateMessageType } from '\''./utils'\'';"
     }
@@ -21,8 +20,8 @@ awk '
     /收到一条/ {
         # 在当前行之前插入一行
         print "const translatedType = translateMessageType(msg.type());";
-        gsub(/收到一条/, "⚠️");
-        gsub(/消息，请在手机上查看/, "を受信");
+        gsub(/收到一条/, "");
+        gsub(/消息，请在手机上查看/, "");
         gsub(/\$\{msg\.type\(\)\}/, "${translatedType}");
     }
     { print }
