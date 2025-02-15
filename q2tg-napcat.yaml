@@ -12,18 +12,29 @@ services:
       POSTGRES_PASSWORD: password
       TZ: Asia/Shanghai
     volumes:
-      - ./postgresql:/var/lib/postgresql/data
+      - ./postgresql_napcat:/var/lib/postgresql/data
+
+  tunnel:
+    container_name: cloudflared-tunnel
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN} 
+      - TZ=Asia/Shanghai
 
   napcat:
     container_name: napcat
     image: mlikiowa/napcat-docker:latest
     environment:
-      - ACCOUNT=${ACCOUNT}
+      - ACCOUNT=305261561
       - WS_ENABLE=true
+      - NAPCAT_GID=1000
+      - NAPCAT_UID=1000
       - TZ=Asia/Shanghai
     ports:
       - 6099:6099
-    mac_address: A6:8C:5C:EC:62:20 # 请修改为一个固定的 MAC 地址，但是不要和其他容器或你的主机重复
+    mac_address: 02:42:12:34:56:78 # 请修改为一个固定的 MAC 地址，但是不要和其他容器或你的主机重复
     restart: unless-stopped
     volumes:
       - ./napcat-data:/app/.config/QQ
@@ -32,7 +43,9 @@ services:
 
   q2tg:
     container_name: q2tg
-    image: ghcr.io/clansty/q2tg:sleepyfox
+    image: ghcr.io/clansty/q2tg:sha-4fb3afb
+    # image: ghcr.io/clansty/q2tg:sleepyfox
+    # platform: linux/amd64
     restart: unless-stopped
     depends_on:
       - postgres
@@ -56,7 +69,7 @@ services:
       # 如果你需要使用 /flags set RICH_HEADER 来显示头像，或者正确显示合并转发的消息记录，则需将 q2tg 8080 端口发布到公网，可以使用 cloudflare tunnel
       # 请尽量配置这个服务
       - WEB_ENDPOINT=${WEB_ENDPOINT} # 填写你发布到公网的域名
-      - CRV_VIEWER_APP=${CRV_VIEWER_APP}
+      #- CRV_VIEWER_APP=
       # DEPRECATED: 请使用 WEB_ENDPOINT
       #- CRV_API=${CRV_API}
       #- CRV_KEY=${CRV_KEY}
@@ -68,13 +81,4 @@ services:
       # 代理联网认证，有需要请修改下面两个变量
       #- PROXY_USERNAME=
       #- PROXY_PASSWORD=
-      - TZ=Asia/Shanghai
-      
-  tunnel: #如果沒有使用 Cloudflare Tunnel 暴露內網端口，請直接刪除此區塊
-    container_name: cloudflared-tunnel
-    image: cloudflare/cloudflared
-    restart: unless-stopped
-    command: tunnel run
-    environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
       - TZ=Asia/Shanghai
