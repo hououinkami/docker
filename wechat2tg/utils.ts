@@ -1,4 +1,4 @@
-export const translateMessageType = (rawType: string): string => {
+export const translateMessageType = (rawType: string | number): string => {
   const typeMapping: { [key: string]: string } = {
     'link': '🔗リンク',
     'video_account': '🎬チャンネル',
@@ -25,5 +25,6 @@ export const translateMessageType = (rawType: string): string => {
     'voip': '📥VOIPメッセージ',
     'real_time_location': '📍リアルタイム場所'
   };
-  return typeMapping[rawType] || rawType;
+  const key = typeof rawType === 'number' ? String(rawType) : rawType;
+  return typeMapping[key] || key;
 };
