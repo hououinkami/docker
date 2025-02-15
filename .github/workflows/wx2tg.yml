@@ -1,0 +1,45 @@
+name: Build and Push Docker Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-wx2tg-image:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Clone repo
+        run: |
+          git clone https://github.com/finalpi/wechat2tg.git
+          cd wechat2tg
+          git checkout wx2tg-pad-dev
+          
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Generate App Version
+        run: echo APP_VERSION=`git describe --tags --always` >> $GITHUB_ENV
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./wechat2tg
+          file: ./wechat2tg/Dockerfile
+          push: true
+          tags: |
+            hououinkami/wechat2tg-pad:latest
+            hououinkami/wechat2tg-pad:${{ env.APP_VERSION }}
+          platforms: linux/arm64/v8
+          # cache-from: type=local,src=/tmp/.buildx-cache
+          # cache-to: type=local,mode=max,dest=/tmp/.buildx-cache
