@@ -10,7 +10,7 @@ services:
       - ./src:/app/src
     env_file: ".env"
     ports:
-      - "3031:3000"
+      - "3000:3000"
     environment:
       TZ: Asia/Shanghai
       BOT_TOKEN: ${TG_BOT_TOKEN}
@@ -43,9 +43,9 @@ services:
       # 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
       MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
       # Gewechaty
-      BASE_API: 'http://10.0.0.1:2531/v2/api'
-      FILE_API: 'http://10.0.0.1:2532/download'
-      CALLBACK_API: 'http://10.0.0.1:3031'
+      BASE_API: 'http://gewechat:2531/v2/api'
+      FILE_API: 'http://gewechat:2532/download'
+      CALLBACK_API: 'http://wechat2tg:3000'
     restart: unless-stopped
   gewechat:
     image: registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine # 拉取镜像
