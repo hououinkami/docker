@@ -13,10 +13,12 @@ case $choice in
     2)
         echo "重启wx2tg容器..."
         docker restart wx2tg
+        exit 0
         ;;
     3)
         echo "查看wx2tg容器日志..."
         docker logs -f wx2tg
+        exit 0
         ;;
     *)
         echo "错误：无效选项，请输入1或2！"
@@ -49,7 +51,6 @@ echo "请选择操作:"
 echo "1) 仅更新wechat2tg"
 echo "2) 仅更新gewechat"
 echo "3) 更新wechat2tg与gewechat"
-echo
 
 read -p "请选择: " choice
 
