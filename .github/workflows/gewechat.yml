@@ -1,0 +1,64 @@
+name: Build wechotd Image
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0 0 * * *'
+
+permissions:
+  packages: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - branch: main
+          tag: latest
+        - branch: alpine
+          tag: alpine
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    # 1. 克隆外部仓库（替换 <外部仓库作者> 和 <外部仓库名>）
+    - name: Clone external repository
+      run: |
+        git clone https://github.com/0ekk/wechotd.git
+        cd wechotd
+        git checkout ${{ matrix.branch }}  # 检出矩阵中定义的分支
+
+    # 2. 设置 Docker Buildx
+    - uses: docker/setup-buildx-action@v3
+
+    # 3. 登录到自己的镜像仓库（示例：GitHub Container Registry 和阿里云）
+    - name: Login to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}  # 使用你的 GitHub 用户名
+        password: ${{ secrets.GITHUB_TOKEN }}  # 自动生成的 Token
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # 4. 构建并推送镜像（注意镜像名称修改为你的仓库路径）
+    - uses: docker/build-push-action@v5
+      with:
+        context: ./wechotd  # 指向克隆的仓库目录
+        file: ./wechotd/Dockerfile  # 根据实际路径调整
+        push: true
+        platforms: linux/amd64, linux/arm64
+        tags: |
+          # 推送到你的 GHCR 仓库
+          ghcr.io/${{ github.repository_owner }}/gewechat:${{ matrix.tag }}
+          # 推送到你的阿里云仓库
+          hououinkami/gewechat:${{ matrix.tag }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
