@@ -31,6 +31,9 @@ jobs:
       - name: Generate App Version
         run: echo APP_VERSION=`git describe --tags --always` >> $GITHUB_ENV
 
+      - name: Generate Time Info
+        run: echo "TIME_INFO=$(date +'%m%d%H%M')" >> $GITHUB_ENV
+        
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -39,7 +42,7 @@ jobs:
           push: true
           tags: |
             hououinkami/wechat2tg-pad:latest
-            hououinkami/wechat2tg-pad:${{ env.APP_VERSION }}
+            hououinkami/wechat2tg-pad:${{ env.TIME_INFO }}
           platforms: linux/arm64/v8
           # cache-from: type=local,src=/tmp/.buildx-cache
           # cache-to: type=local,mode=max,dest=/tmp/.buildx-cache
