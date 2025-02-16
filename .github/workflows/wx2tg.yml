@@ -1,10 +1,10 @@
-name: Build and Push Wx2tg Image
+name: Build wx2tg Image
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-wx2tg-image:
+  build:
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
