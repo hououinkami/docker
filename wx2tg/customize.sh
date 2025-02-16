@@ -9,7 +9,7 @@ rm -rf ../src && mv -f src ../
 cd .. && rm -rf wechat2tg
 
 cd src/client
-curl -o utils.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wechat2tg/utils.ts
+curl -o utils.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/utils.ts
 awk '
     NR == 1 {
         print "import { translateMessageType } from '\''./utils'\'';"
@@ -22,7 +22,7 @@ awk '
         print "const translatedType = translateMessageType(msg.type());";
         gsub(/收到一条/, "");
         gsub(/消息，请在手机上查看/, "");
-        gsub(/\$\{msg\.type\(\)\}/, "${translatedType}");
+        gsub(/\$\{msg\.type\(\)\}/, "[${translatedType}]");
     }
     { print }
 ' WechatClient.ts > temp && mv temp WechatClient.ts
