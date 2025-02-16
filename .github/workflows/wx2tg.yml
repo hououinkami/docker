@@ -19,7 +19,7 @@ jobs:
       - name: Modify files
         run: |
           chmod +x $GITHUB_WORKSPACE/wx2tg/modify.sh
-          $GITHUB_WORKSPACE/wx2tg/customize.sh
+          $GITHUB_WORKSPACE/wx2tg/modify.sh
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
