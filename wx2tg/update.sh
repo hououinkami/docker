@@ -61,7 +61,7 @@ case $choice in
         mkdir -p wx2tg
         cd wx2tg
         ln -sf ../.env .env
-        curl -o customize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wechat2tg/customize-pad.sh
+        curl -o customize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/customize.sh
         sh customize.sh
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
         docker compose pull wechat2tg
@@ -85,7 +85,7 @@ case $choice in
         mkdir -p wx2tg
         cd wx2tg
         ln -sf ../.env .env
-        curl -o customize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wechat2tg/customize-pad.sh
+        curl -o customize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/customize.sh
         sh customize.sh
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
         docker compose pull
