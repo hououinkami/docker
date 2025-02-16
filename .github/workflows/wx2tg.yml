@@ -19,7 +19,7 @@ jobs:
       - name: Modify files
         run: |
           cd ..
-          chmod +x wx2tg/modify.sh
+          chmod +x ./wx2tg/modify.sh
           ./wx2tg/customize.sh
 
       - name: Set up QEMU
