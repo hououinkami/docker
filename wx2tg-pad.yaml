@@ -7,6 +7,7 @@ services:
     volumes:
       - ./config:/app/storage
       - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
+      - ./src:${CONTAINER_DIR:-/app/src_temp}
       # - ./src:/app/src
     env_file: ".env"
     ports:

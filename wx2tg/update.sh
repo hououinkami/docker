@@ -21,10 +21,16 @@ case $choice in
         exit 0
         ;;
     *)
-        echo "错误：无效选项，请输入1或2！"
+        echo "错误：无效选项！"
         exit 1
         ;;
 esac
+
+# 定位工作目录
+cd ~/Docker
+mkdir -p wx2tg
+cd wx2tg
+ln -sf ../.env .env
 
 echo "请选择要使用的镜像:"
 echo "1) 正式版"
@@ -36,13 +42,22 @@ case $choice in
     1)
         echo "使用finalpi的正式版镜像..."
         export IMAGE_NAME=finalpi/wechat2tg-pad:latest
+        export CONTAINER_DIR=/app/src
+        # 自定义映射
+        curl -o src/utils.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/utils.ts
+        git clone --filter=blob:none --no-checkout https://github.com/finalpi/wechat2tg.git
+        cd wechat2tg
+        git sparse-checkout init --cone
+        git sparse-checkout set src
+        git checkout wx2tg-pad-dev
+        cd ..
         ;;
     2)
         echo "使用自编译的测试版镜像..."
         export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
         ;;
     *)
-        echo "错误：无效选项，请输入1或2！"
+        echo "错误：无效选项！"
         exit 1
         ;;
 esac
@@ -57,12 +72,8 @@ read -p "请选择: " choice
 case $choice in
     1)
         echo "正在更新wechat2tg..."
-        cd ~/Docker
-        mkdir -p wx2tg
-        cd wx2tg
-        ln -sf ../.env .env
-        curl -o customize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/customize.sh
-        sh customize.sh
+        curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
+        sh modify.sh
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
         docker compose pull wechat2tg
         docker-compose up -d --no-deps --remove-orphans wechat2tg
@@ -70,10 +81,6 @@ case $choice in
         ;;
     2)
         echo "正在更新gewechat..."
-        cd ~/Docker
-        mkdir -p wx2tg
-        cd wx2tg
-        ln -sf ../.env .env
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
         docker compose pull gewechat
         docker-compose up -d --no-deps --remove-orphans gewechat
@@ -81,19 +88,15 @@ case $choice in
         ;;
     3)
         echo "正在更新..."
-        cd ~/Docker
-        mkdir -p wx2tg
-        cd wx2tg
-        ln -sf ../.env .env
-        curl -o customize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/customize.sh
-        sh customize.sh
+        curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
+        sh modify.sh
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
         docker compose pull
         docker-compose up -d --remove-orphans
         docker image prune --force
         ;;
     *)
-        echo "错误：无效选项，请输入1或2！"
+        echo "错误：无效选项！"
         exit 1
         ;;
 esac

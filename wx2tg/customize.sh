@@ -1,4 +1,5 @@
 cd ~/Docker/wx2tg && \
+
 # 下载src文件夹
 git clone --filter=blob:none --no-checkout https://github.com/finalpi/wechat2tg.git
 cd wechat2tg

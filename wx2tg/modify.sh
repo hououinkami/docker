@@ -1,6 +1,6 @@
-cp wx2tg/utils.ts wechat2tg/src/client/utils.ts
+cp ./utils.ts ./wechat2tg/src/client/utils.ts
 
-cd wechat2tg/src/client
+cd ./wechat2tg/src/client
 awk '
     NR == 1 {
         print "import { translateMessageType } from '\''./utils'\'';"

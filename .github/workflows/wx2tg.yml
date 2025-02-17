@@ -3,6 +3,9 @@ name: Build wx2tg Image
 on:
   workflow_dispatch:
 
+env:
+  TZ: Asia/Shanghai
+
 jobs:
   build:
     runs-on: ubuntu-24.04-arm
@@ -12,14 +15,16 @@ jobs:
 
       - name: Clone repo
         run: |
+          cd wx2tg
           git clone https://github.com/finalpi/wechat2tg.git
           cd wechat2tg
           git checkout wx2tg-pad-dev
 
       - name: Modify files
+        working-directory: $GITHUB_WORKSPACE/wx2tg
         run: |
-          chmod +x $GITHUB_WORKSPACE/wx2tg/modify.sh
-          $GITHUB_WORKSPACE/wx2tg/modify.sh
+          chmod +x modify.sh
+          ./modify.sh
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3

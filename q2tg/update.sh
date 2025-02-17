@@ -1,5 +1,31 @@
 #!/bin/bash
 
+echo "请选择要进行的操作:"
+echo "1)更新"
+echo "2)重启容器"
+echo "3)查看日志"
+
+read -p "请选择: " choice
+
+case $choice in
+    1)
+        ;;
+    2)
+        echo "重启q2tg容器..."
+        docker restart q2tg
+        exit 0
+        ;;
+    3)
+        echo "查看q2tg容器日志..."
+        docker logs -f q2tg
+        exit 0
+        ;;
+    *)
+        echo "错误：无效选项，请输入1或2！"
+        exit 1
+        ;;
+esac
+
 echo "请选择要使用的版本:"
 echo "1) icqq"
 echo "2) napcat"
