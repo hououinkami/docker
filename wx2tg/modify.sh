@@ -4,6 +4,7 @@ source ./localize.sh
 
 cd ../wechat2tg/src/client
 awk_script='NR == 1 {print "import { translateMessageType } from '\''./utils'\'';"}'
+awk_script+='/收到一条/ {print "const translatedType = translateMessageType(msg.type());";}'
 
 for key in "${!localize[@]}"; do
     value="${localize[$key]}"
