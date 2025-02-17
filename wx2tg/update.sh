@@ -9,6 +9,10 @@ read -p "请选择: " choice
 
 case $choice in
     1)
+        cd ~/Docker
+        mkdir -p wx2tg
+        cd wx2tg
+        ln -sf ../.env .env
         ;;
     2)
         echo "重启wx2tg容器..."
@@ -25,12 +29,6 @@ case $choice in
         exit 1
         ;;
 esac
-
-# 定位工作目录
-cd ~/Docker
-mkdir -p wx2tg
-cd wx2tg
-ln -sf ../.env .env
 
 echo "请选择要使用的镜像:"
 echo "1) 正式版"
@@ -51,7 +49,8 @@ case $choice in
         git checkout wx2tg-pad-dev
         curl -o src/utils.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/utils.ts
         rm -rf ../wx2tg/src && mv -f src ../wx2tg
-        cd .. && rm -rf wechat2tg        
+        cd .. && rm -rf wechat2tg
+        cd wx2tg
         ;;
     2)
         echo "使用自编译的测试版镜像..."
