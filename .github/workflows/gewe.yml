@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       compile_all_branches:
-        description: 'If false, only alpine branch will be compile'
+        description: 'true: latest + alpine; false: alpine'
         required: true
         default: false
         type: boolean
