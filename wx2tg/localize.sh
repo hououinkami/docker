@@ -1,4 +1,4 @@
-typeset -A localize=(
+declare -A localize=(
     ["emoji\.gif"]="ステッカー.gif"
     ["收到一条"]=""
     ["消息，请在手机上查看"]=""

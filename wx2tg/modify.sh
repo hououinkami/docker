@@ -5,8 +5,8 @@ source ./localize.sh
 cd ./wechat2tg/src/client
 awk_script='NR == 1 {print "import { translateMessageType } from '\''./utils'\'';"}'
 
-for key in ${(k)localize}; do
-    value=${localize[$key]}
+for key in "${!localize[@]}"; do
+    value="${localize[$key]}"
     awk_script+="/$key/ {gsub(/$key/, \"$value\");} "
 done
 
