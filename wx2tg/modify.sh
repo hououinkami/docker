@@ -1,8 +1,8 @@
-cp ./utils.ts ./wechat2tg/src/client/utils.ts
+cp ./utils.ts ../wechat2tg/src/client/utils.ts
 
 source ./localize.sh
 
-cd ./wechat2tg/src/client
+cd ../wechat2tg/src/client
 awk_script='NR == 1 {print "import { translateMessageType } from '\''./utils'\'';"}'
 
 for key in "${!localize[@]}"; do

@@ -44,13 +44,14 @@ case $choice in
         export IMAGE_NAME=finalpi/wechat2tg-pad:latest
         export CONTAINER_DIR=/app/src
         # 自定义映射
-        curl -o src/utils.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/utils.ts
-        git clone --filter=blob:none --no-checkout https://github.com/finalpi/wechat2tg.git
-        cd wechat2tg
+        git clone --filter=blob:none --no-checkout https://github.com/finalpi/wechat2tg.git ../wechat2tg
+        cd ../wechat2tg
         git sparse-checkout init --cone
         git sparse-checkout set src
         git checkout wx2tg-pad-dev
-        cd ..
+        curl -o src/utils.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/utils.ts
+        rm -rf ../wx2tg/src && mv -f src ../wx2tg
+        cd .. && rm -rf wechat2tg        
         ;;
     2)
         echo "使用自编译的测试版镜像..."

@@ -15,7 +15,6 @@ jobs:
 
       - name: Clone repo
         run: |
-          cd wx2tg
           git clone https://github.com/finalpi/wechat2tg.git
           cd wechat2tg
           git checkout wx2tg-pad-dev
