@@ -1,10 +1,7 @@
-cp ./utils.ts ../wechat2tg/src/client/utils.ts
-
 source ./localize.sh
 
 cd ../wechat2tg/src/client
-awk_script='NR == 1 {print "import { translateMessageType } from '\''./utils'\'';"}'
-awk_script+='/收到一条/ {print "const translatedType = translateMessageType(msg.type());";}'
+awk_script=''
 
 for key in "${!localize[@]}"; do
     value="${localize[$key]}"
@@ -16,3 +13,5 @@ awk "$awk_script 1" TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
 awk "$awk_script 1" FileHelperClient.ts > temp && mv temp FileHelperClient.ts
 cd ../service
 awk "$awk_script 1" TelegramCommandHelper.ts > temp && mv temp TelegramCommandHelper.ts
+cd ../util
+awk "$awk_script 1" MessageTypeUtils.ts > temp && mv temp MessageTypeUtils.ts
