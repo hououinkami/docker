@@ -8,40 +8,40 @@ services:
       - ./config:/app/storage
       - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
       - ./src:${CONTAINER_DIR:-/app/src_temp}
-      # - ./src:/app/src
     env_file: ".env"
     ports:
       - "3000:3000"
     environment:
       TZ: Asia/Shanghai
       BOT_TOKEN: ${TG_BOT_TOKEN}
-      # PROXY_HOST: ''
-      # PROXY_PORT: ''
-      # 代理类型:socks5,http,https
-      # PROXY_PROTOCOL: 'socks5'
-      # 用户名密码可选
-      # PROXY_USERNAME: ''
-      # PROXY_PASSWORD: ''
-      # 发送大文件所需的Telegram API配置(可选)
+      # Telegram API配置
       API_ID: ${TG_API_ID}
       API_HASH: ${TG_API_HASH}
-      # 群消息格式
+      # 代理配置(可选)
+      # 协议socks5,http,https
+      # PROXY_PROTOCOL=socks5
+      # PROXY_HOST=
+      # PROXY_PORT=
+      # PROXY_USERNAME=
+      # PROXY_PASSWORD=
+      # 自定义消息模板配置:(#[alias]:联系人备注,#[name]:联系人昵称,#[topic]:群聊昵称,#[alias_first]:备注优先,如果没有备注就显示联系人的昵称)
+      ## 群消息格式
       ROOM_MESSAGE: '<blockquote><b>🌐#[topic]</b> —— <b>👤#[alias_first]</b></blockquote>'
-      # 公众号消息格式
+      ## 公众号消息格式
       OFFICIAL_MESSAGE: '<blockquote><b>📣#[name]</b></blockquote>'
-      # 联系人消息格式
+      ## 联系人消息格式
       CONTACT_MESSAGE: '<blockquote><b>👤#[alias_first]</b></blockquote>'
-      # 群消息格式(群组下)
+      ## 群消息格式(群组下)
       ROOM_MESSAGE_GROUP: '<blockquote><b>👤#[alias_first]</b></blockquote>'
-      # 公众号消息格式(群组下)
+      ## 公众号消息格式(群组下)
       OFFICIAL_MESSAGE_GROUP: ' '
-      # 联系人消息格式(群组下)
+      ## 联系人消息格式(群组下)
       CONTACT_MESSAGE_GROUP: ' '
-      # 自动创建微信群组的名称格式
+      ## 自动创建微信群组的名称格式
       CREATE_ROOM_NAME: '#[topic]'
-      # 自动创建联系人群组的名称格式
+      ## 自动创建联系人群组的名称格式
       CREATE_CONTACT_NAME: '#[alias_first]'
-      # 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
+      ## 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
       MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
       # Gewechaty
       BASE_API: 'http://gewechat:2531/v2/api'
