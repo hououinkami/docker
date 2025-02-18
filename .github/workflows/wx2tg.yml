@@ -19,11 +19,11 @@ jobs:
           cd wechat2tg
           git checkout wx2tg-pad-dev
 
-      - name: Modify files
-        working-directory: wx2tg
-        run: |
-          chmod +x modify.sh
-          ./modify.sh
+      # - name: Modify files
+      #   working-directory: wx2tg
+      #   run: |
+      #     chmod +x modify.sh
+      #     ./modify.sh
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
