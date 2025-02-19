@@ -16,3 +16,11 @@ awk "$awk_script 1" TelegramCommandHelper.ts > temp && mv temp TelegramCommandHe
 awk "$awk_script 1" ConfigurationService.ts > temp && mv temp ConfigurationService.ts
 cd ../util
 awk "$awk_script 1" MessageTypeUtils.ts > temp && mv temp MessageTypeUtils.ts
+# emoji
+awk '
+    /<a href=.*png.*>/ {
+        gsub(/\$\{EmojiConverter\.emojiUrl\}.*png/, ""); 
+        # http://www.localhost.com/404.png
+    }
+    { print }
+' EmojiUtils.ts > temp && mv temp EmojiUtils.ts
