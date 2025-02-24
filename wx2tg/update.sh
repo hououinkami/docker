@@ -42,6 +42,7 @@ case $choice in
             }
           }'
         unset KAMI_TOKEN
+        exit 0
         ;;
     5)
         echo "备份当前使用的gewechat镜像..."
