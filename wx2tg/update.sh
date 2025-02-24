@@ -4,6 +4,7 @@ echo "请选择要进行的操作:"
 echo "1)更新"
 echo "2)重启容器"
 echo "3)查看日志"
+echo "4)备份gewechat镜像"
 
 read -p "请选择: " choice
 
@@ -24,20 +25,30 @@ case $choice in
         docker logs -f wx2tg
         exit 0
         ;;
+    4)
+        echo "备份当前使用的gewechat镜像..."
+        cd ~/Docker
+        docker save -o "gewechat_arm_$(date +'%m%d%H%M').tar" registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine
+        exit 0
+        ;;
     *)
-        echo "错误：无效选项！"
+        echo "退出！"
         exit 1
         ;;
 esac
 
 echo "请选择要使用的镜像:"
-echo "1) 正式版"
-echo "2) 测试版"
+echo "1) 测试版"
+echo "2) 正式版"
 
 read -p "请选择: " choice
 
 case $choice in
     1)
+        echo "使用自编译的测试版镜像..."
+        export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
+        ;;
+    2)
         echo "使用finalpi的正式版镜像..."
         export IMAGE_NAME=finalpi/wechat2tg-pad:latest
         export CONTAINER_DIR=/app/src
@@ -52,12 +63,8 @@ case $choice in
         cd .. && rm -rf wechat2tg
         cd wx2tg
         ;;
-    2)
-        echo "使用自编译的测试版镜像..."
-        export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
-        ;;
     *)
-        echo "错误：无效选项！"
+        echo "退出！"
         exit 1
         ;;
 esac
@@ -96,7 +103,7 @@ case $choice in
         docker image prune --force
         ;;
     *)
-        echo "错误：无效选项！"
+        echo "退出！"
         exit 1
         ;;
 esac

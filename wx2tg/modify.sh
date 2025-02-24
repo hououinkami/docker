@@ -1,6 +1,6 @@
 source ./localize.sh
 
-awk_script=''
+awk_script='/blockquote expandable/ {gsub(/blockquote expandable/,"blockquote");} '
 
 for key in "${!localize[@]}"; do
     value="${localize[$key]}"
