@@ -42,6 +42,7 @@ case $choice in
             }
           }'
         unset KAMI_TOKEN
+        ;;
     5)
         echo "备份当前使用的gewechat镜像..."
         cd ~/Docker
