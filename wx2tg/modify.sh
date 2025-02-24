@@ -7,7 +7,7 @@ for key in "${!localize[@]}"; do
     awk_script+="/$key/ {gsub(/$key/, \"$value\");} "
 done
 
-cd ../wechat2tg/src/client
+cd ./src/client
 awk "$awk_script 1" WechatClient.ts > temp && mv temp WechatClient.ts
 awk "$awk_script 1" TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
 awk "$awk_script 1" FileHelperClient.ts > temp && mv temp FileHelperClient.ts
