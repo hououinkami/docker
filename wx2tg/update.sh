@@ -62,7 +62,7 @@ case $choice in
         cd .. && rm -rf wechat2tg
         cd wx2tg
         ;;
-    1)
+    3)
         echo "测试模式..."
         export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
         export CONTAINER_DIR=/app/src
