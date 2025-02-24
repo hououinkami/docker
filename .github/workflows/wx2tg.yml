@@ -21,6 +21,8 @@ jobs:
 
       - name: Modify files
         working-directory: wx2tg
+        env:
+          KAMI_TOKEN: ${{ secrets.KAMI_TOKEN }}
         run: |
           chmod +x modify.sh
           ./modify.sh
