@@ -40,6 +40,7 @@ esac
 echo "请选择要使用的镜像:"
 echo "1) 测试版"
 echo "2) 正式版"
+echo "3) 测试版（挂载测试文件）"
 
 read -p "请选择: " choice
 
@@ -52,13 +53,24 @@ case $choice in
         echo "使用finalpi的正式版镜像..."
         export IMAGE_NAME=finalpi/wechat2tg-pad:latest
         export CONTAINER_DIR=/app/src
-        # 自定义映射
         git clone --filter=blob:none --no-checkout https://github.com/finalpi/wechat2tg.git ../wechat2tg
         cd ../wechat2tg
         git sparse-checkout init --cone
         git sparse-checkout set src
         git checkout wx2tg-pad-dev
-        curl -o src/utils.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/utils.ts
+        rm -rf ../wx2tg/src && mv -f src ../wx2tg
+        cd .. && rm -rf wechat2tg
+        cd wx2tg
+        ;;
+    1)
+        echo "测试模式..."
+        export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
+        export CONTAINER_DIR=/app/src
+        git clone --filter=blob:none --no-checkout https://github.com/finalpi/wechat2tg.git ../wechat2tg
+        cd ../wechat2tg
+        git sparse-checkout init --cone
+        git sparse-checkout set src
+        git checkout wx2tg-pad-dev
         rm -rf ../wx2tg/src && mv -f src ../wx2tg
         cd .. && rm -rf wechat2tg
         cd wx2tg
