@@ -4,7 +4,8 @@ echo "请选择要进行的操作:"
 echo "1)更新"
 echo "2)重启容器"
 echo "3)查看日志"
-echo "4)备份gewechat镜像"
+echo "4)编译镜像"
+echo "5)备份gewechat镜像"
 
 read -p "请选择: " choice
 
@@ -26,6 +27,19 @@ case $choice in
         exit 0
         ;;
     4)
+        echo "触发编译arm镜像..."
+        curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          "https://api.github.com/repos/hououinkami/docker/actions/workflows/wx2tg/dispatches" \
+          -d '{
+            "ref": "main",  # 触发分支
+            "inputs": {
+              "environment": "production"  # 可选输入参数
+            }
+          }'
+    5)
         echo "备份当前使用的gewechat镜像..."
         cd ~/Docker
         docker save -o "gewechat_arm_$(date +'%m%d%H%M').tar" registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine
