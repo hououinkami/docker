@@ -93,7 +93,7 @@ case $choice in
         echo "正在更新wechat2tg..."
         curl -o localize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/localize.sh
         curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
-        sh modify.sh
+        zsh modify.sh
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
         docker compose pull wechat2tg
         docker-compose up -d --no-deps --remove-orphans wechat2tg
@@ -110,7 +110,7 @@ case $choice in
         echo "正在更新..."
         curl -o localize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/localize.sh
         curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
-        sh modify.sh
+        zsh modify.sh
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
         docker compose pull
         docker-compose up -d --remove-orphans
