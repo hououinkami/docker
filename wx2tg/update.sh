@@ -35,10 +35,7 @@ case $choice in
           -H "X-GitHub-Api-Version: 2022-11-28" \
           "https://api.github.com/repos/hououinkami/docker/actions/workflows/wx2tg.yml/dispatches" \
           -d '{
-            "ref": "main",  # 触发分支
-            "inputs": {
-              "environment": "production"  # 可选输入参数
-            }
+            "ref": "main"
           }'
         exit 0
         ;;
