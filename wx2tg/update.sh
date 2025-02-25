@@ -28,11 +28,10 @@ case $choice in
         ;;
     4)
         echo "触发编译arm镜像..."
-        set -euo pipefail
-        KAMI_TOKEN="${KAMI_TOKEN:-}"
+        source ../.env
         curl -X POST \
           -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer $KAMI_TOKEN" \
+          -H "Authorization: Bearer ${GITHUB_TOKEN}" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           "https://api.github.com/repos/hououinkami/docker/actions/workflows/wx2tg/dispatches" \
           -d '{
@@ -41,7 +40,6 @@ case $choice in
               "environment": "production"  # 可选输入参数
             }
           }'
-        unset KAMI_TOKEN
         exit 0
         ;;
     5)
