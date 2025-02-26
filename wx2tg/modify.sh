@@ -1,8 +1,20 @@
+#!/bin/bash
+
+# shell版本判断
+if [[ -n "$BASH_VERSION" && ${BASH_VERSINFO[0]} -ge 4 ]]; then
+  keys="${!localize[@]}"
+elif [[ -n "$ZSH_VERSION" ]]; then
+  keys="${(k)localize[@]}"
+else
+  echo "Unsupported shell" >&2
+  exit 1
+fi
+
 source ./localize.sh
 
 awk_script='/blockquote expandable/ {gsub(/blockquote expandable/,"blockquote");} '
 
-for key in "${!localize[@]}"; do
+for key in ${=keys}; do
     value="${localize[$key]}"
     awk_script+="/$key/ {gsub(/$key/, \"$value\");} "
 done
