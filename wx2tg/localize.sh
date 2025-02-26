@@ -1,3 +1,5 @@
+#!/bin/bash
+
 declare -A localize=(
     # wechat
     ["emoji\.gif"]="ステッカー.gif"
