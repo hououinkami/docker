@@ -14,7 +14,7 @@ source ./localize.sh
 
 awk_script='/blockquote expandable/ {gsub(/blockquote expandable/,"blockquote");} '
 
-for key in ${=keys}; do
+for key in ${keys}; do
     value="${localize[$key]}"
     awk_script+="/$key/ {gsub(/$key/, \"$value\");} "
 done
