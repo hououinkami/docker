@@ -6,7 +6,7 @@ if [[ -n "$BASH_VERSION" && ${BASH_VERSINFO[0]} -ge 4 ]]; then
 elif [[ -n "$ZSH_VERSION" ]]; then
   keys="${(k)localize[@]}"
 else
-  echo "Unsupported shell" >&2
+  keys="${!localize[@]}"
   exit 1
 fi
 
