@@ -73,6 +73,11 @@ case $choice in
         git sparse-checkout set src
         git checkout wx2tg-pad-dev
         cd wx2tg
+        curl -o localize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/localize.sh
+        curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
+        zsh modify.sh
+        rm -rf ./src && mv -f ../wechat2tg/src ./
+        rm -rf ../wechat2tg
         ;;
     3)
         echo "测试模式..."
@@ -84,6 +89,11 @@ case $choice in
         git sparse-checkout set src
         git checkout wx2tg-pad-dev
         cd wx2tg
+        curl -o localize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/localize.sh
+        curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
+        zsh modify.sh
+        rm -rf ./src && mv -f ../wechat2tg/src ./
+        rm -rf ../wechat2tg
         ;;
     *)
         echo "退出！"
@@ -101,13 +111,6 @@ read -p "请选择: " choice
 case $choice in
     1)
         echo "正在更新wechat2tg..."
-        if [ -n "$ZSH_VERSION" ]; then
-            curl -o localize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/localize.sh
-            curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
-            zsh modify.sh
-            rm -rf ./src && mv -f ../wechat2tg/src ./
-            rm -rf ../wechat2tg
-        fi
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
         docker compose pull wechat2tg
         docker-compose up -d --no-deps --remove-orphans wechat2tg
@@ -122,13 +125,6 @@ case $choice in
         ;;
     3)
         echo "正在更新..."
-        if [ -n "$ZSH_VERSION" ]; then
-            curl -o localize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/localize.sh
-            curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
-            zsh modify.sh
-            rm -rf ./src && mv -f ../wechat2tg/src ./
-            rm -rf ../wechat2tg
-        fi
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
         docker compose pull
         docker-compose up -d --remove-orphans
