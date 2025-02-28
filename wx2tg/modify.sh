@@ -1,23 +1,20 @@
 #!/bin/bash
 
-# shell版本判断
-if [[ -n "$BASH_VERSION" && ${BASH_VERSINFO[0]} -ge 4 ]]; then
-  keys="${!localize[@]}"
-elif [[ -n "$ZSH_VERSION" ]]; then
-  keys="${(k)localize[@]}"
-else
-  keys="${!localize[@]}"
-  exit 1
-fi
-
 source ./localize.sh
 
 awk_script='/blockquote expandable/ {gsub(/blockquote expandable/,"blockquote");} '
 
-for key in "${!localize[@]}"; do
-    value="${localize[$key]}"
-    awk_script+="/$key/ {gsub(/$key/, \"$value\");} "
-done
+if [ -n "$ZSH_VERSION" ]; then
+    for key in "${(k)localize[@]}"; do
+        value="${localize[$key]}"
+        awk_script+="/$key/ {gsub(/$key/, \"$value\");} "
+    done
+else
+    for key in "${!localize[@]}"; do
+        value="${localize[$key]}"
+        awk_script+="/$key/ {gsub(/$key/, \"$value\");} "
+    done
+fi
 
 cd ../wechat2tg/src/client
 awk "$awk_script 1" WechatClient.ts > temp && mv temp WechatClient.ts
