@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   wechat2tg:
     image: ${IMAGE_NAME:-finalpi/wechat2tg-pad:latest}
@@ -47,7 +45,7 @@ services:
       BASE_API: 'http://gewechat:2531/v2/api'
       FILE_API: 'http://gewechat:2532/download'
       CALLBACK_API: 'http://wechat2tg:3000'
-      DEBUG_MODE: ${DEBUG_MODE}
+      DEBUG_MODE: ${DEBUG_MODE:-false}
     restart: unless-stopped
   gewechat:
     image: registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine # 拉取镜像
