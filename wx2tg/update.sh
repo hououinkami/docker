@@ -1,20 +1,30 @@
 #!/bin/bash
 
 echo "请选择要进行的操作:"
+echo "u)更新测试版"
 echo "1)更新"
 echo "2)重启容器"
 echo "3)查看日志"
 echo "4)编译镜像"
 echo "5)备份gewechat镜像"
 
+cd ~/Docker
+mkdir -p wx2tg
+cd wx2tg
+ln -sf ../.env .env
+
 read -p "请选择: " choice
 
 case $choice in
+    u)
+        export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
+        curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
+        docker compose pull wechat2tg
+        docker-compose up -d --no-deps --remove-orphans wechat2tg
+        docker image prune --force
+        exit 0
+        ;;
     1)
-        cd ~/Docker
-        mkdir -p wx2tg
-        cd wx2tg
-        ln -sf ../.env .env
         ;;
     2)
         echo "重启wx2tg容器..."
