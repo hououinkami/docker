@@ -12,7 +12,6 @@ services:
     environment:
       TZ: Asia/Shanghai
       BOT_TOKEN: ${TG_BOT_TOKEN}
-      # Telegram API配置
       API_ID: ${TG_API_ID}
       API_HASH: ${TG_API_HASH}
       # 代理配置(可选)
@@ -45,10 +44,11 @@ services:
       BASE_API: 'http://gewechat:2531/v2/api'
       FILE_API: 'http://gewechat:2532/download'
       CALLBACK_API: 'http://wechat2tg:3000'
+      # 调试模式（默认false）
       DEBUG_MODE: ${DEBUG_MODE:-false}
     restart: unless-stopped
   gewechat:
-    image: registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine # 拉取镜像
+    image: registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine
     container_name: gewe
     ports:
       - "2531:2531"
