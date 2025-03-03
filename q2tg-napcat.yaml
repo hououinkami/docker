@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   # 如果有现成的 Postgresql 实例，可以删除这一小节
   postgres:
