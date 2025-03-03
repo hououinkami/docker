@@ -1,12 +1,34 @@
 #!/bin/bash
 
+# 定义函数
+updateContainer() {
+    if [ "$2" = "true" ]; then
+        git clone --filter=blob:none --no-checkout https://github.com/finalpi/wechat2tg.git ../wechat2tg
+        cd ../wechat2tg
+        git sparse-checkout init --cone
+        git sparse-checkout set src
+        git checkout wx2tg-pad-dev
+        cd wx2tg
+        curl -o localize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/localize.sh
+        curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
+        zsh modify.sh
+        rm -rf ./src && mv -f ../wechat2tg/src ./
+        rm -rf ../wechat2tg
+    fi
+    curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
+    docker compose pull $1
+    docker-compose up -d --no-deps --remove-orphans $1
+    docker image prune --force
+}
+
+# 更新脚本
 echo "请选择要进行的操作:"
-echo "u)更新测试版"
-echo "1)更新"
-echo "2)重启容器"
-echo "3)查看日志"
-echo "4)编译镜像"
-echo "5)备份gewechat镜像"
+echo "u)更新wx2tg"
+echo "r)重启wx2tg容器"
+echo "l)查看wx2tg日志"
+echo "i)编译wx2tg镜像"
+echo "b)备份gewe镜像"
+echo "c)自定义更新"
 
 cd ~/Docker
 mkdir -p wx2tg
@@ -18,25 +40,20 @@ read -p "请选择: " choice
 case $choice in
     u)
         export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
-        curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
-        docker compose pull wechat2tg
-        docker-compose up -d --no-deps --remove-orphans wechat2tg
-        docker image prune --force
+        updateContainer "wechat2tg"
         exit 0
         ;;
-    1)
-        ;;
-    2)
+    r)
         echo "重启wx2tg容器..."
         docker restart wx2tg
         exit 0
         ;;
-    3)
+    l)
         echo "查看wx2tg容器日志..."
         docker logs -f wx2tg
         exit 0
         ;;
-    4)
+    i)
         echo "触发编译arm镜像..."
         source ../.env
         curl -X POST \
@@ -49,12 +66,15 @@ case $choice in
           }'
         exit 0
         ;;
-    5)
+    b)
         echo "备份当前使用的gewechat镜像..."
         cd ~/Docker
         docker save -o "gewechat_arm_$(date +'%m%d%H%M').tar" registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine
         exit 0
         ;;
+    c)
+        ;;
+    
     *)
         echo "退出！"
         exit 1
@@ -62,9 +82,10 @@ case $choice in
 esac
 
 echo "请选择要使用的镜像:"
-echo "1) 测试版"
-echo "2) 正式版"
-echo "3) 测试版（挂载测试文件）"
+echo "1) wx2tg-dev"
+echo "2) wx2tg-dev(hot-fix)"
+echo "3) wx2tg-pad"
+echo "4) gewe"
 
 read -p "请选择: " choice
 
@@ -72,73 +93,23 @@ case $choice in
     1)
         echo "使用自编译的测试版镜像..."
         export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
+        updateContainer "wechat2tg"
         ;;
     2)
+        echo "使用自编译的测试版镜像并挂载文件..."
+        export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
+        export CONTAINER_DIR=/app/src
+        updateContainer "wechat2tg" true
+        ;;
+    3)
         echo "使用finalpi的正式版镜像..."
         export IMAGE_NAME=finalpi/wechat2tg-pad:latest
         export CONTAINER_DIR=/app/src
-        git clone --filter=blob:none --no-checkout https://github.com/finalpi/wechat2tg.git ../wechat2tg
-        cd ../wechat2tg
-        git sparse-checkout init --cone
-        git sparse-checkout set src
-        git checkout wx2tg-pad-dev
-        cd wx2tg
-        curl -o localize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/localize.sh
-        curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
-        zsh modify.sh
-        rm -rf ./src && mv -f ../wechat2tg/src ./
-        rm -rf ../wechat2tg
+        updateContainer "wechat2tg" true
         ;;
-    3)
-        echo "测试模式..."
-        export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
-        export CONTAINER_DIR=/app/src
-        git clone --filter=blob:none --no-checkout https://github.com/finalpi/wechat2tg.git ../wechat2tg
-        cd ../wechat2tg
-        git sparse-checkout init --cone
-        git sparse-checkout set src
-        git checkout wx2tg-pad-dev
-        cd wx2tg
-        curl -o localize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/localize.sh
-        curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
-        zsh modify.sh
-        rm -rf ./src && mv -f ../wechat2tg/src ./
-        rm -rf ../wechat2tg
-        ;;
-    *)
-        echo "退出！"
-        exit 1
-        ;;
-esac
-
-echo "请选择操作:"
-echo "1) 仅更新wechat2tg"
-echo "2) 仅更新gewechat"
-echo "3) 更新wechat2tg与gewechat"
-
-read -p "请选择: " choice
-
-case $choice in
-    1)
-        echo "正在更新wechat2tg..."
-        curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
-        docker compose pull wechat2tg
-        docker-compose up -d --no-deps --remove-orphans wechat2tg
-        docker image prune --force
-        ;;
-    2)
-        echo "正在更新gewechat..."
-        curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
-        docker compose pull gewechat
-        docker-compose up -d --no-deps --remove-orphans gewechat
-        docker image prune --force
-        ;;
-    3)
-        echo "正在更新..."
-        curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
-        docker compose pull
-        docker-compose up -d --remove-orphans
-        docker image prune --force
+    4)
+        echo "更新gewechat..."
+        updateContainer "gewechat"
         ;;
     *)
         echo "退出！"
