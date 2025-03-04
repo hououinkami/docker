@@ -44,6 +44,7 @@ jobs:
         run: echo "TIME_INFO=$(date +'%m%d%H%M')" >> $GITHUB_ENV
         
       - name: Build and push
+        id: build
         uses: docker/build-push-action@v5
         with:
           context: ./wechat2tg
@@ -55,3 +56,12 @@ jobs:
           platforms: linux/arm64/v8
           # cache-from: type=local,src=/tmp/.buildx-cache
           # cache-to: type=local,mode=max,dest=/tmp/.buildx-cache
+      
+      - name: Send Telegram Notification
+        if: steps.build.outcome == 'success'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: "✅ WeChat2TGのビルドに成功しました！"
+          format: "html"
