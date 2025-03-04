@@ -61,6 +61,7 @@ jobs:
         run: echo "TIME_INFO=$(date +'%m%d%H%M')" >> $GITHUB_ENV
         
       - name: Build and push
+        id: build
         if: ${{ inputs.compile_all_branches == 'true' || matrix.branch == 'alpine' }}
         uses: docker/build-push-action@v5
         with:
@@ -74,3 +75,12 @@ jobs:
           #   ghcr.io/${{ github.repository_owner }}/gewe:${{ matrix.tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          
+      - name: Send Telegram Notification
+        if: steps.build.outcome == 'success'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: "✅ GeWechatのビルドに成功しました！"
+          format: "html"
