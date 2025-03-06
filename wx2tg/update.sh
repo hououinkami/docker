@@ -85,7 +85,8 @@ echo "请选择要使用的镜像:"
 echo "1) wx2tg-dev"
 echo "2) wx2tg-dev(hot-fix)"
 echo "3) wx2tg-pad"
-echo "4) gewe"
+echo "4) gewe-wechotd"
+echo "5) gewe-self"
 
 read -p "请选择: " choice
 
@@ -108,7 +109,13 @@ case $choice in
         updateContainer "wechat2tg" true
         ;;
     4)
-        echo "更新gewechat..."
+        echo "使用wechotd镜像更新gewechat..."
+        export IMAGE_NAME_GEWE=registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine
+        updateContainer "gewechat"
+        ;;
+    5)
+        echo "使用自编译镜像更新gewechat..."
+        export IMAGE_NAME_GEWE=hououinkami/gewe:alpine
         updateContainer "gewechat"
         ;;
     *)
