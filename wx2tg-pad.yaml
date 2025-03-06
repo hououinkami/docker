@@ -48,7 +48,7 @@ services:
       DEBUG_MODE: ${DEBUG_MODE:-false}
     restart: unless-stopped
   gewechat:
-    image: registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine
+    image: ${IMAGE_NAME_GEWE:-registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine}
     container_name: gewe
     ports:
       - "2531:2531"
