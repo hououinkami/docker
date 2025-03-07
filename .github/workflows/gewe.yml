@@ -25,10 +25,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - branch: main
-          tag: latest
+        # - branch: main
+        #   tag: main
         - branch: alpine
-          tag: alpine
+          tag: latest
     
     steps:
       - name: Checkout code
