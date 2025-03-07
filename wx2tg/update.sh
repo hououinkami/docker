@@ -124,8 +124,15 @@ case $choice in
         ;;
     6)
         echo "使用自编译镜像更新gewechat..."
+        read -p "是否更新自编译镜像？ [默认: false]: " pull
+        pull=${pull:-false}
         export IMAGE_NAME_GEWE=hououinkami/gewe:alpine
-        updateContainer "gewechat"
+        if [ "$pull" = "false" ]; then
+            curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
+            docker-compose up -d --no-deps --remove-orphans --pull never gewechat
+        else
+            updateContainer "gewechat"
+        fi
         ;;
     *)
         echo "退出！"
