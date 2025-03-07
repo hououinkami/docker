@@ -93,7 +93,9 @@ read -p "请选择: " choice
 case $choice in
     1)
         echo "使用自编译的测试版镜像..."
-        export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
+        read -p "请输入镜像标签 [默认: latest]: " tag
+        tag=${tag:-latest}
+        export IMAGE_NAME="hououinkami/wechat2tg-pad:$tag"
         updateContainer "wechat2tg"
         ;;
     2)
