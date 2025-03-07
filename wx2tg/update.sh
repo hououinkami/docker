@@ -84,9 +84,10 @@ esac
 echo "请选择要使用的镜像:"
 echo "1) wx2tg-dev"
 echo "2) wx2tg-dev(hot-fix)"
-echo "3) wx2tg-pad"
-echo "4) gewe-wechotd"
-echo "5) gewe-self"
+echo "3) wx2tg-dev(debug)"
+echo "4) wx2tg-pad"
+echo "5) gewe-wechotd"
+echo "6) gewe-self"
 
 read -p "请选择: " choice
 
@@ -105,17 +106,23 @@ case $choice in
         updateContainer "wechat2tg" true
         ;;
     3)
+        echo "启用DEBUG模式..."
+        export DEBUG_MODE=true
+        export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
+        updateContainer "wechat2tg"
+        ;;
+    4)
         echo "使用finalpi的正式版镜像..."
         export IMAGE_NAME=finalpi/wechat2tg-pad:latest
         export CONTAINER_DIR=/app/src
         updateContainer "wechat2tg" true
         ;;
-    4)
+    5)
         echo "使用wechotd镜像更新gewechat..."
         export IMAGE_NAME_GEWE=registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine
         updateContainer "gewechat"
         ;;
-    5)
+    6)
         echo "使用自编译镜像更新gewechat..."
         export IMAGE_NAME_GEWE=hououinkami/gewe:alpine
         updateContainer "gewechat"
