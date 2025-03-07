@@ -4,6 +4,8 @@ declare -A localize=(
     # wechat
     ["emoji\.gif"]="ステッカー.gif"
     ["收到一条"]="["
+    ["收到一条\\\${msg\.type\(\)}"]="[\${MessageTypeUtils.getTypeName(msg.type() + '')}"
+    ["\[\\\${msg\.type\(\)}"]="[\${MessageTypeUtils.getTypeName(msg.type() + '')}"
     ["消息，请在手机上查看"]="]"
     ["消息，请在手机上接收"]="]"
     ["金额"]="金額"
