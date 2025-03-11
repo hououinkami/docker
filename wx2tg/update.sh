@@ -37,6 +37,7 @@ echo "l)查看wx2tg日志"
 echo "i)编译wx2tg镜像"
 echo "b)备份gewe镜像"
 echo "c)自定义更新"
+echo "f)重新登陆微信传输助手"
 
 cd ~/Docker
 mkdir -p wx2tg
@@ -81,6 +82,12 @@ case $choice in
         exit 0
         ;;
     c)
+        ;;
+    f)
+        echo "删除文件传输助手登陆信息并重启容器"
+        rm -rf ./config/fileHelper.memory-card.json
+        docker restart wx2tg
+        exit 0
         ;;
     
     *)
