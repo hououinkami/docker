@@ -19,7 +19,7 @@ fi
 
 cd ../wechat2tg/src/client
 awk "$awk_script 1" WechatClient.ts > temp && mv temp WechatClient.ts
-awk "$ex_script $awk_script 1" TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
+awk "$awk_script 1" TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
 awk "$awk_script 1" FileHelperClient.ts > temp && mv temp FileHelperClient.ts
 cd ../service
 awk "$awk_script 1" TelegramCommandHelper.ts > temp && mv temp TelegramCommandHelper.ts
