@@ -14,6 +14,8 @@ updateContainer() {
         zsh modify.sh
         rm -rf ./src && mv -f ../wechat2tg/src ./
         rm -rf ../wechat2tg
+    else
+        rm -rf ./src_temp
     fi
     curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
     # docker compose pull $1
@@ -30,7 +32,7 @@ updateContainer() {
 timeinfo=$(date +%m%d%H%M)
 
 # 更新脚本
-echo "$timeinfo请选择要进行的操作:"
+echo "[${timeinfo}]请选择要进行的操作:"
 echo "u)更新wx2tg"
 echo "r)重启wx2tg容器"
 echo "l)查看wx2tg日志"
