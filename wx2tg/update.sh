@@ -26,14 +26,18 @@ updateContainer() {
     docker image prune --force
 }
 
+# 获取当前日期时间
+timeinfo=$(date +%m%d%H%M)
+
 # 更新脚本
-echo "请选择要进行的操作:"
+echo "$timeinfo请选择要进行的操作:"
 echo "u)更新wx2tg"
 echo "r)重启wx2tg容器"
 echo "l)查看wx2tg日志"
 echo "i)编译wx2tg镜像"
 echo "b)备份gewe镜像"
 echo "c)自定义更新"
+echo "f)重新登陆微信传输助手"
 
 cd ~/Docker
 mkdir -p wx2tg
@@ -78,6 +82,12 @@ case $choice in
         exit 0
         ;;
     c)
+        ;;
+    f)
+        echo "删除文件传输助手登陆信息并重启容器"
+        rm -rf ./config/fileHelper.memory-card.json
+        docker restart wx2tg
+        exit 0
         ;;
     
     *)
@@ -131,7 +141,7 @@ case $choice in
         echo "使用自编译镜像更新gewechat..."
         read -p "是否更新自编译镜像？ [默认: false]: " update
         update=${update:-false}
-        export IMAGE_NAME_GEWE=hououinkami/gewe:alpine
+        export IMAGE_NAME_GEWE=hououinkami/gewe:latest
         updateContainer "gewechat" "$update"
         ;;
     *)
