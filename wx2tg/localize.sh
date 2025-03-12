@@ -4,8 +4,7 @@ declare -A localize=(
     # wechat
     ["emoji\.gif"]="ステッカー.gif"
     ["收到一条"]="["
-    ["收到一条\\\${msg\.type\(\)}"]="[\${MessageTypeUtils.getTypeName(msg.type() + '')}"
-    ["\[\\\${msg\.type\(\)}"]="[\${MessageTypeUtils.getTypeName(msg.type() + '')}"
+    ["\\$\{msg\.type\(\)\}"]="\${MessageTypeUtils.getTypeName(msg.type() + '')}"
     ["消息，请在手机上查看"]="]"
     ["消息，请在手机上接收"]="]"
     ["金额"]="金額"
@@ -17,7 +16,8 @@ declare -A localize=(
     ["所有人"]="すべて"
     ["推荐给你一位联系人"]="があなたに連絡先を推薦しました"
     # tgbot
-    ["temp_file"]="ファイル"
+    ["'temp_file'"]="\`[\${MessageTypeUtils.getTypeName(msg.type() + '')}]\`"
+    # ["temp_file"]="ファイル"
     ["文件接收中"]=""
     ["使用文件传输助手接收"]="ファイル転送で受信"
     ["请先在 bot 中使用 \/flogin 指令登录文件传输助手"]="ボットで /flogin を使用してファイル転送にログインしてください"
