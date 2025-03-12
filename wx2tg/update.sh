@@ -15,7 +15,7 @@ updateContainer() {
         rm -rf ./src && mv -f ../wechat2tg/src ./
         rm -rf ../wechat2tg
     else
-        rm -rf ./src_temp
+        rm -rf ./src
     fi
     curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
     # docker compose pull $1
