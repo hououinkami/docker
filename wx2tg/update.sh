@@ -8,7 +8,7 @@ updateContainer() {
         git sparse-checkout init --cone
         git sparse-checkout set src
         git checkout wx2tg-pad-dev
-        cd wx2tg
+        cd ../wx2tg
         curl -o localize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/localize.sh
         curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
         zsh modify.sh
