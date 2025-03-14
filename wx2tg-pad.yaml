@@ -35,7 +35,7 @@ services:
       ## 联系人消息格式(群组下)
       CONTACT_MESSAGE_GROUP: ' '
       ## 自动创建微信群组的名称格式
-      CREATE_ROOM_NAME: '#[topic]'
+      CREATE_ROOM_NAME: '#[alias_first]'
       ## 自动创建联系人群组的名称格式
       CREATE_CONTACT_NAME: '#[alias_first]'
       ## 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
