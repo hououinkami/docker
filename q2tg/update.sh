@@ -2,8 +2,9 @@
 
 echo "请选择要进行的操作:"
 echo "1)更新"
-echo "2)重启容器"
-echo "3)查看日志"
+echo "2)重启q2tg容器"
+echo "3)重启qsign容器"
+echo "4)查看日志"
 
 read -p "请选择: " choice
 
@@ -16,6 +17,11 @@ case $choice in
         exit 0
         ;;
     3)
+        echo "重启qsign容器..."
+        docker restart sign
+        exit 0
+        ;;
+    4)
         echo "查看q2tg容器日志..."
         docker logs -f q2tg
         exit 0
