@@ -105,6 +105,7 @@ echo "3) wx2tg-dev(debug)"
 echo "4) wx2tg-pad"
 echo "5) gewe-wechotd"
 echo "6) gewe-self"
+echo "7) 编译gewe镜像"
 
 read -p "请选择: " choice
 
@@ -145,6 +146,19 @@ case $choice in
         update=${update:-false}
         export IMAGE_NAME_GEWE=hououinkami/gewe:latest
         updateContainer "gewechat" "$update"
+        ;;
+    7)
+        echo "触发编译gewe镜像..."
+        source ../.env
+        curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          "https://api.github.com/repos/hououinkami/docker/actions/workflows/gewe.yml/dispatches" \
+          -d '{
+            "ref": "main"
+          }'
+        exit 0
         ;;
     *)
         echo "退出！"
