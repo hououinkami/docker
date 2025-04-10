@@ -9,3 +9,5 @@ services:
     ports:
       - "9000:8000"
       - "9443:9443"
+    environment:
+      TZ: Asia/Shanghai
