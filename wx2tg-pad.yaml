@@ -46,6 +46,8 @@ services:
       CALLBACK_API: 'http://wechat2tg:3000'
       # 调试模式（默认false）
       DEBUG_MODE: ${DEBUG_MODE:-false}
+      # 禁用TLS验证
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
     restart: unless-stopped
   gewechat:
     image: ${IMAGE_NAME_GEWE:-registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine}
