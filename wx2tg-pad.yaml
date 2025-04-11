@@ -56,3 +56,5 @@ services:
     volumes:
       - ./temp:/root/temp
     restart: always
+    environment:
+      TZ: Asia/Shanghai
