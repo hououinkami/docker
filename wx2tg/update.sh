@@ -24,7 +24,7 @@ updateContainer() {
     else
         pull="always"
     fi
-    docker-compose up -d --no-deps --remove-orphans --pull "$pull" "$1"
+    docker compose up -d --no-deps --remove-orphans --pull "$pull" "$1"
     docker image prune --force
 }
 

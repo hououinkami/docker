@@ -48,7 +48,7 @@ case $choice in
         sh customize.sh
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/Docker/main/q2tg-icqq.yaml
         docker compose pull
-        docker-compose up -d --remove-orphans
+        docker compose up -d --remove-orphans
         docker image prune --force
         ;;
     2)
@@ -58,7 +58,7 @@ case $choice in
         sh customize.sh
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/Docker/main/q2tg-napcat.yaml
         docker compose pull
-        docker-compose up -d --remove-orphans
+        docker compose up -d --remove-orphans
         docker image prune --force
         ;;
     *)
