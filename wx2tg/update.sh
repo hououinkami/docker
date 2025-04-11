@@ -96,13 +96,14 @@ case $choice in
 esac
 
 echo "请选择要使用的镜像:"
-echo "1) wx2tg-dev"
+echo "1) wx2tg-dev(tag)"
 echo "2) wx2tg-dev(hot-fix)"
 echo "3) wx2tg-dev(debug)"
 echo "4) wx2tg-pad"
 echo "5) gewe-wechotd"
 echo "6) gewe-self"
-echo "7) 编译gewe镜像"
+echo "7) gewe-xleat"
+echo "8) 编译gewe镜像"
 
 read -p "请选择: " choice
 
@@ -145,6 +146,11 @@ case $choice in
         updateContainer "gewechat" "$update"
         ;;
     7)
+        echo "使用xleat镜像更新gewechat..."
+        export IMAGE_NAME_GEWE=xleat/gewe:latest
+        updateContainer "gewechat"
+        ;;
+    8)
         echo "触发编译gewe镜像..."
         source ../.env
         curl -X POST \
