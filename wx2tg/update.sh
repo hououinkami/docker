@@ -28,11 +28,8 @@ updateContainer() {
     docker image prune --force
 }
 
-# 获取当前日期时间
-timeinfo=$(date +%m%d%H%M)
-
 # 更新脚本
-echo "[${timeinfo}]请选择要进行的操作:"
+echo "请选择要进行的操作:"
 echo "u)更新wx2tg"
 echo "r)重启wx2tg容器"
 echo "l)查看wx2tg日志"
