@@ -33,18 +33,38 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      
+      - name: Login to DockerHub for image check
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Check if image needs update
+        id: check_image
+        run: |
+          PULL_OUTPUT=$(docker pull hououinkami/gewe:${{ matrix.tag }} || echo "Failed to pull")
+          if echo "$PULL_OUTPUT" | grep -q "Image is up to date"; then
+            echo "Image is up to date, no build needed"
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+          else
+            echo "Image needs update or is not available"
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+          fi
     
       - name: Clone external repository
-        if: ${{ inputs.compile_all_branches == 'true' || matrix.branch == 'alpine' }}
+        if: ${{ (inputs.compile_all_branches == 'true' || matrix.branch == 'alpine') && steps.check_image.outputs.needs_update == 'true' }}
         run: |
           git clone https://github.com/0ekk/wechotd.git
           cd wechotd
           git checkout ${{ matrix.branch }}
 
       - name: Set up Docker Buildx
+        if: ${{ steps.check_image.outputs.needs_update == 'true' }}
         uses: docker/setup-buildx-action@v3
 
       - name: Login to GHCR
+        if: ${{ steps.check_image.outputs.needs_update == 'true' }}
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -52,17 +72,19 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to DockerHub
+        if: ${{ steps.check_image.outputs.needs_update == 'true' }}
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Generate Time Info
+        if: ${{ steps.check_image.outputs.needs_update == 'true' }}
         run: echo "TIME_INFO=$(date +'%m%d%H%M')" >> $GITHUB_ENV
         
       - name: Build and push
         id: build
-        if: ${{ inputs.compile_all_branches == 'true' || matrix.branch == 'alpine' }}
+        if: ${{ (inputs.compile_all_branches == 'true' || matrix.branch == 'alpine') && steps.check_image.outputs.needs_update == 'true' }}
         uses: docker/build-push-action@v5
         with:
           context: ./wechotd
@@ -77,7 +99,7 @@ jobs:
           cache-to: type=gha,mode=max
           
       - name: Send Telegram Notification
-        if: steps.build.outcome == 'success'
+        if: ${{ steps.build.outcome == 'success' && steps.check_image.outputs.needs_update == 'true' }}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
