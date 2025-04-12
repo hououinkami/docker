@@ -16,7 +16,7 @@ env:
 
 permissions:
   packages: write
-  contents: read
+  contents: write  # 需要写入权限来更新文件
 
 jobs:
   build:
@@ -34,22 +34,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      - name: Login to DockerHub for image check
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      
       - name: Check if image needs update
         id: check_image
         run: |
-          PULL_OUTPUT=$(docker pull hououinkami/gewe:${{ matrix.tag }} || echo "Failed to pull")
-          if echo "$PULL_OUTPUT" | grep -q "Image is up to date"; then
-            echo "Image is up to date, no build needed"
-            echo "needs_update=false" >> $GITHUB_OUTPUT
-          else
-            echo "Image needs update or is not available"
+          # 获取镜像的 Digest
+          PULL_OUTPUT=$(docker pull registry.cn-hangzhou.aliyuncs.com/gewe/gewe:latest || echo "Failed to pull")
+          echo "$PULL_OUTPUT"
+          
+          # 提取 Digest 值
+          CURRENT_DIGEST=$(echo "$PULL_OUTPUT" | grep "Digest:" | awk '{print $2}')
+          echo "Current image digest: $CURRENT_DIGEST"
+          
+          # 检查文件是否存在，不存在则创建
+          if [ ! -f wx2tg/geweVer.txt ]; then
+            echo "geweVer.txt does not exist, creating it"
+            mkdir -p wx2tg
+            echo "" > wx2tg/geweVer.txt
+          fi
+          
+          # 读取存储的 Digest
+          STORED_DIGEST=$(cat wx2tg/geweVer.txt)
+          echo "Stored digest: $STORED_DIGEST"
+          
+          # 比较 Digest
+          if [ "$CURRENT_DIGEST" != "$STORED_DIGEST" ]; then
+            echo "Digest changed, update needed"
             echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "current_digest=$CURRENT_DIGEST" >> $GITHUB_OUTPUT
+          else
+            echo "Digest unchanged, no update needed"
+            echo "needs_update=false" >> $GITHUB_OUTPUT
           fi
     
       - name: Clone external repository
@@ -97,6 +111,21 @@ jobs:
           #   ghcr.io/${{ github.repository_owner }}/gewe:${{ matrix.tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      
+      - name: Update Digest in Repository
+        if: ${{ steps.check_image.outputs.needs_update == 'true' && steps.build.outcome == 'success' }}
+        run: |
+          # 更新 Digest 到文件
+          echo "${{ steps.check_image.outputs.current_digest }}" > wx2tg/geweVer.txt
+          
+          # 配置 Git
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
+          # 提交更改
+          git add wx2tg/geweVer.txt
+          git commit -m "Update gewe image digest [skip ci]"
+          git push
           
       - name: Send Telegram Notification
         if: ${{ steps.build.outcome == 'success' && steps.check_image.outputs.needs_update == 'true' }}
