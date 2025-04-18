@@ -1,4 +1,5 @@
 import { parseStringPromise } from 'xml2js';
+import { MessageTypeUtils } from './MessageTypeUtils'
 
 export async function handleMsg(
   msg: { type: () => any; text: () => string }
@@ -9,7 +10,7 @@ export async function handleMsg(
   } else if (msg.type() === "123") {
     return `${msg.text()}`;
   } else {
-    return `${msg.text()}`;
+    return MessageTypeUtils.getTypeName(msg.type() + '');
   }
 }
 
@@ -30,7 +31,7 @@ async function getChatHistory(msgText: string): Promise<string> {
     const firstItemDate = recordData.recordinfo.datalist[0].dataitem[0].sourcetime[0].split(' ')[0];
     
     // 构建聊天记录
-    let chatHistory = `${title}\n${firstItemDate}\n\n`;
+    let chatHistory = `${title}\n${firstItemDate}\n`;
     
     // 遍历所有dataitem
     const dataItems = recordData.recordinfo.datalist[0].dataitem;
