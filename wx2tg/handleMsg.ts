@@ -1,21 +1,19 @@
 import { parseStringPromise } from 'xml2js';
 
 export async function handleMsg(
-  msg: { type: () => string; text: () => string },
-  getChatHistory: (xml: string) => Promise<string>
+  msg: { type: () => number; text: () => string }
 ) {
-  if (msg.type() === 'chat_histroy') {
+  if (msg.type() === 19) {
     const chatHistory = await getChatHistory(msg.text());
     return `${chatHistory}`;
-  } else if (msg.type() === 'yyy') {
-    // 操作2
+  } else if (msg.type() === 123) {
     return `${msg.text()}`;
   } else {
     return `${msg.text()}`;
   }
 }
 
-export async function getChatHistory(msgText: string): Promise<string> {
+async function getChatHistory(msgText: string): Promise<string> {
   // 1. 解析XML
   const result = await parseStringPromise(msgText, { explicitArray: false });
 
