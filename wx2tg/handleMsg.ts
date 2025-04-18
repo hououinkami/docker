@@ -10,7 +10,7 @@ export async function handleMsg(
   } else if (msg.type() === "123") {
     return `${msg.text()}`;
   } else {
-    return `${MessageTypeUtils.getTypeName(msg.type() + '')}`;
+    return `[${MessageTypeUtils.getTypeName(msg.type() + '')}]`;
   }
 }
 
