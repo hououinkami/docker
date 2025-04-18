@@ -3,10 +3,13 @@
 declare -A localize=(
     # wechat
     ["emoji\.gif"]="ステッカー.gif"
-    ["收到一条"]="["
-    ["\\$\{msg\.type\(\)\}"]="\${MessageTypeUtils.getTypeName(msg.type() + '')}"
-    ["消息，请在手机上查看"]="]"
-    ["消息，请在手机上接收"]="]"
+    # ["收到一条"]="["
+    # ["\\$\{msg\.type\(\)\}"]="\${MessageTypeUtils.getTypeName(msg.type() + '')}"
+    # ["消息，请在手机上查看"]="]"
+    # ["消息，请在手机上接收"]="]"
+    ["收到一条\\$\{msg\.type\(\)\}消息，请在手机上查看"]="\${MessageTypeUtils.getTypeName(msg.type() + '')}"
+    ["收到一条\\$\{MessageTypeUtils\.getTypeName\(msg\.type\(\) \+ ''\)\}消息，请在手机上接收"]="\${MessageTypeUtils.getTypeName(msg.type() + '')}"
+    ["收到一条\\$\{MessageTypeUtils\.getTypeName\(msg\.type\(\) \+ ''\)\}消息，请在手机上查看"]="\${handleMsg(msg)}"
     ["金额"]="金額"
     ["转账备注"]="メモ"
     ["微信客户端登录成功！"]="✅WeChatにログイン成功！"

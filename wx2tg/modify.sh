@@ -3,7 +3,9 @@
 source ./localize.sh
 
 awk_script='/blockquote expandable/ {gsub(/blockquote expandable/,"blockquote");} '
-ex_script='NR == 1 {print "import {MessageTypeUtils} from '\''../util/MessageTypeUtils'\''"} '
+ex_script='NR == 1 {print "import {handleMsg} from '\''../util/handleMsg'\''"} '
+
+awk_script="$ex_script $awk_script"
 
 if [ -n "$ZSH_VERSION" ]; then
     for key in "${(k)localize[@]}"; do
@@ -16,6 +18,11 @@ else
         awk_script+="/$key/ {gsub(/$key/, \"$value\");} "
     done
 fi
+
+# awk "$awk_script 1" ../wechat2tg/src/client/WechatClient.ts > ~/Downloads/1.ts
+
+# 新增自定义ts
+curl -o ../wechat2tg/src/util/handleMsg.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/handleMsg.ts
 
 cd ../wechat2tg/src/client
 awk "$awk_script 1" WechatClient.ts > temp && mv temp WechatClient.ts
