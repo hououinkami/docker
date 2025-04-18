@@ -19,8 +19,6 @@ else
     done
 fi
 
-# awk "$awk_script 1" ../wechat2tg/src/client/WechatClient.ts > ~/Downloads/1.ts
-
 # 新增自定义ts
 curl -o ../wechat2tg/src/util/handleMsg.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/handleMsg.ts
 
