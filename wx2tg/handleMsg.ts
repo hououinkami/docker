@@ -16,24 +16,19 @@ export async function handleMsg(
 
 async function getChatHistory(msgText: string): Promise<string> {
   const xmlString = await cleanXmlString(msgText)
-  
   try {
     // 解析主XML
     const result = await parseStringPromise(xmlString);
     // 获取标题
     const title = result.msg.appmsg[0].title;
-    
     // 解析recorditem
     const recorditemXml = result.msg.appmsg[0].recorditem;
     const recordData = await parseStringPromise(recorditemXml);
-    
     // 获取第一项的日期
     const firstItemDate = recordData.recordinfo.datalist[0].dataitem[0].sourcetime[0].split(' ')[0];
-    
     // 构建聊天记录
     let chatHistory = `${title}\n${firstItemDate}\n`;
-    
-    // 遍历所有dataitem
+    // 遍历所有聊天信息
     const dataItems = recordData.recordinfo.datalist[0].dataitem;
     dataItems.forEach((item: { 
       sourcename: string[], 
@@ -42,7 +37,6 @@ async function getChatHistory(msgText: string): Promise<string> {
     }) => {
       chatHistory += `${item.sourcename[0]}(${item.sourcetime[0].split(' ')[1]})\n${item.datadesc[0]}\n`;
     });
-    
     // 适配Telegram的HTML模式
     const lines = chatHistory.split('\n');
     // 前两行合成一个引用块
@@ -52,21 +46,20 @@ async function getChatHistory(msgText: string): Promise<string> {
     }
     // 处理剩余行
     for (let i = 2; i < lines.length; i++) {
-      // 发送者匹配：任意文本(时间)，如 AA(16:45)
+      // 发送者匹配：任意文本(时间)
       if (/^.+\(\d{2}:\d{2}\)$/.test(lines[i])) {
         htmlLines.push(`<blockquote>${lines[i]}</blockquote>`);
       } else {
         htmlLines.push(lines[i]);
       }
     }
-    // 连接
     const htmlText = htmlLines.join('\n');
 
     return htmlText;
     
   } catch (error) {
-    console.error('处理聊天记录时出错:', error);
-    return '处理聊天记录时出错';
+    console.error('チャット履歴処理エラー:', error);
+    return '[チャット履歴]';
   }
 }
 
