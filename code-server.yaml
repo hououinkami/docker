@@ -8,7 +8,6 @@ services:
       - $HOME/.local:/home/coder/.local
       - $HOME/.config:/home/coder/.config
       - $HOME/Docker:/home/coder/project
-    user: "$(id -u):$(id -g)"
     environment:
       - DOCKER_USER=$USER
       - PASSWORD=${CODE_SERVER_PASSWORD:-password}
