@@ -3,7 +3,7 @@ services:
     image: codercom/code-server:latest
     container_name: code-server
     ports:
-      - "8080:8080"
+      - "8070:8080"
     volumes:
       - $HOME/.local:/home/coder/.local
       - $HOME/.config:/home/coder/.config
