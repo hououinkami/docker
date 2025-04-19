@@ -1,6 +1,6 @@
 services:
   code-server:
-    image: coder/code-server:latest
+    image: codercom/code-server:latest
     container_name: code-server
     ports:
       - "8070:8080"
