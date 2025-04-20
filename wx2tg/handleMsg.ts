@@ -21,7 +21,7 @@ async function getChatHistory(msgText: string): Promise<string> {
     const result = await parseStringPromise(xmlString);
     // 获取标题
     // const title = result.msg.appmsg[0].title;
-    const title = `[${MessageTypeUtils.getTypeName(msg.type() + '')}]`
+    const title = `[${MessageTypeUtils.getTypeName(msg.type() + '')}]`;
     // 解析recorditem
     const recorditemXml = result.msg.appmsg[0].recorditem;
     const recordData = await parseStringPromise(recorditemXml);
@@ -54,7 +54,7 @@ async function getChatHistory(msgText: string): Promise<string> {
     }
 
     const chatText = chatLines.join('\n');
-    const htmlText = `${titleText}\n<blockquote expandable>${chatText}</blockquote>`
+    const htmlText = `${titleText}\n<blockquote expandable>${chatText}</blockquote>`;
 
     return htmlText;
     
