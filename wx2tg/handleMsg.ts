@@ -5,7 +5,7 @@ export async function handleMsg(
   msg: { type: () => any; text: () => string }
 ) {
   if (msg.type() === "chat_histroy") {
-    const chatHistory = await getChatHistory(msg.text());
+    const chatHistory = await getChatHistory(msg);
     return `${chatHistory}`;
   } else if (msg.type() === "123") {
     return `${msg.text()}`;
@@ -14,8 +14,10 @@ export async function handleMsg(
   }
 }
 
-async function getChatHistory(msgText: string): Promise<string> {
-  const xmlString = await cleanXmlString(msgText)
+async function getChatHistory(
+  msg: { type: () => any; text: () => string }
+): Promise<string> {
+  const xmlString = await cleanXmlString(msg.text())
   try {
     // 解析主XML
     const result = await parseStringPromise(xmlString);
