@@ -20,7 +20,8 @@ async function getChatHistory(msgText: string): Promise<string> {
     // 解析主XML
     const result = await parseStringPromise(xmlString);
     // 获取标题
-    const title = result.msg.appmsg[0].title;
+    // const title = result.msg.appmsg[0].title;
+    const title = `[${MessageTypeUtils.getTypeName(msg.type() + '')}]`
     // 解析recorditem
     const recorditemXml = result.msg.appmsg[0].recorditem;
     const recordData = await parseStringPromise(recorditemXml);
@@ -35,25 +36,25 @@ async function getChatHistory(msgText: string): Promise<string> {
       sourcetime: string[], 
       datadesc: string[] 
     }) => {
-      chatHistory += `${item.sourcename[0]}(${item.sourcetime[0].split(' ')[1]})\n${item.datadesc[0]}\n`;
+      chatHistory += `👤${item.sourcename[0]}(${item.sourcetime[0].split(' ')[1]})\n${item.datadesc[0]}\n`;
     });
     // 适配Telegram的HTML模式
     const lines = chatHistory.split('\n');
     // 前两行合成一个引用块
-    let htmlLines = [];
-    if (lines.length >= 2) {
-      htmlLines.push(`<blockquote>${lines[0]}\n${lines[1]}</blockquote>`);
-    }
+    let chatLines = [];
+    const titleText = `${lines[0]}\n<blockquote>${lines[1]}</blockquote>`;
     // 处理剩余行
     for (let i = 2; i < lines.length; i++) {
       // 发送者匹配：任意文本(时间)
       if (/^.+\(\d{2}:\d{2}\)$/.test(lines[i])) {
-        htmlLines.push(`<blockquote>${lines[i]}</blockquote>`);
+        chatLines.push(`${lines[i]}`);
       } else {
-        htmlLines.push(lines[i]);
+        chatLines.push(lines[i]);
       }
     }
-    const htmlText = htmlLines.join('\n');
+
+    const chatText = chatLines.join('\n');
+    const htmlText = `${titleText}\n<blockquote expandable>${chatText}</blockquote>`
 
     return htmlText;
     
