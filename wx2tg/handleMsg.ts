@@ -4,7 +4,7 @@ import { MessageTypeUtils } from './MessageTypeUtils'
 export async function handleMsg(
   msg: { type: () => any; text: () => string }
 ) {
-  if (msg.type() === "chat_history") {
+  if (msg.type() === "chat_histroy") {
     const chatHistory = await getChatHistory(msg);
     return `${chatHistory}`;
   } else if (msg.type() === "mini_app") {
