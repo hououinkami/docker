@@ -84,7 +84,7 @@ async function getChatHistory(
     // 标题独立
     const lines = chatHistory.split('\n');
     // 前两行合成一个引用块
-    let chatLines = [];
+    let chatLines: string[] = [];
     const titleText = `${lines[0]}\n<blockquote>${lines[1]}</blockquote>`;
     // 处理剩余行
     for (let i = 2; i < lines.length; i++) {
