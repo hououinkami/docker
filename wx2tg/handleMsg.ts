@@ -61,12 +61,12 @@ async function getChatHistory(
       chatContent = item.datadesc?.[0] ?? "";
       if (dataType === 1) {
         chatContent = item.datadesc[0];
-      } else if (dataType === 19) {
-        chatContent = `[${dataTypeMap[dataType as keyof typeof dataTypeMap]}]${item.datatitle[0]}`;
       } else if (dataType === 5) {
         chatContent = `<a href="${item.link[0]}">${item.datatitle[0]}</a>`
+      } else if (dataType === 19) {
+        chatContent = `[${dataTypeMap[dataType as keyof typeof dataTypeMap]}]\n${item.datatitle[0]}`;
       } else {
-        chatContent = `[${dataTypeMap[dataType as keyof typeof dataTypeMap] || `不明`}]`
+        chatContent = `[${dataTypeMap[dataType as keyof typeof dataTypeMap] || "不明"}]`
       }
       // 正确解析时间
       const timestamp = item.sourcetime[0];
@@ -119,11 +119,9 @@ async function getMiniprogram(
     const result = await parseStringPromise(xmlString);
     // 获取标题
     const miniprogramTitle = result.msg.appmsg[0].title[0];
-    // 获取链接
-    const miniprogramUrl = result.msg.appmsg[0].url[0];
     
     // 适配Telegram的HTML模式
-    const htmlText = `<a href="${miniprogramUrl}">${miniprogramTitle}</a>`;
+    const htmlText = `[${MessageTypeUtils.getTypeName(msg.type() + '')}]\n${miniprogramTitle}`;
 
     return htmlText;
     
