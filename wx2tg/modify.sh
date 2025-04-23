@@ -6,7 +6,7 @@ awk_script='/blockquote expandable/ {gsub(/blockquote expandable/,"blockquote");
 wx_script='
 NR == 1 {
     print "import {handleMsg} from '\''../util/handleMsg'\''";
-    print "import {saveEmoji} from '\''../util/handleSticker'\''";
+    print "import {saveEmoji, verifyJsonFile} from '\''../util/handleSticker'\''";
 }
 /this\.client\.Message\.Type\.Emoji === msg\.type\(\)/ {
     print $0;
@@ -16,6 +16,8 @@ NR == 1 {
     print " saveEmoji(wxEmoji)";
     print ".then(id => console.log('\''保存成功，ID:'\'', id))";
     print ".catch(err => console.error('\''保存失败:'\'', err));";
+    print "verifyJsonFile();";
+    next;
 }
 '
 tg_script='

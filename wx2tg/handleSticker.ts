@@ -80,7 +80,7 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
     }).replace(/[\/\s:]/g, ''); // 格式化为 MMDDHHMMSS
     
     // 2. 获取 sticker.json 文件路径
-    const stickerJsonPath = path.join(__dirname, '../sticker/sticker.json');
+    const stickerJsonPath = path.join(__dirname, '../../sticker/sticker.json');
     
     // 3. 读取现有的 sticker.json 文件（如果存在）
     let stickerData: StickerData = { stickerToEmojiMap: {} };
@@ -102,7 +102,7 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
     // 5. 添加新的 emoji 信息
     stickerData.stickerToEmojiMap[stickerId] = {
       md5: emoji.md5,
-      size: emoji.len
+      size: Number(emoji.len)
     };
     
     // 6. 写入更新后的 JSON 文件
@@ -110,7 +110,7 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
     console.log(`已将 emoji 信息写入 sticker.json，ID: ${stickerId}`);
     
     // 7. 确保 sticker 文件夹存在
-    const stickerFolderPath = path.join(__dirname, './');
+    const stickerFolderPath = path.join(__dirname, '../../sticker');
     if (!fs.existsSync(stickerFolderPath)) {
       fs.mkdirSync(stickerFolderPath, { recursive: true });
     }
@@ -160,7 +160,7 @@ async function downloadImage(url: string, outputPath: string): Promise<void> {
   }
 }
 
-// 辅助函数：手动检查 JSON 文件是否正确写入
+// 辅助函数：检查贴纸 JSON 文件信息
 export function verifyJsonFile(filePath?: string): void {
   const paths = filePath ? [filePath] : [
     path.join(__dirname, './sticker.json'),
