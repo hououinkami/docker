@@ -9,6 +9,7 @@ NR == 1 {
     print "import {saveEmoji} from '\''../util/handleSticker'\''";
 }
 /this\.client\.Message\.Type\.Emoji === msg\.type\(\)/ {
+    print $0;
     print "// eslint-disable-next-line @typescript-eslint/ban-ts-comment";
     print "// @ts-ignore";
     print "const wxEmoji = msg.emoji";
