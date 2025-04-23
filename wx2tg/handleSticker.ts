@@ -1,6 +1,6 @@
 import { Emoji } from 'gewechaty'
 import { TelegramBotClient } from '../client/TelegramBotClient';
-import { stickerToEmojiMap } from './stickerInfo'
+import { getStickerToEmojiMap } from './stickerInfoLoader';
 
 export async function handleSticker(ctx: any, bindItem: any): Promise<boolean> {
     // 获取贴纸ID
@@ -11,6 +11,8 @@ export async function handleSticker(ctx: any, bindItem: any): Promise<boolean> {
         return false;
     }
 
+    const stickerToEmojiMap = getStickerToEmojiMap();
+    
     // 遍历映射表查找匹配的贴纸
     for (const [mappedStickerId, emojiInfo] of Object.entries(stickerToEmojiMap)) {
         if (stickerId === mappedStickerId) {
