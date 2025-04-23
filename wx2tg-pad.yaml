@@ -5,7 +5,7 @@ services:
     volumes:
       - ./config:/app/storage
       - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
-      - ./sticker/stickerInfo.ts:/app/src/util/stickerInfo.ts # 贴纸映射信息
+      # - ./sticker/stickerInfo.ts:/app/src/util/stickerInfo.ts # 贴纸映射信息
       - ./src:${CONTAINER_DIR:-/app/src_temp}
     env_file: ".env"
     ports:
