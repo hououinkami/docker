@@ -2,10 +2,11 @@ import { parseStringPromise } from 'xml2js';
 import { MessageTypeUtils } from './MessageTypeUtils'
 
 export async function handleMsg(
-  msg: { type: () => any; text: () => string }
+  msg: { type: () => any; text: () => string },
+  typeName: { [key: string]: string }
 ) {
   if (msg.type() === "chat_histroy") {
-    const chatHistory = await getChatHistory(msg);
+    const chatHistory = await getChatHistory(msg, typeName);
     return `${chatHistory}`;
   } else if (msg.type() === "mini_app") {
     const miniProgram = await getMiniprogram(msg);
@@ -17,7 +18,8 @@ export async function handleMsg(
 
 // 处理聊天记录
 async function getChatHistory(
-  msg: { type: () => any; text: () => string }
+  msg: { type: () => any; text: () => string },
+  typeName: { [key: string]: string }
 ): Promise<string> {
   const xmlString = await cleanXmlString(msg.text())
   try {
@@ -49,24 +51,25 @@ async function getChatHistory(
     // 创建数据类型映射
     let chatContent;
     const dataTypeMap = {
-      1: "テクスト",
-      2: "画像",
-      4: "動画",
-      5: "リンク",
-      19: "ミニプログラム"
+      1: typeName.Text,
+      2: typeName.Image,
+      4: typeName.Video,
+      5: typeName.Link,
+      19: typeName.MiniApp
     };
     for (const item of dataItems) {
       // 获取数据类型
       const dataType = Number(item.$.datatype);  
+      const dataTypeName = MessageTypeUtils.getTypeName(dataTypeMap[dataType as keyof typeof dataTypeMap] + '')
       chatContent = item.datadesc?.[0] ?? "";
       if (dataType === 1) {
         chatContent = item.datadesc[0];
       } else if (dataType === 5) {
         chatContent = `<a href="${item.link[0]}">${item.datatitle[0]}</a>`
       } else if (dataType === 19) {
-        chatContent = `[${dataTypeMap[dataType as keyof typeof dataTypeMap]}]\n${item.datatitle[0]}`;
+        chatContent = `[${dataTypeName}]\n${item.datatitle[0]}`;
       } else {
-        chatContent = `[${dataTypeMap[dataType as keyof typeof dataTypeMap] || "不明"}]`
+        chatContent = `[${dataTypeName || "不明"}]`
       }
       // 正确解析时间
       const timestamp = item.sourcetime[0];
