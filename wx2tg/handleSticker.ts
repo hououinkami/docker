@@ -1,6 +1,6 @@
 import { Emoji } from 'gewechaty'
 import { TelegramBotClient } from '../client/TelegramBotClient';
-import { getStickerToEmojiMap } from './stickerInfoLoader';
+import { getStickerToEmojiMap } from './stickerLoader';
 
 export async function handleSticker(ctx: any, bindItem: any): Promise<boolean> {
     // 获取贴纸ID

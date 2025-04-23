@@ -34,7 +34,8 @@ fi
 # 新增自定义ts
 curl -o ../wechat2tg/src/util/handleMsg.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/handleMsg.ts
 curl -o ../wechat2tg/src/util/handleSticker.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/handleSticker.ts
-curl -o ../wechat2tg/src/util/stickerInfo.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/stickerInfo.ts
+curl -o ../wechat2tg/src/util/stickerLoader.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/stickerLoader.ts
+curl -o ../wechat2tg/src/util/sticker.json https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/sticker.json
 
 cd ../wechat2tg/src/client
 awk "$wx_script $awk_script 1" WechatClient.ts > temp && mv temp WechatClient.ts

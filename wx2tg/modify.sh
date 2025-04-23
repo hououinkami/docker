@@ -5,7 +5,7 @@ source ./localize.sh
 awk_script='/blockquote expandable/ {gsub(/blockquote expandable/,"blockquote");} '
 wx_script='NR == 1 {print "import {handleMsg} from '\''../util/handleMsg'\''"} '
 tg_script='
-NR == 1 {print "import {Emoji} from '\''gewechaty'\''"}
+NR == 1 {print "import {handleSticker} from '\''../util/handleSticker'\''"}
 {
     if ($0 ~ /const fileId = ctx\.message\.sticker\.file_id/ && !done) {
         print "const stickerHandled = await handleSticker(ctx, exist);"
