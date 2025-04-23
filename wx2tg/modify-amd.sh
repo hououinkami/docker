@@ -9,6 +9,15 @@ wx_script='
 NR == 1 {
     print "import {handleMsg} from '\''../util/handleMsg'\''";
 }
+/this\.client\.Message\.Type\.Emoji === msg\.type\(\)/ {
+     print $0;
+     print "// eslint-disable-next-line @typescript-eslint/ban-ts-comment";
+     print "// @ts-ignore";
+     print "const wxEmoji = msg.emoji";
+     print "console.log('\''微信贴纸MD5:'\'', wxEmoji.md5))";
+     print "console.log('\''微信贴纸Size:'\'', wxEmoji.len))";
+     next;
+ }
 '
 tg_script='
 NR == 1 {print "import {handleSticker} from '\''../util/handleSticker'\''"}
