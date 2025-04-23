@@ -9,7 +9,7 @@ wx_script='
 NR == 1 {
     print "import {handleMsg} from '\''../util/handleMsg'\''";
 }
-
+'
 tg_script='
 NR == 1 {print "import {handleSticker} from '\''../util/handleSticker'\''"}
 {
