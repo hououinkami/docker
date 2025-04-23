@@ -6,7 +6,7 @@ services:
       - ./config:/app/storage
       - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
       - ./src:${CONTAINER_DIR:-/app/src_temp} # 调试用
-      - ./sticker.json:/app/src/util/sticker.json # 贴纸映射信息
+      - ./sticker:/app/sticker # 贴纸映射信息
     env_file: ".env"
     ports:
       - "3000:3000"

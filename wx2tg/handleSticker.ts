@@ -110,7 +110,7 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
     console.log(`已将 emoji 信息写入 sticker.json，ID: ${stickerId}`);
     
     // 7. 确保 sticker 文件夹存在
-    const stickerFolderPath = path.join(__dirname, './sticker');
+    const stickerFolderPath = path.join(__dirname, './');
     if (!fs.existsSync(stickerFolderPath)) {
       fs.mkdirSync(stickerFolderPath, { recursive: true });
     }
