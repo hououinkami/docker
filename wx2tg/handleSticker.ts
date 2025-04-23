@@ -162,31 +162,27 @@ async function downloadImage(url: string, outputPath: string): Promise<void> {
 
 // 辅助函数：检查贴纸 JSON 文件信息
 export function verifyJsonFile(filePath?: string): void {
-  const paths = filePath ? [filePath] : [
-    path.join(__dirname, './sticker.json'),
-  ];
-  
+  const jsonPath = path.join(__dirname, '../../sticker/sticker.json');
+
   console.log('验证 JSON 文件:');
   
-  for (const p of paths) {
-    console.log(`检查路径: ${p}`);
-    
-    if (fs.existsSync(p)) {
+  console.log(`检查路径: ${jsonPath}`);
+  
+  if (fs.existsSync(jsonPath)) {
+    try {
+      const content = fs.readFileSync(jsonPath, 'utf8');
+      console.log(`- 文件存在，大小: ${content.length} 字节`);
+      
       try {
-        const content = fs.readFileSync(p, 'utf8');
-        console.log(`- 文件存在，大小: ${content.length} 字节`);
-        
-        try {
-          const data = JSON.parse(content);
-          console.log(`- JSON 解析成功，包含 ${Object.keys(data.stickerToEmojiMap || {}).length} 个贴纸`);
-        } catch (e) {
-          console.log(`- JSON 解析失败: ${e.message}`);
-        }
+        const data = JSON.parse(content);
+        console.log(`- JSON 解析成功，包含 ${Object.keys(data.stickerToEmojiMap || {}).length} 个贴纸`);
       } catch (e) {
-        console.log(`- 文件读取失败: ${e.message}`);
+        console.log(`- JSON 解析失败: ${e.message}`);
       }
-    } else {
-      console.log('- 文件不存在');
+    } catch (e) {
+      console.log(`- 文件读取失败: ${e.message}`);
     }
+  } else {
+    console.log('- 文件不存在');
   }
 }

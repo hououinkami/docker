@@ -5,9 +5,25 @@ declare -A localize=(
 )
 
 awk_script='/blockquote expandable/ {gsub(/blockquote expandable/,"blockquote");} '
-wx_script='NR == 1 {print "import {handleMsg} from '\''../util/handleMsg'\''"} '
+wx_script='
+NR == 1 {
+    print "import {handleMsg} from '\''../util/handleMsg'\''";
+    print "import {saveEmoji, verifyJsonFile} from '\''../util/handleSticker'\''";
+}
+/this\.client\.Message\.Type\.Emoji === msg\.type\(\)/ {
+    print $0;
+    print "// eslint-disable-next-line @typescript-eslint/ban-ts-comment";
+    print "// @ts-ignore";
+    print "const wxEmoji = msg.emoji";
+    print " saveEmoji(wxEmoji)";
+    print ".then(id => console.log('\''保存成功，ID:'\'', id))";
+    print ".catch(err => console.error('\''保存失败:'\'', err));";
+    print "verifyJsonFile();";
+    next;
+}
+'
 tg_script='
-NR == 1 {print "import {Emoji} from '\''gewechaty'\''"}
+NR == 1 {print "import {handleSticker} from '\''../util/handleSticker'\''"}
 {
     if ($0 ~ /const fileId = ctx\.message\.sticker\.file_id/ && !done) {
         print "const stickerHandled = await handleSticker(ctx, exist);"
@@ -16,8 +32,6 @@ NR == 1 {print "import {Emoji} from '\''gewechaty'\''"}
     }
 }
 '
-
-awk_script="$ex_script $awk_script"
 
 if [ -n "$ZSH_VERSION" ]; then
     for key in "${(k)localize[@]}"; do
@@ -35,22 +49,7 @@ fi
 curl -o ../wechat2tg/src/util/handleMsg.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/handleMsg.ts
 curl -o ../wechat2tg/src/util/handleSticker.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/handleSticker.ts
 curl -o ../wechat2tg/src/util/stickerLoader.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/stickerLoader.ts
-curl -o ../wechat2tg/src/util/sticker.json https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/sticker.json
 
 cd ../wechat2tg/src/client
 awk "$wx_script $awk_script 1" WechatClient.ts > temp && mv temp WechatClient.ts
 awk "$tg_script $awk_script 1" TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
-awk "$awk_script 1" FileHelperClient.ts > temp && mv temp FileHelperClient.ts
-cd ../service
-awk "$awk_script 1" TelegramCommandHelper.ts > temp && mv temp TelegramCommandHelper.ts
-awk "$awk_script 1" ConfigurationService.ts > temp && mv temp ConfigurationService.ts
-cd ../util
-awk "$awk_script 1" MessageTypeUtils.ts > temp && mv temp MessageTypeUtils.ts
-# emoji
-awk '
-    /<a href=.*png.*>/ {
-        gsub(/\$\{EmojiConverter\.emojiUrl\}.*png/, ""); 
-        # http://www.localhost.com/404.png
-    }
-    { print }
-' EmojiUtils.ts > temp && mv temp EmojiUtils.ts
