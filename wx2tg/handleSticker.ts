@@ -107,7 +107,7 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
     
     // 6. 写入更新后的 JSON 文件
     fs.writeFileSync(stickerJsonPath, JSON.stringify(stickerData, null, 2), 'utf8');
-    console.log(`已将 emoji 信息写入 sticker.json，ID: ${stickerId}`);
+    console.log(`已将 emoji 信息写入 sticker.json，ID: ${emoji.md5}`);
     
     // 7. 确保 sticker 文件夹存在
     const stickerFolderPath = path.join(__dirname, '../../sticker');
@@ -116,7 +116,7 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
     }
     
     // 8. 下载并保存 emoji 图片
-    const imagePath = path.join(stickerFolderPath, `${stickerId}.gif`);
+    const imagePath = path.join(stickerFolderPath, `${emoji.md5}.gif`);
     await downloadImage(emoji.cdnurl, imagePath);
     
     return stickerId;
@@ -133,6 +133,12 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
  */
 async function downloadImage(url: string, outputPath: string): Promise<void> {
   try {
+    // 检查文件是否已存在，如果存在则跳过下载
+    if (fs.existsSync(outputPath)) {
+      console.log(`文件已存在: ${outputPath}，跳过下载`);
+      return;
+    }
+    
     // 使用 axios 下载图片
     const response = await axios({
       method: 'GET',
