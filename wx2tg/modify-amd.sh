@@ -8,20 +8,8 @@ awk_script='/blockquote expandable/ {gsub(/blockquote expandable/,"blockquote");
 wx_script='
 NR == 1 {
     print "import {handleMsg} from '\''../util/handleMsg'\''";
-    print "import {saveEmoji, verifyJsonFile} from '\''../util/handleSticker'\''";
 }
-/this\.client\.Message\.Type\.Emoji === msg\.type\(\)/ {
-    print $0;
-    print "// eslint-disable-next-line @typescript-eslint/ban-ts-comment";
-    print "// @ts-ignore";
-    print "const wxEmoji = msg.emoji";
-    print " saveEmoji(wxEmoji)";
-    print ".then(id => console.log('\''保存成功，ID:'\'', id))";
-    print ".catch(err => console.error('\''保存失败:'\'', err));";
-    print "verifyJsonFile();";
-    next;
-}
-'
+
 tg_script='
 NR == 1 {print "import {handleSticker} from '\''../util/handleSticker'\''"}
 {
