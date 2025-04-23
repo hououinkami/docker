@@ -18,7 +18,7 @@ let stickerDataCache: StickerData | null = null;
 let lastModified = 0;
 
 // 使用本地相对路径
-const stickerInfoPath = path.join(__dirname, '../../src/util/sticker.json');
+const stickerInfoPath = path.join(__dirname, '../../sticker/sticker.json');
 
 /**
  * 获取贴纸信息，带缓存机制

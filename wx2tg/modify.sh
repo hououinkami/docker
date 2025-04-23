@@ -3,7 +3,20 @@
 source ./localize.sh
 
 awk_script='/blockquote expandable/ {gsub(/blockquote expandable/,"blockquote");} '
-wx_script='NR == 1 {print "import {handleMsg} from '\''../util/handleMsg'\''"} '
+wx_script='
+NR == 1 {
+    print "import {handleMsg} from '\''../util/handleMsg'\''";
+    print "import {saveEmoji} from '\''../util/handleSticker'\''";
+}
+/this\.client\.Message\.Type\.Emoji === msg\.type\(\)/ {
+    print "// eslint-disable-next-line @typescript-eslint/ban-ts-comment";
+    print "// @ts-ignore";
+    print "const wxEmoji = msg.emoji";
+    print " saveEmoji(wxEmoji)";
+    print ".then(id => console.log('\''保存成功，ID:'\'', id))";
+    print ".catch(err => console.error('\''保存失败:'\'', err));";
+}
+'
 tg_script='
 NR == 1 {print "import {handleSticker} from '\''../util/handleSticker'\''"}
 {
@@ -31,7 +44,6 @@ fi
 curl -o ../wechat2tg/src/util/handleMsg.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/handleMsg.ts
 curl -o ../wechat2tg/src/util/handleSticker.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/handleSticker.ts
 curl -o ../wechat2tg/src/util/stickerLoader.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/stickerLoader.ts
-curl -o ../wechat2tg/src/util/sticker.json https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/sticker.json
 
 cd ../wechat2tg/src/client
 awk "$wx_script $awk_script 1" WechatClient.ts > temp && mv temp WechatClient.ts
