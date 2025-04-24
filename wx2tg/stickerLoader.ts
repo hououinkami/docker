@@ -5,6 +5,7 @@ import path from 'path';
 interface StickerInfo {
   md5: string;
   size: number;
+  name: string;
 }
 
 interface StickerData {
