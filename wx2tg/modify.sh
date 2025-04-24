@@ -21,27 +21,43 @@ NR == 1 {
 }
 '
 tg_script='
-NR == 1 {print "import {handleSticker} from '\''../util/handleSticker'\''"}
-{
-    if ($0 ~ /const fileId = ctx\.message\.sticker\.file_id/ && !done) {
-        print "const stickerHandled = await handleSticker(ctx, exist);"
-        print "if (stickerHandled) { return; } else { console.log('\''TG贴纸ID:'\'', ctx.message.sticker.file_id)}"
-        done = 1
-    }
+NR == 1 {
+    print "import {handleSticker} from '\''../util/handleSticker'\''";
+}
+/const fileId = ctx\.message\.sticker\.file_id/ {
+    print $0;
+    print "const stickerHandled = await handleSticker(ctx, exist);";
+    print "if (stickerHandled) { return; } else { console.log('\''TG贴纸ID:'\'', ctx.message.sticker.file_id)}";
+    next;
 }
 '
 
+# 定义处理单个键的函数
+process_key() {
+    local key="$1"
+    local escaped_key=$(echo "$key" | sed 's/[\/.*+?|()^$\[\]{}\\]/\\&/g')
+    local value="${localize[$key]}"
+    local escaped_value=$(echo "$value" | sed 's/[\"\\]/\\&/g')
+    awk_script+="/$escaped_key/ {gsub(/$escaped_key/, \"$escaped_value\");} "
+}
+
+# 定义遍历函数，根据不同的shell使用不同的遍历方式
 if [ -n "$ZSH_VERSION" ]; then
-    for key in "${(k)localize[@]}"; do
-        value="${localize[$key]}"
-        awk_script+="/$key/ {gsub(/$key/, \"$value\");} "
-    done
+    for_each_key() {
+        for key in "${(k)localize[@]}"; do
+            process_key "$key"
+        done
+    }
 else
-    for key in "${!localize[@]}"; do
-        value="${localize[$key]}"
-        awk_script+="/$key/ {gsub(/$key/, \"$value\");} "
-    done
+    for_each_key() {
+        for key in "${!localize[@]}"; do
+            process_key "$key"
+        done
+    }
 fi
+
+# 调用遍历函数
+for_each_key
 
 # 新增自定义ts
 curl -o ../wechat2tg/src/util/handleMsg.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/handleMsg.ts
