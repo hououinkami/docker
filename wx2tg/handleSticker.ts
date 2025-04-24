@@ -3,10 +3,10 @@ import path from 'path';
 import axios from 'axios';
 import { Emoji } from 'gewechaty'
 import { TelegramBotClient } from '../client/TelegramBotClient';
-import { getStickerToEmojiMap } from './stickerLoader';
+import { StickerData, getStickerToEmojiMap } from './stickerLoader';
 
 export async function handleSticker(ctx: any, bindItem: any): Promise<boolean> {
-    // 获取贴纸ID
+    // 获取TG贴纸ID
     const stickerId = ctx.message.sticker.file_id;
     
     // 如果没有贴纸ID，直接返回 false 继续后续操作
@@ -14,6 +14,7 @@ export async function handleSticker(ctx: any, bindItem: any): Promise<boolean> {
         return false;
     }
 
+    // 获取贴纸映射
     const stickerToEmojiMap = getStickerToEmojiMap();
     
     // 遍历映射表查找匹配的贴纸
@@ -33,7 +34,7 @@ export async function handleSticker(ctx: any, bindItem: any): Promise<boolean> {
             // 返回 true 表示已处理，中断后续操作
             return true;
         } catch (error) {
-            console.error('ステッカー送信失敗:', error);
+            console.error('贴纸发送失败:', error);
             return false;
         }
         }
@@ -43,7 +44,6 @@ export async function handleSticker(ctx: any, bindItem: any): Promise<boolean> {
     return false;
 }
 
-// 保存微信发送出来的贴纸信息
 // 定义 Emoji 类型接口
 interface wxEmoji {
   md5: string;
@@ -51,26 +51,12 @@ interface wxEmoji {
   cdnurl: string;
 }
 
-// 定义贴纸数据结构
-interface StickerData {
-  stickerToEmojiMap: {
-    [stickerId: string]: {
-      md5: string;
-      size: number;
-    };
-  };
-}
-
-/**
- * 保存 emoji 到 JSON 文件和本地文件夹
- * @param emoji Emoji 对象，包含 md5、len 和 cdnurl
- * @returns 生成的贴纸 ID (时间戳格式)
- */
+// 保存微信贴纸信息
 export async function saveEmoji(emoji: wxEmoji): Promise<string> {
   try {
-    // 1. 生成时间戳格式的 ID (MMDDHHMMSS)
+    // 生成时间戳格式的 ID (MMDDHHMMSS)
     const now = new Date();
-    const stickerId = now.toLocaleString('zh-CN', {
+    const timeId = now.toLocaleString('zh-CN', {
       month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
@@ -78,11 +64,9 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
       second: '2-digit',
       hour12: false
     }).replace(/[\/\s:]/g, ''); // 格式化为 MMDDHHMMSS
-    
-    // 2. 获取 sticker.json 文件路径
+
+    // 读取现有的 sticker.json 文件（如果存在）
     const stickerJsonPath = path.join(__dirname, '../../sticker/sticker.json');
-    
-    // 3. 读取现有的 sticker.json 文件（如果存在）
     let stickerData: StickerData = { stickerToEmojiMap: {} };
     if (fs.existsSync(stickerJsonPath)) {
       try {
@@ -94,43 +78,38 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
       }
     }
     
-    // 4. 确保 stickerToEmojiMap 存在
+    // 确保 stickerToEmojiMap 存在
     if (!stickerData.stickerToEmojiMap) {
       stickerData.stickerToEmojiMap = {};
     }
     
-    // 5. 添加新的 emoji 信息
-    stickerData.stickerToEmojiMap[stickerId] = {
+    // 添加新的 emoji 信息
+    stickerData.stickerToEmojiMap[emoji.md5] = {
       md5: emoji.md5,
-      size: Number(emoji.len)
+      size: Number(emoji.len),
+      name: timeId
     };
-    
-    // 6. 写入更新后的 JSON 文件
     fs.writeFileSync(stickerJsonPath, JSON.stringify(stickerData, null, 2), 'utf8');
     console.log(`已将 emoji 信息写入 sticker.json，ID: ${emoji.md5}`);
     
-    // 7. 确保 sticker 文件夹存在
+    // 确保 sticker 文件夹存在
     const stickerFolderPath = path.join(__dirname, '../../sticker');
     if (!fs.existsSync(stickerFolderPath)) {
       fs.mkdirSync(stickerFolderPath, { recursive: true });
     }
     
-    // 8. 下载并保存 emoji 图片
+    // 下载并保存 emoji 图片
     const imagePath = path.join(stickerFolderPath, `${emoji.md5}.gif`);
     await downloadImage(emoji.cdnurl, imagePath);
     
-    return stickerId;
+    return true;
   } catch (error) {
     console.error('保存 emoji 失败:', error);
     throw error;
   }
 }
 
-/**
- * 下载图片并保存到本地
- * @param url 图片 URL
- * @param outputPath 输出路径
- */
+// 下载图片并保存到本地
 async function downloadImage(url: string, outputPath: string): Promise<void> {
   try {
     // 检查文件是否已存在，如果存在则跳过下载
@@ -145,11 +124,7 @@ async function downloadImage(url: string, outputPath: string): Promise<void> {
       url: url,
       responseType: 'stream'
     });
-    
-    // 创建写入流
     const writer = fs.createWriteStream(outputPath);
-    
-    // 将响应数据写入文件
     response.data.pipe(writer);
     
     // 返回 Promise，在写入完成或出错时解析
@@ -166,12 +141,11 @@ async function downloadImage(url: string, outputPath: string): Promise<void> {
   }
 }
 
-// 辅助函数：检查贴纸 JSON 文件信息
+// 检查贴纸 JSON 文件信息
 export function verifyJsonFile(filePath?: string): void {
   const jsonPath = path.join(__dirname, '../../sticker/sticker.json');
 
   console.log('验证 JSON 文件:');
-  
   console.log(`检查路径: ${jsonPath}`);
   
   if (fs.existsSync(jsonPath)) {
