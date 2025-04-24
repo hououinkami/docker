@@ -102,7 +102,7 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
     const imagePath = path.join(stickerFolderPath, `${emoji.md5}.gif`);
     await downloadImage(emoji.cdnurl, imagePath);
     
-    return true;
+    return emoji.md5;
   } catch (error) {
     console.error('保存 emoji 失败:', error);
     throw error;
