@@ -35,9 +35,11 @@ NR == 1 {
 # 定义处理单个键的函数
 process_key() {
     local key="$1"
-    local escaped_key=$(echo "$key" | sed 's/[\/.*+?|()^$\[\]{}\\]/\\&/g')
+    # local escaped_key=$(echo "$key" | sed 's/[\/.*+?|()^$\[\]{}\\]/\\&/g')
+    local escaped_key=$(echo "$key" | sed 's/\\/\\\\/g' | sed 's/\//\\\//g')
     local value="${localize[$key]}"
-    local escaped_value=$(echo "$value" | sed 's/[\"\\]/\\&/g')
+    # local escaped_value=$(echo "$value" | sed 's/[\"\\]/\\&/g')
+    local escaped_value=$(echo "$value" | sed 's/\\/\\\\/g' | sed 's/\//\\\//g')
     awk_script+="/$escaped_key/ {gsub(/$escaped_key/, \"$escaped_value\");} "
 }
 
