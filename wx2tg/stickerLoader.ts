@@ -8,7 +8,7 @@ interface StickerInfo {
   name: string;
 }
 
-interface StickerData {
+export interface StickerData {
   stickerToEmojiMap: {
     [stickerId: string]: StickerInfo;
   };
