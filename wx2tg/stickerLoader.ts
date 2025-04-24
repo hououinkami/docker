@@ -21,11 +21,7 @@ let lastModified = 0;
 // 使用本地相对路径
 const stickerInfoPath = path.join(__dirname, '../../sticker/sticker.json');
 
-/**
- * 获取贴纸信息，带缓存机制
- * @param forceReload 是否强制重新加载
- * @returns 贴纸数据
- */
+// 获取贴纸信息，带缓存机制
 export function getStickerData(forceReload = false): StickerData {
   try {
     // 检查文件是否存在
@@ -67,10 +63,7 @@ export function getStickerData(forceReload = false): StickerData {
   }
 }
 
-/**
- * 获取贴纸到表情的映射
- * @returns 贴纸映射对象
- */
+// 获取贴纸映射
 export function getStickerToEmojiMap(): { [stickerId: string]: StickerInfo } {
   return getStickerData().stickerToEmojiMap;
 }
