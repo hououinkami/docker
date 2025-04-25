@@ -82,6 +82,19 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
     if (!stickerData.stickerToEmojiMap) {
       stickerData.stickerToEmojiMap = {};
     }
+
+    // 检查 emoji.md5 是否已存在
+    let emojiExists = false;
+    for (const key in stickerData.stickerToEmojiMap) {
+      if (stickerData.stickerToEmojiMap[key].md5 === emoji.md5) {
+        console.log(`Emoji ${emoji.md5} 已存在于 sticker.json 中，跳过添加和下载操作`);
+        emojiExists = true;
+        return emoji.md5;
+      }
+    }
+    if (emojiExists) {
+      return emoji.md5;
+    }
     
     // 添加新的 emoji 信息
     stickerData.stickerToEmojiMap[emoji.md5] = {
@@ -91,6 +104,7 @@ export async function saveEmoji(emoji: wxEmoji): Promise<string> {
     };
     fs.writeFileSync(stickerJsonPath, JSON.stringify(stickerData, null, 2), 'utf8');
     console.log(`已将 emoji 信息写入 sticker.json，ID: ${emoji.md5}`);
+    verifyJsonFile();
     
     // 确保 sticker 文件夹存在
     const stickerFolderPath = path.join(__dirname, '../../sticker');
