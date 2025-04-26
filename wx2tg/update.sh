@@ -3,22 +3,39 @@
 # 定义函数
 updateContainer() {
     if [ "$3" = "true" ]; then
-        git clone --filter=blob:none --no-checkout https://github.com/finalpi/wechat2tg.git ../wechat2tg
-        cd ../wechat2tg
-        git sparse-checkout init --cone
-        git sparse-checkout set src
-        git checkout wx2tg-pad-dev
-        cd ../wx2tg
+        rm -rf ./src && cp -rf ../wechat2tg/src ./
         curl -o localize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/localize.sh
-        curl -o modify.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/modify.sh
-        zsh modify.sh
-        rm -rf ./src && mv -f ../wechat2tg/src ./
-        rm -rf ../wechat2tg
+        source ./localize.sh
+        awk_script=''
+        process_key() {
+            local key="$1"
+            local escaped_key=$(echo "$key" | sed 's/\\/\\\\/g' | sed 's/\//\\\//g')
+            local value="${localize[$key]}"
+            local escaped_value=$(echo "$value" | sed 's/\\/\\\\/g' | sed 's/\//\\\//g')
+            awk_script+="/$escaped_key/ {gsub(/$escaped_key/, \"$escaped_value\");} "
+        }
+        for key in "${(k)localize[@]}"; do
+            process_key "$key"
+        done
+        cd ./src/client
+        awk "$wx_script $awk_script 1" WechatClient.ts > temp && mv temp WechatClient.ts
+        awk "$tg_script $awk_script 1" TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
+        awk "$awk_script 1" FileHelperClient.ts > temp && mv temp FileHelperClient.ts
+        cd ../service
+        awk "$awk_script 1" TelegramCommandHelper.ts > temp && mv temp TelegramCommandHelper.ts
+        awk "$awk_script 1" ConfigurationService.ts > temp && mv temp ConfigurationService.ts
+        cd ../util
+        awk "$awk_script 1" MessageTypeUtils.ts > temp && mv temp MessageTypeUtils.ts
+        awk '
+            /<a href=.*png.*>/ {
+                gsub(/\$\{EmojiConverter\.emojiUrl\}.*png/, ""); 
+            }
+            { print }
+        ' EmojiUtils.ts > temp && mv temp EmojiUtils.ts
     else
         rm -rf ./src
     fi
     curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
-    # docker compose pull $1
     if [ "$2" = "false" ]; then
         pull="missing"
     else
