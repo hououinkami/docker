@@ -14,9 +14,12 @@ updateContainer() {
             local escaped_value=$(echo "$value" | sed 's/\\/\\\\/g' | sed 's/\//\\\//g')
             awk_script+="/$escaped_key/ {gsub(/$escaped_key/, \"$escaped_value\");} "
         }
-        for key in "${(k)localize[@]}"; do
-            process_key "$key"
-        done
+        for_each_key() {
+            for key in "${(k)localize[@]}"; do
+                process_key "$key"
+            done
+        }
+        for_each_key
         cd ./src/client
         awk "$wx_script $awk_script 1" WechatClient.ts > temp && mv temp WechatClient.ts
         awk "$tg_script $awk_script 1" TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
