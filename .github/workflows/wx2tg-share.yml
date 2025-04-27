@@ -1,4 +1,4 @@
-name: Build wx2tg Image amd64
+name: Build wx2tg Image for Share
 
 on:
   workflow_dispatch:
