@@ -43,7 +43,8 @@ mkdir -p wx2tg
 cd wx2tg
 ln -sf ../.env .env
 
-read -p "请选择: " choice
+echo "请选择: "
+read choice
 
 case $choice in
     u)
@@ -57,6 +58,7 @@ case $choice in
         export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
         export CONTAINER_DIR=/app/src
         updateContainer "wechat2tg" true true
+        exit 0
         ;;
     r)
         echo "重启wx2tg容器..."
@@ -107,7 +109,8 @@ echo "5) gewe-xleat"
 echo "6) 编译gewe镜像"
 echo "7) 备份gewe镜像"
 
-read -p "请选择: " choice
+echo "请选择: "
+read choice
 
 case $choice in
     1)
