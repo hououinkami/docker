@@ -15,15 +15,14 @@ jobs:
 
       - name: Clone repo
         run: |
-          git clone https://github.com/finalpi/wechat2tg.git
+          git clone https://github.com/hououinkami/wechat2tg.git
           cd wechat2tg
           git checkout wx2tg-pad-dev
 
       - name: Modify files
         working-directory: wx2tg
         run: |
-          chmod +x modify-amd.sh
-          ./modify-amd.sh
+          chmod +x modify.sh
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3

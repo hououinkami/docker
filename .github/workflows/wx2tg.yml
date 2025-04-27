@@ -15,7 +15,7 @@ jobs:
 
       - name: Clone repo
         run: |
-          git clone https://github.com/finalpi/wechat2tg.git
+          git clone https://github.com/hououinkami/wechat2tg.git
           cd wechat2tg
           git checkout wx2tg-pad-dev
 
@@ -23,7 +23,14 @@ jobs:
         working-directory: wx2tg
         run: |
           chmod +x modify.sh
-          ./modify.sh
+          source ./localize.sh
+          source ./modify.sh
+          awk_script=''
+          wx_script=''
+          tg_script=''
+          for_each_key
+          cd ../wechat2tg/src
+          adaptFile
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
