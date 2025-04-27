@@ -56,7 +56,7 @@ else
 fi
 
 # 调用遍历函数
-for_each_key
+# for_each_key
 
 # 新增自定义ts
 addFile() {
@@ -64,7 +64,7 @@ addFile() {
     curl -o ../wechat2tg/src/util/handleSticker.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/ts/handleSticker.ts
     curl -o ../wechat2tg/src/util/stickerLoader.ts https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg/ts/stickerLoader.ts
 }
-addFile
+# addFile
 
 # 替换文件部分字符
 adaptFile() {
@@ -87,4 +87,4 @@ adaptFile() {
     ' EmojiUtils.ts > temp && mv temp EmojiUtils.ts
     }
 cd ../wechat2tg/src
-adaptFile
+# adaptFile
