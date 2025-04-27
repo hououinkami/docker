@@ -86,5 +86,5 @@ adaptFile() {
         { print }
     ' EmojiUtils.ts > temp && mv temp EmojiUtils.ts
     }
-cd ../wechat2tg/src
+# cd ../wechat2tg/src
 # adaptFile
