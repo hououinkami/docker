@@ -30,7 +30,7 @@ updateContainer() {
 # 更新脚本
 echo "请选择要进行的操作:"
 echo "u)更新wx2tg"
-echo "c)测试wx2tg"
+echo "t)测试wx2tg"
 echo "r)重启wx2tg容器并查看容器日志"
 echo "l)查看wx2tg日志"
 echo "i)编译wx2tg镜像"
@@ -53,7 +53,7 @@ case $choice in
         updateContainer "wechat2tg"
         exit 0
         ;;
-    c)
+    t)
         echo "使用自编译的测试版镜像并挂载文件..."
         export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
         export CONTAINER_DIR=/app/src
