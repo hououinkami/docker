@@ -73,13 +73,21 @@ case $choice in
         exit 0
         ;;
     i)
-        echo "触发编译arm镜像..."
+        echo "触发编译wx2tg镜像..."
         source ../.env
         curl -X POST \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${GITHUB_TOKEN}" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           "https://api.github.com/repos/hououinkami/docker/actions/workflows/wx2tg.yml/dispatches" \
+          -d '{
+            "ref": "main"
+          }'
+        curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          "https://api.github.com/repos/hououinkami/docker/actions/workflows/wx2tg-amd.yml/dispatches" \
           -d '{
             "ref": "main"
           }'
