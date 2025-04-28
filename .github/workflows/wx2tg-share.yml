@@ -2,6 +2,12 @@ name: Build wx2tg Image for Share
 
 on:
   workflow_dispatch:
+    inputs:
+      build_multi_arch:
+        description: '同时编译 AMD64 和 ARM64 平台'
+        required: false
+        default: false
+        type: boolean
 
 env:
   TZ: Asia/Shanghai
@@ -42,6 +48,17 @@ jobs:
       - name: Generate Time Info
         run: echo "TIME_INFO=$(date +'%m%d%H%M')" >> $GITHUB_ENV
         
+      - name: Set platforms
+        id: set-platforms
+        run: |
+          if [ "${{ github.event.inputs.build_multi_arch }}" == "true" ]; then
+            echo "PLATFORMS=linux/amd64,linux/arm64/v8" >> $GITHUB_ENV
+            echo "使用多平台构建: AMD64 和 ARM64"
+          else
+            echo "PLATFORMS=linux/amd64" >> $GITHUB_ENV
+            echo "仅使用 AMD64 平台构建"
+          fi
+
       - name: Build and push
         id: build
         uses: docker/build-push-action@v5
@@ -51,7 +68,7 @@ jobs:
           push: true
           tags: |
             hououinkami/wechat2tg-pad:latest
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: ${{ env.PLATFORMS }}
           # cache-from: type=local,src=/tmp/.buildx-cache
           # cache-to: type=local,mode=max,dest=/tmp/.buildx-cache
       
@@ -61,5 +78,5 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          message: "✅ WeChat2TGのビルドに成功しました！"
+          message: "✅ WeChat2TG（共有用）のビルドに成功しました！"
           format: "html"
