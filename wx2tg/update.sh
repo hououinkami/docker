@@ -49,13 +49,13 @@ read choice
 case $choice in
     u)
         echo "开始更新..."
-        export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
+        export IMAGE_NAME=hououinkami/wechat2tg-pad:kami
         updateContainer "wechat2tg"
         exit 0
         ;;
     t)
         echo "使用自编译的测试版镜像并挂载文件..."
-        export IMAGE_NAME=hououinkami/wechat2tg-pad:latest
+        export IMAGE_NAME=hououinkami/wechat2tg-pad:kami
         export CONTAINER_DIR=/app/src
         updateContainer "wechat2tg" true true
         exit 0

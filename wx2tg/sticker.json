@@ -1,12 +1,14 @@
 {
   "stickerToEmojiMap": {
-    "CAACAgUAAxkBAAJfuGgHG_oUM-SsEM11FrRRPu3VQ6ykAAJ4EwACDKAhVGe_uEmbwMoVNgQ": {
-      "md5": "e093997bdb2bc6eb3f08ce7bc40f3d99",
-      "size": 68714
+    "此处填入TG贴纸ID（发送TG贴纸后在log中获得）": {
+      "md5": "此处填入微信贴纸md5（发送微信贴纸后在stickerSave.json中获得）",
+      "size": "此处填入微信贴纸size（发送微信贴纸后在stickerSave.json中获得）",
+      "name": "可选"
     },
-    "CAACAgUAAxkBAAJf7GgHO_kzyU26untDddYuiyIUl-uMAAJ5DwAC62DQV6fJH68wXwIAATYE": {
-      "md5": "6fde3fed2add8451338f3fdd67983b7d",
-      "size": 17799
+    "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX": {
+      "md5": "YYYYYYYYYYYYYYYYYYYYYYYY",
+      "size": 17799,
+      "name": "捂脸"
     }
   }
 }

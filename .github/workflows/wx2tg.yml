@@ -58,7 +58,7 @@ jobs:
           file: ./wechat2tg/Dockerfile
           push: true
           tags: |
-            hououinkami/wechat2tg-pad:latest
+            hououinkami/wechat2tg-pad:kami
             hououinkami/wechat2tg-pad:${{ env.TIME_INFO }}
           platforms: linux/arm64/v8
           # cache-from: type=local,src=/tmp/.buildx-cache

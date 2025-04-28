@@ -50,8 +50,8 @@ jobs:
           file: ./wechat2tg/Dockerfile
           push: true
           tags: |
-            hououinkami/wechat2tg-pad:amd
-          platforms: linux/amd64
+            hououinkami/wechat2tg-pad:latest
+          platforms: linux/amd64,linux/arm64/v8
           # cache-from: type=local,src=/tmp/.buildx-cache
           # cache-to: type=local,mode=max,dest=/tmp/.buildx-cache
       
