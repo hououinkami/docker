@@ -7,11 +7,11 @@ wx_script=''
 tg_script='
 /TG贴纸ID:/ {
     print $0;
-    print "                ctx.reply(`${ctx.message.sticker.file_unique_id}`, {
-                    reply_parameters: {
-                        message_id: messageId
-                    }
-                })";
+    print "                ctx.reply(`${ctx.message.sticker.file_unique_id}`, {"
+    print "                    reply_parameters: {"
+    print "                        message_id: messageId"
+    print "                    }"
+    print "                })";"
     next;
 }
 '
