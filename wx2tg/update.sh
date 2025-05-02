@@ -9,8 +9,6 @@ updateContainer() {
         source ./localize.sh
         source ./modify.sh
         awk_script=''
-        wx_script=''
-        tg_script=''
         for_each_key
         cd src
         adaptFile

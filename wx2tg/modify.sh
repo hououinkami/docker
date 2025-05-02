@@ -3,28 +3,15 @@
 source ./localize.sh
 
 awk_script=''
-wx_script='
-NR == 1 {
-    print "import {handleMsg} from '\''../util/handleMsg'\''";
-    print "import {saveEmoji} from '\''../util/handleSticker'\''";
-}
-/this\.client\.Message\.Type\.Emoji === msg\.type\(\)/ {
-    print $0;
-    print "// eslint-disable-next-line @typescript-eslint/ban-ts-comment";
-    print "// @ts-ignore";
-    print "const wxEmoji = msg.emoji";
-    print " saveEmoji(wxEmoji)";
-    next;
-}
-'
+wx_script=''
 tg_script='
-NR == 1 {
-    print "import {handleSticker} from '\''../util/handleSticker'\''";
-}
-/const fileId = ctx\.message\.sticker\.file_id/ {
+/TG贴纸ID:/ {
     print $0;
-    print "const stickerHandled = await handleSticker(ctx, exist);";
-    print "if (stickerHandled) { return; } else { console.log('\''TG贴纸ID:'\'', ctx.message.sticker.file_id)}";
+    print "                ctx.reply(`${ctx.message.sticker.file_unique_id}`, {
+                    reply_parameters: {
+                        message_id: messageId
+                    }
+                })";
     next;
 }
 '

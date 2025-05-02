@@ -29,6 +29,10 @@ jobs:
         working-directory: wx2tg
         run: |
           chmod +x modify.sh
+          source ./modify.sh
+          awk_script=''
+          cd ../wechat2tg/src
+          adaptFile
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
