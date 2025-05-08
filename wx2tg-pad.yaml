@@ -64,8 +64,6 @@ services:
     container_name: xxxbot
     restart: unless-stopped
     pull_policy: always # 确保每次都检查并拉取最新的镜像
-    # 添加command来确保entrypoint.sh有执行权限并执行它
-    command: ["sh", "-c", "chmod +x /app/entrypoint.sh && /app/entrypoint.sh"]
     ports:
       - "9090:9090" # 管理后台端口
       - "9030:3000" # WeTTy终端端口
@@ -74,3 +72,5 @@ services:
       - ./xxx_redis_data:/var/lib/redis
     environment:
       TZ: Asia/Shanghai
+      ADMIN_USERNAME: ${XXX_USERNAME}
+      ADMIN_PASSWORD: ${XXX_PASSWORD}
