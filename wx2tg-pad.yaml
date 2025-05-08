@@ -42,9 +42,9 @@ services:
       ## 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
       MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
       # Gewechaty
-      BASE_API: 'http://gewechat:2531/v2/api'
+      BASE_API: 'http://xxxbot:9092/VXAPI'
       FILE_API: 'http://gewechat:2532/download'
-      CALLBACK_API: 'http://wechat2tg:3000'
+      CALLBACK_API: 'http://xxxbot:9091/wx849/callback'
       # 调试模式（默认false）
       DEBUG_MODE: ${DEBUG_MODE:-false}
     restart: unless-stopped
@@ -67,6 +67,9 @@ services:
     ports:
       - "9090:9090" # 管理后台端口
       - "9030:3000" # WeTTy终端端口
+      - "9091:8088" # 回调端口
+      - "9092:9092" # WechatAPI服务器端口
+      - "9093:9011" # 发消息端口
     volumes:
       - ./xxxbot:/app # 直接映射当前目录到容器的/app
       - ./xxx_redis_data:/var/lib/redis
