@@ -8,8 +8,8 @@ services:
       - ./src:${CONTAINER_DIR:-/app/src_temp} # 调试用
       - ./sticker:/app/sticker # 贴纸映射信息
     env_file: ".env"
-    ports:
-      - "3080:3000"
+    # ports:
+    #  - "3080:3000"
     environment:
       TZ: Asia/Shanghai
       BOT_TOKEN: ${TG_BOT_TOKEN}
@@ -43,22 +43,11 @@ services:
       MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
       # Gewechaty
       BASE_API: 'http://xxxbot:9011/VXAPI'
-      FILE_API: 'http://gewechat:2532/download'
-      CALLBACK_API: 'http://xxxbot:8088/wx849/callback'
+      FILE_API: ''
+      CALLBACK_API: 'http://10.0.0.1:8088/wx849/callback'
       # 调试模式（默认false）
       DEBUG_MODE: ${DEBUG_MODE:-false}
     restart: unless-stopped
-  gewechat:
-    image: ${IMAGE_NAME_GEWE:-registry.cn-chengdu.aliyuncs.com/tu1h/wechotd:alpine}
-    container_name: gewe
-    ports:
-      - "2531:2531"
-      - "2532:2532"
-    volumes:
-      - ./temp:/root/temp
-    restart: always
-    environment:
-      TZ: Asia/Shanghai
   xxxbot:
     image: nanssye/xxxbot-pad:latest
     container_name: xxxbot
