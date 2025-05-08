@@ -1,0 +1,14 @@
+services:
+  xxxbot:
+    image: nanssye/xxxbot-pad:latest
+    container_name: xxxbot-pad
+    restart: unless-stopped
+    pull_policy: always # 确保每次都检查并拉取最新的镜像
+    ports:
+      - "9090:9090" # 管理后台端口
+      - "9030:3000" # WeTTy终端端口
+    volumes:
+      - ./:/app # 直接映射当前目录到容器的/app
+      - ./redis_data:/var/lib/redis
+    environment:
+      TZ: Asia/Shanghai
