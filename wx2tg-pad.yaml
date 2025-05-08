@@ -9,7 +9,7 @@ services:
       - ./sticker:/app/sticker # 贴纸映射信息
     env_file: ".env"
     ports:
-      - "3000:3000"
+      - "3080:3000"
     environment:
       TZ: Asia/Shanghai
       BOT_TOKEN: ${TG_BOT_TOKEN}
@@ -42,9 +42,9 @@ services:
       ## 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
       MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
       # Gewechaty
-      BASE_API: 'http://xxxbot:9092/VXAPI'
+      BASE_API: 'http://xxxbot:9011/VXAPI'
       FILE_API: 'http://gewechat:2532/download'
-      CALLBACK_API: 'http://xxxbot:9091/wx849/callback'
+      CALLBACK_API: 'http://xxxbot:8088/wx849/callback'
       # 调试模式（默认false）
       DEBUG_MODE: ${DEBUG_MODE:-false}
     restart: unless-stopped
@@ -66,10 +66,9 @@ services:
     pull_policy: always # 确保每次都检查并拉取最新的镜像
     ports:
       - "9090:9090" # 管理后台端口
-      - "9030:3000" # WeTTy终端端口
-      - "9091:8088" # 回调端口
-      - "9092:9092" # WechatAPI服务器端口
-      - "9093:9011" # 发消息端口
+      - "3000:3000" # WeTTy终端端口
+      - "8088:8088" # 回调端口
+      - "9011:9011" # WechatAPI服务器端口
     volumes:
       - ./xxxbot:/app # 直接映射当前目录到容器的/app
       - ./xxx_redis_data:/var/lib/redis
