@@ -74,10 +74,3 @@ services:
       TZ: Asia/Shanghai
       ADMIN_USERNAME: ${XXX_USERNAME}
       ADMIN_PASSWORD: ${XXX_PASSWORD}
-
-      - ./xxx_redis_data:/var/lib/redis
-    environment:
-      TZ: Asia/Shanghai
-      ADMIN_USERNAME: ${XXX_USERNAME}
-      ADMIN_PASSWORD: ${XXX_PASSWORD}
-ORD}
