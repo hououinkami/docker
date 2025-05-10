@@ -61,7 +61,7 @@ services:
     volumes:
       - ./xxxbot/main_config.toml:/app/main_config.toml # 主配置文件
       - ./xxxbot/bot_status_admin.json:/app/admin/bot_status.json # 管理后台使用的机器人状态文件
-      - ./xxxbot/status_admin.json:/app/bot_status.json # 主程序使用的机器人状态文件
+      - ./xxxbot/bot_status.json:/app/bot_status.json # 主程序使用的机器人状态文件
       - ./xxxbot/robot_stat.json:/app/resource/robot_stat.json # 微信账号信息文件
       - ./xxxbot/login_stat.json:/app/WechatAPI/Client/login_stat.json # 登录状态文件
       - ./xxxbot/version.json:/app/version.json # 版本信息
