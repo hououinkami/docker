@@ -59,9 +59,25 @@ services:
       - "8088:8088" # 回调端口
       - "9011:9011" # WechatAPI服务器端口
     volumes:
-      - ./xxxbot:/app # 直接映射当前目录到容器的/app
+      - ./xxxbot/main_config.toml:/app/main_config.toml # 主配置文件
+      - ./xxxbot/bot_status_admin.json:/app/admin/bot_status.json # 管理后台使用的机器人状态文件
+      - ./xxxbot/status_admin.json:/app/bot_status.json # 主程序使用的机器人状态文件
+      - ./xxxbot/robot_stat.json:/app/resource/robot_stat.json # 微信账号信息文件
+      - ./xxxbot/login_stat.json:/app/WechatAPI/Client/login_stat.json # 登录状态文件
+      - ./xxxbot/version.json:/app/version.json # 版本信息
+      - ./xxxbot/redis:/app/849/redis/appendonlydir # Redis数据
+      - ./xxxbot/avatars:/app/resource/avatars # 头像文件
+      - ./xxxbot/plugins:/app/plugins # 插件
+      - ./xxxbot/dow:/app/dow # 插件
       - ./xxx_redis_data:/var/lib/redis
     environment:
       TZ: Asia/Shanghai
       ADMIN_USERNAME: ${XXX_USERNAME}
       ADMIN_PASSWORD: ${XXX_PASSWORD}
+
+      - ./xxx_redis_data:/var/lib/redis
+    environment:
+      TZ: Asia/Shanghai
+      ADMIN_USERNAME: ${XXX_USERNAME}
+      ADMIN_PASSWORD: ${XXX_PASSWORD}
+ORD}
