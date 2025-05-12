@@ -56,7 +56,7 @@ services:
     ports:
       - "9090:9090" # 管理后台端口
       - "3000:3000" # WeTTy终端端口
-      - "8088:8088" # 回调端口
+      # - "8088:8088" # 回调端口
       - "9011:9011" # WechatAPI服务器端口
     volumes:
       - ./xxxbot/main_config.toml:/app/main_config.toml # 主配置文件
