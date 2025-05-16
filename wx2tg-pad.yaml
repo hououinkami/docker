@@ -64,7 +64,6 @@ services:
       - ./xxxbot/bot_status.json:/app/bot_status.json # 主程序使用的机器人状态文件
       - ./xxxbot/robot_stat.json:/app/resource/robot_stat.json # 微信账号信息文件
       - ./xxxbot/login_stat.json:/app/WechatAPI/Client/login_stat.json # 登录状态文件
-      - ./xxxbot/version.json:/app/version.json # 版本信息
       - ./xxxbot/wx849_callback_daemon.py:/app/wx849_callback_daemon.py
       - ./xxxbot/wx849_callback_config.json:/app/wx849_callback_config.json
       - ./xxxbot/redis:/app/849/redis/appendonlydir # Redis数据
