@@ -70,7 +70,8 @@ services:
       - ./xxxbot/avatars:/app/resource/avatars # 头像文件
       - ./xxxbot/plugins:/app/plugins # 插件
       - ./xxxbot/dow:/app/dow # 插件
-      - ./xxx_redis_data:/var/lib/redis
+      - ./xxxbot/logs:/app/logs # log
+      - ./xxx_redis_data:/var/lib/redis # Redishuancun 
     environment:
       TZ: Asia/Shanghai
       ADMIN_USERNAME: ${XXX_USERNAME}
