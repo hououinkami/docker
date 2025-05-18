@@ -71,7 +71,7 @@ services:
       - ./xxxbot/plugins:/app/plugins # 插件
       - ./xxxbot/dow:/app/dow # 插件
       - ./xxxbot/logs:/app/logs # log
-      - ./xxx_redis_data:/var/lib/redis # Redishuancun 
+      - ./redis_data:/var/lib/redis # Redis缓存
     environment:
       TZ: Asia/Shanghai
       ADMIN_USERNAME: ${XXX_USERNAME}
