@@ -1,7 +1,7 @@
 services:
-  wechat2tg:
+  wx2tg-pad:
     image: ${IMAGE_NAME:-finalpi/wechat2tg-pad:latest}
-    container_name: wx2tg
+    container_name: wx2tg-pad
     volumes:
       - ./config:/app/storage
       - ./save-files:/app/save-files # 保存文件夹挂载后贴纸文件不需要重新转换
@@ -42,37 +42,23 @@ services:
       ## 文字消息显示格式:#[identity]身份文本,#[body]:消息文本,#[br]换行
       MESSAGE_DISPLAY: '#[identity]#[br]#[body]'
       # Gewechaty
-      BASE_API: 'http://xxxbot:9011/VXAPI'
-      FILE_API: ''
-      CALLBACK_API: 'http://10.0.0.1:8088/wx849/callback'
+      BASE_API: 'http://wx2tg-server:8058/api'
       # 调试模式（默认false）
       DEBUG_MODE: ${DEBUG_MODE:-false}
     restart: unless-stopped
-  xxxbot:
-    image: nanssye/xxxbot-pad:latest
-    container_name: xxxbot
-    restart: unless-stopped
-    pull_policy: always # 确保每次都检查并拉取最新的镜像
+
+  wx2tg-server:
+    image: finalpi/wx2tg-server:latest # 拉取镜像
+    container_name: wx2tg-server
     ports:
-      - "9090:9090" # 管理后台端口
-      - "3000:3000" # WeTTy终端端口
-      # - "8088:8088" # 回调端口
-      - "9011:9011" # WechatAPI服务器端口
+      - "8058:8058"
     volumes:
-      - ./xxxbot/main_config.toml:/app/main_config.toml # 主配置文件
-      - ./xxxbot/bot_status_admin.json:/app/admin/bot_status.json # 管理后台使用的机器人状态文件
-      - ./xxxbot/bot_status.json:/app/bot_status.json # 主程序使用的机器人状态文件
-      - ./xxxbot/robot_stat.json:/app/resource/robot_stat.json # 微信账号信息文件
-      - ./xxxbot/login_stat.json:/app/WechatAPI/Client/login_stat.json # 登录状态文件
-      - ./xxxbot/wx849_callback_daemon.py:/app/wx849_callback_daemon.py
-      - ./xxxbot/wx849_callback_config.json:/app/wx849_callback_config.json
-      - ./xxxbot/redis:/app/849/redis/appendonlydir # Redis数据
-      - ./xxxbot/avatars:/app/resource/avatars # 头像文件
-      - ./xxxbot/plugins:/app/plugins # 插件
-      - ./xxxbot/dow:/app/dow # 插件
-      - ./xxxbot/logs:/app/logs # log
-      - ./redis_data:/var/lib/redis # Redis缓存
-    environment:
-      TZ: Asia/Shanghai
-      ADMIN_USERNAME: ${XXX_USERNAME}
-      ADMIN_PASSWORD: ${XXX_PASSWORD}
+      - ./conf:/usr/wic-go/conf
+    restart: unless-stopped
+
+  wx2tg-redis:
+    image: redis:7.2
+    container_name: wx2tg-redis
+    ports:
+      - "16379:6379"
+    restart: unless-stopped

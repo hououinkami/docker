@@ -15,7 +15,7 @@ updateContainer() {
     else
         rm -rf ./src
     fi
-    curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-mac.yaml
+    curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
     if [ "$2" = "false" ]; then
         pull="missing"
     else
@@ -67,14 +67,14 @@ case $choice in
         ;;
     r)
         echo "重启wx2tg容器..."
-        docker restart wx2tg
+        docker restart wx2tg-pad
         echo "查看wx2tg容器日志..."
-        docker logs -f wx2tg
+        docker logs -f wx2tg-pad
         exit 0
         ;;
     l)
         echo "查看wx2tg容器日志..."
-        docker logs -f wx2tg
+        docker logs -f wx2tg-pad
         exit 0
         ;;
     i)
