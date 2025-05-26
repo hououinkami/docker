@@ -55,7 +55,9 @@ case $choice in
     a)
         echo "开始更新..."
         export IMAGE_NAME=hououinkami/wechat2tg-pad:kami
-        updateContainer
+        updateContainer "wx2tg-redis"
+        updateContainer "wx2tg-server"
+        updateContainer "wx2tg-pad"
         exit 0
         ;;
     t)
