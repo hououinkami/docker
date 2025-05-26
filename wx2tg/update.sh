@@ -15,7 +15,7 @@ updateContainer() {
     else
         rm -rf ./src
     fi
-    curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-pad.yaml
+    curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/wx2tg-mac.yaml
     if [ "$2" = "false" ]; then
         pull="missing"
     else
@@ -115,7 +115,7 @@ esac
 
 echo "请选择要使用的镜像:"
 echo "1) wx2tg-dev(tag)"
-echo "2) wx2tg-pad"
+echo "2) wx2tg-mac"
 echo "3) gewe-wechotd"
 echo "4) gewe-self"
 echo "5) gewe-xleat"
