@@ -51,7 +51,7 @@ services:
     image: finalpi/wx2tg-server:latest # 拉取镜像
     container_name: wx2tg-server
     ports:
-      - "8058:8058"
+      - "18058:8058"
     volumes:
       - ./conf:/usr/wic-go/conf
     restart: unless-stopped
