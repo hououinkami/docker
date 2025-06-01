@@ -45,6 +45,8 @@ services:
       BASE_API: 'http://wx2tg-server:8058/api'
       # 调试模式（默认false）
       DEBUG_MODE: ${DEBUG_MODE:-false}
+      # 自己的微信ID
+      MY_WXID: ${MY_WXID}
     restart: unless-stopped
 
   wx2tg-server:
