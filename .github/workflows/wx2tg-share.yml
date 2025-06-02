@@ -23,7 +23,7 @@ jobs:
         run: |
           git clone https://github.com/hououinkami/wechat2tg.git
           cd wechat2tg
-          git checkout wx2tg-pad-dev
+          git checkout wx2tg-mac-dev
 
       - name: Modify files
         working-directory: wx2tg
