@@ -56,9 +56,8 @@ addFile() {
 # 替换文件部分字符
 adaptFile() {
     cd client
-    awk "$wx_script $awk_script 1" WechatClient.ts > temp && mv temp WechatClient.ts
-    awk "$tg_script $awk_script 1" TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
-    awk "$awk_script 1" FileHelperClient.ts > temp && mv temp FileHelperClient.ts
+    awk "$awk_script 1" WechatClient.ts > temp && mv temp WechatClient.ts
+    awk "$awk_script 1" TelegramBotClient.ts > temp && mv temp TelegramBotClient.ts
     cd ../service
     awk "$awk_script 1" TelegramCommandHelper.ts > temp && mv temp TelegramCommandHelper.ts
     awk "$awk_script 1" ConfigurationService.ts > temp && mv temp ConfigurationService.ts
