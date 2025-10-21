@@ -41,7 +41,7 @@ services:
       # 如果要使用 RICH_HEADER 需要将端口发布到公网
       - 8080:8080
     volumes:
-      - ./q2tg:/app/data
+      - ./q2tg_data:/app/data
       - ./cache:/app/.config/QQ/NapCat/temp
       - /var/run/docker.sock:/var/run/docker.sock
       # arm兼容
