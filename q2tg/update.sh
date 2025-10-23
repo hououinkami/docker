@@ -44,8 +44,8 @@ case $choice in
     1)
         echo "使用icqq版本..."
         cd ~/Docker/q2tg
-        curl -o customize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/q2tg/customize.sh
-        sh customize.sh
+        # curl -o customize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/q2tg/customize.sh
+        # sh customize.sh
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/Docker/main/q2tg-icqq.yaml
         docker compose pull
         docker compose up -d --remove-orphans
@@ -54,8 +54,8 @@ case $choice in
     2)
         echo "使用napcat版本..."
         cd ~/Docker/q2tg
-        curl -o customize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/q2tg/customize.sh
-        sh customize.sh
+        # curl -o customize.sh https://raw.githubusercontent.com/hououinkami/docker/refs/heads/main/q2tg/customize.sh
+        # sh customize.sh
         curl -o docker-compose.yaml https://raw.githubusercontent.com/hououinkami/Docker/main/q2tg-napcat.yaml
         docker compose pull
         docker compose up -d --remove-orphans

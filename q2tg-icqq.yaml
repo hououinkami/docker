@@ -44,11 +44,6 @@ services:
       - ./q2tg_data:/app/data
       - ./cache:/app/.config/QQ/NapCat/temp
       - /var/run/docker.sock:/var/run/docker.sock
-      # arm兼容
-      # - ./main/src:/app/main/src
-      # - ./ui:/app/ui
-      # - ./main/build.ts:/app/main/build.ts
-      # - ./main/prisma:/app/main/prisma
     environment:
       - TG_API_ID=${TG_API_ID}
       - TG_API_HASH=${TG_API_HASH}
